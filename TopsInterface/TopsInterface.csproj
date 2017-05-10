@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>7631f6de-6f35-405c-93ca-6e881962c135</ProjectGuid>
+    <ProjectGuid>{7631F6DE-6F35-405C-93CA-6E881962C135}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TopsInterface</RootNamespace>
@@ -30,22 +30,45 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System"/>
-    
-    <Reference Include="System.Core"/>
-    <Reference Include="System.Xml.Linq"/>
-    <Reference Include="System.Data.DataSetExtensions"/>
-    
-    
-    <Reference Include="Microsoft.CSharp"/>
-    
-    <Reference Include="System.Data"/>
-    
-    <Reference Include="System.Xml"/>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Entities\IProductDomain.cs" />
+    <Compile Include="Entities\IAttributeTypeDomain.cs" />
+    <Compile Include="Entities\IAttributeValueDomain.cs" />
+    <Compile Include="Entities\IProductBaseDomain.cs" />
+    <Compile Include="Entities\IBrand.cs" />
+    <Compile Include="Entities\IAttributeTypeDataTranferObject.cs" />
+    <Compile Include="Entities\IAttributeValueDataTranferObject.cs" />
+    <Compile Include="Entities\IAttributeBase.cs" />
+    <Compile Include="Entities\IAttributeTypeAndValueDataTranferObject.cs" />
+    <Compile Include="Entities\IProductForEditBaseDomain.cs" />
+    <Compile Include="Entities\IProductForCreate.cs" />
+    <Compile Include="Entities\IProductResourceParameters.cs" />
+    <Compile Include="PagedList.cs" />
+    <Compile Include="Core\IApoBaseService.cs" />
+    <Compile Include="Core\IAttributeBaseService.cs" />
+    <Compile Include="Core\IAttributeTypeService.cs" />
+    <Compile Include="Core\IAttributeValueService.cs" />
+    <Compile Include="Core\IProductService.cs" />
+    <Compile Include="Entities\IApoSubClassDomain.cs" />
+    <Compile Include="Entities\IApoClassDomain.cs" />
+    <Compile Include="Entities\IApoDepartmentDomain.cs" />
+    <Compile Include="Entities\IApoGroupDomain.cs" />
+    <Compile Include="Entities\IApoDivisionDomain.cs" />
+    <Compile Include="Entities\IApoBaseDomain.cs" />
+    <Compile Include="Repositories\IUnitOfWork.cs" />
+    <Compile Include="Repositories\IAttributeValueRepository.cs" />
+    <Compile Include="Repositories\IProductRepository.cs" />
+    <Compile Include="Repositories\IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\IAttributeTypeRepository.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -55,5 +78,4 @@
   <Target Name="AfterBuild">
   </Target>
   -->
-
- </Project>
+</Project>

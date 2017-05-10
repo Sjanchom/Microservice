@@ -1,0 +1,5 @@
+\\mac\home\documents\visual studio 2015\Projects\TopsInterface\TopsInterface\obj\Debug\TopsInterface.csprojResolveAssemblyReference.cache
+\\mac\home\documents\visual studio 2015\Projects\TopsInterface\TopsInterface\bin\Debug\TopsInterface.dll
+\\mac\home\documents\visual studio 2015\Projects\TopsInterface\TopsInterface\bin\Debug\TopsInterface.pdb
+\\mac\home\documents\visual studio 2015\Projects\TopsInterface\TopsInterface\obj\Debug\TopsInterface.dll
+\\mac\home\documents\visual studio 2015\Projects\TopsInterface\TopsInterface\obj\Debug\TopsInterface.pdb

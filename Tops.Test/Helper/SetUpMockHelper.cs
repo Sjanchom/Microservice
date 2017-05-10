@@ -20,8 +20,10 @@ namespace Tops.Test.Helper
                     productResourceParameters =>
                     {
                         return products.Where(p =>
-                         string.IsNullOrWhiteSpace(productResourceParameters.SearchText) || p.ProductName.ToUpperInvariant().Contains(productResourceParameters.SearchText))
-                         .Where(p => string.IsNullOrWhiteSpace(productResourceParameters.SearchText) || p.ApoClass.ToString().Contains(productResourceParameters.SearchText))
+                         string.IsNullOrWhiteSpace(productResourceParameters.SearchText) 
+                         || p.ProductName.ToUpperInvariant().Contains(productResourceParameters.SearchText.ToUpperInvariant())
+                         || p.ApoClass.ToString().Contains(productResourceParameters.SearchText.ToUpperInvariant()))
+                         .Where(x => productResourceParameters.ApoClass == 0 || x.ApoClass == productResourceParameters.ApoClass)
                         .AsQueryable();
                     }
                 ));
