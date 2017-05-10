@@ -5,12 +5,11 @@ using System.Text;
 
 namespace TopsInterface.Entities
 {
-    public interface IProductBaseDomain
+    public interface IProductResourceParameters
     {
-        int Id { get; set; }
+        int Page { get; set; }
+        int PageSize { get; set; }
+        string SearchText { get; set; }
         int ApoClass { get; set; }
-        string Code { get; set; }
-        string ProductName { get; set; }
-        int Brand { get; set; }
     }
 }
