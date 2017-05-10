@@ -8,7 +8,6 @@ namespace TopsInterface.Entities
     public interface IProductForEditBaseDomain : IProductBaseDomain
     {
         string ProductDescription { get; set; }
-        IBrand Brand { get; set; }
         IEnumerable<IAttributeTypeAndValueDataTranferObject> ListAttributeTypeAndValueDataTranferObjects { get; set; }
     }
 }

@@ -7,11 +7,11 @@ namespace TopsInterface.Repositories
 {
     public interface IRepository<T> where T : class
     {
-        void Add(T entity);
-        void Update(T entity);
-        void Delete(T entity);
-        void Delete(int id);
-        void Delete(Expression<Func<T, bool>> where);
+        T Add(T entity);
+        T Update(int id,T entity);
+        bool Delete(T entity);
+        bool Delete(int id);
+        bool Delete(Expression<Func<T, bool>> where);
 
         T GetById(int id);
         T Get(Expression<Func<T, bool>> where);

@@ -13,7 +13,7 @@ namespace Tops.Test.Helper
                 {
                     Id = 1,
                     ApoClass = 200,
-                    Brand = 1,
+                    BrandId = 1,
                     Code = "100021",
                     ProductName = "Cookies"
                 },
@@ -21,7 +21,7 @@ namespace Tops.Test.Helper
                 {
                     Id = 2,
                     ApoClass = 200,
-                    Brand = 2,
+                    BrandId = 2,
                     Code = "104021",
                     ProductName = "Biscuit"
                 },
@@ -29,7 +29,7 @@ namespace Tops.Test.Helper
                 {
                     Id = 3,
                     ApoClass = 200,
-                    Brand = 3,
+                    BrandId = 3,
                     Code = "400021",
                     ProductName = "Be"
                 },
@@ -37,7 +37,7 @@ namespace Tops.Test.Helper
                 {
                     Id = 4,
                     ApoClass = 200,
-                    Brand = 1,
+                    BrandId = 1,
                     Code = "234021",
                     ProductName = "FunO"
                 },
@@ -45,7 +45,7 @@ namespace Tops.Test.Helper
                 {
                     Id = 5,
                     ApoClass = 200,
-                    Brand = 2,
+                    BrandId = 2,
                     Code = "220021",
                     ProductName = "Oreo"
                 },
@@ -53,7 +53,7 @@ namespace Tops.Test.Helper
                 {
                     Id = 6,
                     ApoClass = 201,
-                    Brand = 3,
+                    BrandId = 3,
                     Code = "4520021",
                     ProductName = "Sigha"
                 },
@@ -61,7 +61,7 @@ namespace Tops.Test.Helper
                 {
                     Id = 7,
                     ApoClass = 201,
-                    Brand = 1,
+                    BrandId = 1,
                     Code = "1120021",
                     ProductName = "Leo"
                 },
@@ -69,7 +69,7 @@ namespace Tops.Test.Helper
                 {
                     Id = 8,
                     ApoClass = 201,
-                    Brand = 2,
+                    BrandId = 2,
                     Code = "455021",
                     ProductName = "Tiger"
                 },
@@ -77,7 +77,7 @@ namespace Tops.Test.Helper
                 {
                     Id = 9,
                     ApoClass = 201,
-                    Brand = 2,
+                    BrandId = 2,
                     Code = "235021",
                     ProductName = "Chang"
                 },
@@ -85,7 +85,7 @@ namespace Tops.Test.Helper
                 {
                     Id = 10,
                     ApoClass = 202,
-                    Brand = 1,
+                    BrandId = 1,
                     Code = "872021",
                     ProductName = "U"
                 },
@@ -93,7 +93,7 @@ namespace Tops.Test.Helper
                 {
                     Id = 11,
                     ApoClass = 202,
-                    Brand = 3,
+                    BrandId = 3,
                     Code = "234021",
                     ProductName = "Pepsi"
                 },
@@ -101,7 +101,7 @@ namespace Tops.Test.Helper
                 {
                     Id = 12,
                     ApoClass = 202,
-                    Brand = 1,
+                    BrandId = 1,
                     Code = "445021",
                     ProductName = "Coke"
                 },
@@ -109,7 +109,7 @@ namespace Tops.Test.Helper
                 {
                     Id = 13,
                     ApoClass = 202,
-                    Brand = 1,
+                    BrandId = 1,
                     Code = "864021",
                     ProductName = "Fanta"
                 },
@@ -117,7 +117,7 @@ namespace Tops.Test.Helper
                 {
                     Id = 14,
                     ApoClass = 203,
-                    Brand = 1,
+                    BrandId = 1,
                     Code = "231021",
                     ProductName = "Sprite"
                 },
@@ -125,7 +125,7 @@ namespace Tops.Test.Helper
                 {
                     Id = 15,
                     ApoClass = 203,
-                    Brand = 1,
+                    BrandId = 1,
                     Code = "2340021",
                     ProductName = "Miranda"
                 },
@@ -133,7 +133,7 @@ namespace Tops.Test.Helper
                 {
                     Id = 16,
                     ApoClass = 203,
-                    Brand = 1,
+                    BrandId = 1,
                     Code = "963021",
                     ProductName = "Something"
                 },

@@ -29,23 +29,29 @@ namespace Tops.Test.Helper
                 ));
 
             repository.Setup(x => x.Add(It.IsAny<IProductDomain>()))
-                  .Callback(new Action<IProductDomain>(newProduct =>
+                  .Returns(new Func<IProductDomain,IProductDomain>(newProduct =>
                   {
                       dynamic maxProductId = products.Last().Id;
                       dynamic nextProductId = Convert.ToInt32(maxProductId) + 1;
-                      newProduct.Id = nextProductId.ToString();
+                      newProduct.Id = (int)nextProductId;
                       products.Add(newProduct as ProductServiceTest.ProductDomain);
+
+                      return newProduct;
                   }));
 
-            repository.Setup(x => x.Update(It.IsAny<IProductDomain>()))
-                .Callback(new Action<IProductDomain>(product =>
+            repository.Setup(x => x.Update(It.IsAny<int>(),It.IsAny<IProductDomain>()))
+                .Returns(new Func<int,IProductDomain, IProductDomain>((id,product) =>
                 {
-                    var productDomain = products.Find(x => x.Id == product.Id);
-                    productDomain.Brand = product.Brand;
+                    var productDomain = products.Find(x => x.Id == id);
+                    if (productDomain == null)
+                        return null;
+                    productDomain.BrandId = product.BrandId;
                     productDomain.ApoClass = product.ApoClass;
                     productDomain.ProductName = product.ProductName;
                     productDomain.Code = product.Code;
                     productDomain.ProductDescription = product.ProductDescription;
+
+                    return productDomain;
                 }));
 
             repository.Setup(x => x.Delete(It.IsAny<int>()))
