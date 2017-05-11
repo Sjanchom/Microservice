@@ -6,9 +6,9 @@ using TopsInterface.Entities;
 
 namespace TopsInterface.Core
 {
-    public interface IAttributeValueService : IAttributeBaseService<IAttributeValueDataTranferObject>
+    public interface IAttributeValueService : IAttributeBaseService<IAttributeValueDomain>
     {
-        IEnumerable<IAttributeValueDataTranferObject> GetAllByType(int type);
-        IAttributeValueDataTranferObject GetValueByType(int type, int valueId);
+        IEnumerable<IAttributeValueDomain> GetAllByType(int type);
+        IAttributeValueDomain GetValueByType(int type, int valueId);
     }
 }

@@ -17,3 +17,22 @@
 \\mac\home\documents\visual studio 2015\Projects\TopsInterface\Tops.Test\bin\Debug\xunit.execution.desktop.xml
 \\mac\home\documents\visual studio 2015\Projects\TopsInterface\Tops.Test\obj\Debug\Tops.Test.dll
 \\mac\home\documents\visual studio 2015\Projects\TopsInterface\Tops.Test\obj\Debug\Tops.Test.pdb
+\\Mac\Home\Documents\Microservice\Tops.Test\bin\Debug\Tops.Test.dll
+\\Mac\Home\Documents\Microservice\Tops.Test\bin\Debug\Tops.Test.pdb
+\\Mac\Home\Documents\Microservice\Tops.Test\bin\Debug\Castle.Core.dll
+\\Mac\Home\Documents\Microservice\Tops.Test\bin\Debug\Moq.dll
+\\Mac\Home\Documents\Microservice\Tops.Test\bin\Debug\TopsInterface.dll
+\\Mac\Home\Documents\Microservice\Tops.Test\bin\Debug\xunit.abstractions.dll
+\\Mac\Home\Documents\Microservice\Tops.Test\bin\Debug\xunit.assert.dll
+\\Mac\Home\Documents\Microservice\Tops.Test\bin\Debug\xunit.core.dll
+\\Mac\Home\Documents\Microservice\Tops.Test\bin\Debug\xunit.execution.desktop.dll
+\\Mac\Home\Documents\Microservice\Tops.Test\bin\Debug\TopsInterface.pdb
+\\Mac\Home\Documents\Microservice\Tops.Test\bin\Debug\Castle.Core.xml
+\\Mac\Home\Documents\Microservice\Tops.Test\bin\Debug\Moq.xml
+\\Mac\Home\Documents\Microservice\Tops.Test\bin\Debug\xunit.abstractions.xml
+\\Mac\Home\Documents\Microservice\Tops.Test\bin\Debug\xunit.assert.xml
+\\Mac\Home\Documents\Microservice\Tops.Test\bin\Debug\xunit.core.xml
+\\Mac\Home\Documents\Microservice\Tops.Test\bin\Debug\xunit.execution.desktop.xml
+\\Mac\Home\Documents\Microservice\Tops.Test\obj\Debug\Tops.Test.csprojResolveAssemblyReference.cache
+\\Mac\Home\Documents\Microservice\Tops.Test\obj\Debug\Tops.Test.dll
+\\Mac\Home\Documents\Microservice\Tops.Test\obj\Debug\Tops.Test.pdb

@@ -6,7 +6,7 @@ using TopsInterface.Entities;
 
 namespace TopsInterface.Core
 {
-    public interface IAttributeTypeService : IAttributeBaseService<IAttributeTypeDataTranferObject>
+    public interface IAttributeTypeService : IAttributeBaseService<IAttributeTypeDomain>
     {
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TopsInterface.Entities
 {
-    public interface IAttributeValueDataTranferObject
+    public interface IAttributeValueDataTranferObject : IAttributeBase
     {
         int TypeId { get; set; }
     }

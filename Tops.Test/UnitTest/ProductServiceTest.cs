@@ -34,8 +34,63 @@ namespace Tops.Test.UnitTest
             public int BrandId { get; set; }
         }
 
+        public class AttributeTypeAndValueDomain : IAttributeTypeAndValueDomain
+        {
+            public IAttributeTypeDomain AttributeTypeDomain { get; set; }
+            public IAttributeValueDomain AttributeValueDomain { get; set; }
+        }
+
+      
+
+        public class AttributeTypeDomain : IAttributeTypeDomain
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string Code { get; set; }
+        }
+
+        public class AttributeValueDomain : IAttributeValueDomain
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string Code { get; set; }
+            public int TypeId { get; set; }
+        }
+
+        public class AttributeTypeDto : IAttributeTypeDataTranferObject
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string Code { get; set; }
+        }
+
+        public class AttributeValueDto : IAttributeValueDataTranferObject
+        {
+            public int TypeId { get; set; }
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string Code { get; set; }
+        }
+
+        public class AttributeTypeAndValueDto : IAttributeTypeAndValueDataTranferObject
+        {
+            public IAttributeTypeDataTranferObject Type { get; set; }
+            public IAttributeValueDataTranferObject Value { get; set; }
+        }
+
+        public class ProductAttributeHeader : IProductHeader
+        {
+            public int Id { get; set; }
+            public int ProductId { get; set; }
+            public int ApoClass { get; set; }
+            public int TypeId { get; set; }
+            public int ValueId { get; set; }
+        }
+
         private readonly List<ProductDomain> _productDomains;
         private readonly IProductRepository _productRepository;
+        private readonly IAttributeTypeService _attributeTypeService;
+        private readonly IAttributeValueService _attributeValueService;
 
         #endregion
 
@@ -43,12 +98,15 @@ namespace Tops.Test.UnitTest
         {
             _productDomains = DataInitializer.GetAllProductDomain();
             _productRepository = SetUpMockHelper.SetUpProductRepository();
+
+            _attributeTypeService = SetUpMockHelper.GetAttributeTypeService();
+            _attributeValueService = SetUpMockHelper.GetAttributeValueService();
         }
 
         [Fact]
         public void ServiceShouldReturnCorrectCriteria()
         {
-            var service = new ProductService(_productRepository);
+            var service = new ProductService(_productRepository,_attributeTypeService,_attributeValueService);
 
             var sut = service.GetAll(1, 5, 200, "Co");
 
@@ -64,7 +122,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ServiceShouldReturnAllWhenNotAssignCriteria()
         {
-            var service = new ProductService(_productRepository);
+            var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
 
             var sut = service.GetAll(1, 20, 0, "");
 
@@ -74,7 +132,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ServiceShouldReturnNullWhenAssignNotExistInDatabase()
         {
-            var service = new ProductService(_productRepository);
+            var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
 
             var sut = service.GetAll(1, 20, 0, "dfsfsdgsgsdg");
 
@@ -93,7 +151,7 @@ namespace Tops.Test.UnitTest
 
             var lastId = _productDomains.Last().Id;
 
-            var service = new ProductService(_productRepository);
+            var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
 
             var sut = service.Create(newProduct);
 
@@ -104,10 +162,11 @@ namespace Tops.Test.UnitTest
             Assert.Equal(sut.Code,newProduct.Code);
         }
 
+
         [Fact]
         public void ServiceShouldReturnCorrectProductWhenGetById()
         {
-            var service = new ProductService(_productRepository);
+            var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
 
             var sut = service.GetById(1);
 
@@ -117,11 +176,32 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ServiceShouldReturnNullWhenGivenNotExistId()
         {
-            var service = new ProductService(_productRepository);
+            var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
 
             var sut = service.GetById(333033);
 
             Assert.Equal(sut,null);
+        }
+
+        [Fact]
+        public void ServiceShouldReturnCorrectAttribute()
+        {
+            var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
+
+            var sut = service.GetById(1);
+
+            Assert.Equal(3,sut.ListAttributeTypeAndValueDataTranferObjects.Count());
+            Assert.True(sut.ListAttributeTypeAndValueDataTranferObjects.All(x => x.Value.TypeId == x.Type.Id));
+        }
+
+        [Fact]
+        public void ServiceShouldReturnNullWhenProductAndClassNoMatch()
+        {
+            var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
+
+            var sut = service.GetById(6);
+
+            Assert.Equal(sut.ListAttributeTypeAndValueDataTranferObjects.Count(),0);
         }
 
         [Fact]
@@ -133,8 +213,8 @@ namespace Tops.Test.UnitTest
             product.Code = "304981";
             product.ProductDescription = "BraBra";
             product.ProductName = "HoHo";
-
-            var service = new ProductService(_productRepository);
+             
+            var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
 
             var sut = service.Edit(1, product) as ProductDto;
 
@@ -158,7 +238,7 @@ namespace Tops.Test.UnitTest
             product.ProductDescription = "BraBra";
             product.ProductName = "HoHo";
 
-            var service = new ProductService(_productRepository);
+            var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
 
             var sut = service.Edit(122222, product) as ProductDto;
 
@@ -169,7 +249,7 @@ namespace Tops.Test.UnitTest
         public void ServiceShouldReturnTrueWhenDeleteSuccess()
         {
 
-            var service = new ProductService(_productRepository);
+            var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
 
             var sut = service.Delete(1);
 
@@ -193,10 +273,15 @@ namespace Tops.Test.UnitTest
     public class ProductService : IProductService
     {
         private readonly IProductRepository productRepository;
+        private readonly IAttributeValueService attributeValueService;
+        private readonly IAttributeTypeService attributeTypeService;
 
-        public ProductService(IProductRepository productRepository)
+        public ProductService(IProductRepository productRepository
+            ,IAttributeTypeService attributeTypeService,IAttributeValueService attributeValueService)
         {
             this.productRepository = productRepository;
+            this.attributeValueService = attributeValueService;
+            this.attributeTypeService = attributeTypeService;
         }
 
         public PagedList<IProductBaseDomain> GetAll(int page, int pageSize, int apoClass, string searchText)
@@ -227,6 +312,8 @@ namespace Tops.Test.UnitTest
             if (product == null)
                 return null;
 
+            var attrLists = productRepository.GetProductAttribute(id, product.ApoClass);
+
 
             var p = new ProductForEdit();
             p.Id = product.Id;
@@ -235,6 +322,35 @@ namespace Tops.Test.UnitTest
             p.Code = product.Code;
             p.ProductDescription = product.ProductDescription;
             p.ProductName = product.ProductName;
+
+            var list = new List<ProductServiceTest.AttributeTypeAndValueDto>();
+
+            foreach (var attributeTypeAndValueDomain in attrLists)
+            {
+                var type = attributeTypeService.GetById(attributeTypeAndValueDomain.AttributeTypeDomain.Id);
+                var value = attributeValueService.GetValueByType(attributeTypeAndValueDomain.AttributeTypeDomain.Id
+                    , attributeTypeAndValueDomain.AttributeValueDomain.Id);
+
+                var typeDto = new ProductServiceTest.AttributeTypeDto();
+                typeDto.Id = type.Id;
+                typeDto.Code = type.Code;
+                typeDto.Name = type.Name;
+
+                var valueDto = new ProductServiceTest.AttributeValueDto();
+                valueDto.Id = value.Id;
+                valueDto.Code = value.Code;
+                valueDto.Name = value.Name;
+                valueDto.TypeId = value.TypeId;
+
+                
+                list.Add(new ProductServiceTest.AttributeTypeAndValueDto()
+                {
+                    Type = typeDto,
+                    Value = valueDto
+                });
+            }
+
+            p.ListAttributeTypeAndValueDataTranferObjects = list;
 
             return p;
         }

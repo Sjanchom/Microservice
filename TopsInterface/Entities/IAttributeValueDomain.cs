@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace TopsInterface.Entities
+﻿namespace TopsInterface.Entities
 {
-    public interface IAttributeValueDomain
+    public interface IAttributeValueDomain : IAttributeBase
     {
+        int TypeId { get; set; }
     }
 }
