@@ -41,5 +41,10 @@ namespace Tops.Test.Helper
         {
             return JsonConvert.DeserializeObject<List<ProductServiceTest.ProductAttributeDetail>>(ReadFile(ConstaintsConfig.PRODUCT_DETAIL));
         }
+
+        public static List<ApoDivisionDomain> GetApoDivisions()
+        {
+            return JsonConvert.DeserializeObject<List<ApoDivisionDomain>>(ReadFile(ConstaintsConfig.APO_DIVISION));
+        }
     }
 }

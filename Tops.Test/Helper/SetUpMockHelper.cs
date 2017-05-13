@@ -128,5 +128,26 @@ namespace Tops.Test.Helper
 
             return repository.Object;
         }
+
+        public static IApoDivisionRepository GetApoDivisionRepository()
+        {
+            var apoDivision = DataInitializer.GetApoDivisions();
+            var repository = new Mock<IApoDivisionRepository>();
+
+            repository.Setup(x => x.GetAll(It.IsAny<IBaseResourceParameter>()))
+                .Returns(new Func<IBaseResourceParameter, IEnumerable<ApoDivisionDomain>>(
+                    resourceParameter =>
+                    {
+                        return apoDivision.Where(x => string.IsNullOrWhiteSpace(resourceParameter.SearchText)
+                                                      || x.Name.ToLowerInvariant().ToLowerInvariant()
+                                                          .Contains(resourceParameter.SearchText.ToLowerInvariant())
+                                                      ||
+                                                      x.Code.ToLowerInvariant()
+                                                          .Contains(resourceParameter.SearchText.ToLowerInvariant()));
+
+                    }));
+
+            return repository.Object;
+        }
     }
 }

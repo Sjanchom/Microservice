@@ -14,6 +14,9 @@ namespace Tops.Test.Helper
                 cfg.CreateMap<ProductServiceTest.AttributeTypeDomain, ProductServiceTest.AttributeTypeDto>().ReverseMap();
                 cfg.CreateMap<ProductServiceTest.AttributeValueDomain, ProductServiceTest.AttributeValueDto>().ReverseMap();
 
+
+                cfg.CreateMap<ApoDivisionDomain, ApoDivisionDto>().ReverseMap();
+
                 //cfg.CreateMap<Entities.Author, Models.AuthorDto>()
                 //    .ForMember(dest => dest.Name, opt => opt.MapFrom(src =>
                 //    $"{src.FirstName} {src.LastName}"))

@@ -8,7 +8,7 @@ namespace TopsInterface.Core
 {
     public interface IApoBaseService<T> where T : IApoBaseDomain
     {
-        IEnumerable<T> GetAll();
+        PagedList<T> GetAll(int page, int pageSize, string searchText);
         T GetById(int id);
         T Create(T item);
         T Edit(T item);

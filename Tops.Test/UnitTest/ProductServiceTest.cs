@@ -299,20 +299,9 @@ namespace Tops.Test.UnitTest
         public PagedList<IProductBaseDomain> GetAll(int page, int pageSize, string apoClass, string searchText)
         {
             var productResourceParameter = new ProductResourceParamater(page, pageSize, apoClass, searchText);
+
             var products = productRepository.GetAll(productResourceParameter);
 
-            //var productDomains = new List<IProductBaseDomain>();
-            //foreach (var productDomain in products)
-            //{
-            //    var p = new ProductServiceTest.ProductDto();
-            //    p.Id = productDomain.Id;
-            //    p.ApoClassCode = productDomain.ApoClassCode;
-            //    p.BrandId = productDomain.BrandId;
-            //    p.ProductCode = productDomain.ProductCode;
-            //    p.ProductName = productDomain.ProductName;
-
-            //    productDomains.Add(p);
-            //}
             var productDomains = Mapper.Map<List<ProductServiceTest.ProductDto>>(products);
 
             return PagedList<IProductBaseDomain>.Create(productDomains.AsQueryable(), page, pageSize);
@@ -327,15 +316,6 @@ namespace Tops.Test.UnitTest
 
             var attrLists = productRepository.GetProductAttribute(id, product.ApoClassCode);
 
-
-            //var p = new ProductForEdit();
-            //p.Id = product.Id;
-            //p.ApoClassCode = product.ApoClassCode;
-            //p.BrandId = product.BrandId;
-            //p.ProductCode = product.ProductCode;
-            //p.ProductDescription = product.ProductDescription;
-            //p.ProductName = product.ProductName;
-
             var productFroEdit = Mapper.Map<ProductForEdit>(product);
 
             var list = new List<ProductServiceTest.AttributeTypeAndValueDto>();
@@ -346,23 +326,6 @@ namespace Tops.Test.UnitTest
                 var value = attributeValueService.GetValueByType(attributeTypeAndValueDomain.AttributeTypeDomain.Id
                     , attributeTypeAndValueDomain.AttributeValueDomain.Id);
 
-                //var typeDto = new ProductServiceTest.AttributeTypeDto();
-                //typeDto.Id = type.Id;
-                //typeDto.Code = type.Code;
-                //typeDto.Name = type.Name;
-
-                //var valueDto = new ProductServiceTest.AttributeValueDto();
-                //valueDto.Id = value.Id;
-                //valueDto.Code = value.Code;
-                //valueDto.Name = value.Name;
-                //valueDto.TypeId = value.TypeId;
-
-                //list.Add(new ProductServiceTest.AttributeTypeAndValueDto
-                //{
-                //    Type = typeDto,
-                //    Value = valueDto
-                //});
-
                 list.Add(new ProductServiceTest.AttributeTypeAndValueDto
                 {
                     Type = Mapper.Map<ProductServiceTest.AttributeTypeDto>(type),
@@ -370,7 +333,6 @@ namespace Tops.Test.UnitTest
                 });
             }
 
-            //p.ListAttributeTypeAndValueDataTranferObjects = list;
             productFroEdit.ListAttributeTypeAndValueDataTranferObjects = list;
 
             return productFroEdit;

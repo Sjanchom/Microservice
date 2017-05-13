@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\IAttributeTypeAndValueDomain.cs" />
+    <Compile Include="Entities\IBaseResourceParameter.cs" />
     <Compile Include="Entities\IProductDomain.cs" />
     <Compile Include="Entities\IAttributeTypeDomain.cs" />
     <Compile Include="Entities\IAttributeValueDomain.cs" />
