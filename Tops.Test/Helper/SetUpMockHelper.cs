@@ -147,6 +147,12 @@ namespace Tops.Test.Helper
 
                     }));
 
+            repository.Setup(x => x.GetById(It.IsAny<int>()))
+                .Returns(new Func<int, IApoDivisionDomain>(id =>
+                {
+                    return apoDivision.SingleOrDefault(x => x.Id == id);
+                }));
+
             return repository.Object;
         }
     }

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TopsInterface.Entities;
-
-namespace TopsInterface.Core
+﻿namespace TopsInterface.Core
 {
-    public interface IApoBaseService<T> where T : IApoBaseDomain
+    public interface IApoBaseService<RETURNTYPE, ACCEPTTYPE> where RETURNTYPE : class
+        where ACCEPTTYPE : class
+
     {
-        PagedList<T> GetAll(int page, int pageSize, string searchText);
-        T GetById(int id);
-        T Create(T item);
-        T Edit(T item);
+        PagedList<RETURNTYPE> GetAll(int page, int pageSize, string searchText);
+        RETURNTYPE GetById(int id);
+        RETURNTYPE Create(ACCEPTTYPE item);
+        RETURNTYPE Edit(ACCEPTTYPE item);
         bool Delete(int id);
     }
 }

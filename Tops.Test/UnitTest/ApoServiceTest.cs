@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using AutoMapper;
 using Tops.Test.Helper;
 using TopsInterface;
@@ -72,6 +73,53 @@ namespace Tops.Test.UnitTest
             Assert.IsType<PagedList<IApoDivisionDataTranferObject>>(sut);
             Assert.Equal(sut.Count, 0);
         }
+
+        [Fact]
+        public void ApoDivisionServiceShouldReturnCorrectIdWhenExist()
+        {
+            var service = new ApoDivisionService(_apoDivisionRepository);
+
+            var sut = service.GetById(1);
+
+
+            Assert.IsType<ApoDivisionDto>(sut);
+            AssertObjects.PropertyValuesAreEquals(sut,Mapper.Map<ApoDivisionDto>(_apoDivision.Single(x => x.Id == 1)));
+        }
+
+        [Fact]
+        public void ApoDivisionServiceShouldReturnNullWhenIdIsNotExistInDatabase()
+        {
+            var service = new ApoDivisionService(_apoDivisionRepository);
+
+            var sut = service.GetById(100);
+
+            Assert.Null(sut);
+        }
+
+        [Fact]
+        public void ApoDivisionServiceShouldReturnNewElementWhenCreateSuccess()
+        {
+            var service = new ApoDivisionService(_apoDivisionRepository);
+
+            var newApo = new ApoDivisionForCreateOrEdit()
+            {
+                Name = "New Apo"
+            };
+            
+            var sut = service.Create(newApo);
+        }
+
+
+    }
+
+    public class ApoDivisionForCreateOrEdit: IApoDivisionForCreateOrEdit
+    {
+        public string Name { get; set; }
+    }
+
+    public interface IApoDivisionForCreateOrEdit
+    {
+         string Name { get; set; }
     }
 
     public interface IApoDivisionDataTranferObject : IApoDivisionDomain
@@ -82,17 +130,18 @@ namespace Tops.Test.UnitTest
     {
         IEnumerable<T> GetAll(IBaseResourceParameter resourceParameter);
         T GetById(int id);
+        T Add(T entity);
+        T Update(int id, T entity);
         bool Edit(T item);
         bool Delete(int id);
     }
 
     public interface IApoDivisionRepository : IApoBaseRepository<IApoDivisionDomain>
     {
-
     }
 
 
-    public class ApoDivisionService:IApoBaseService<IApoDivisionDataTranferObject>
+    public class ApoDivisionService:IApoBaseService<IApoDivisionDataTranferObject,IApoDivisionForCreateOrEdit>
     {
         private IApoDivisionRepository _apoDivisionRepository;
 
@@ -112,15 +161,24 @@ namespace Tops.Test.UnitTest
 
         public IApoDivisionDataTranferObject GetById(int id)
         {
-            throw new System.NotImplementedException();
+            var apoDivisionFromRepository = _apoDivisionRepository.GetById(id);
+
+            if (apoDivisionFromRepository == null)
+            {
+                return null;
+            }
+
+            return Mapper.Map<ApoDivisionDto>(apoDivisionFromRepository);
         }
 
-        public IApoDivisionDataTranferObject Create(IApoDivisionDataTranferObject item)
+        public IApoDivisionDataTranferObject Create(IApoDivisionForCreateOrEdit item)
         {
+            var mapToDomain = Mapper.Map<ApoDivisionDto>(item);
+            var apoDivisionFromRepository = _apoDivisionRepository.Add(mapToDomain);
             throw new System.NotImplementedException();
         }
 
-        public IApoDivisionDataTranferObject Edit(IApoDivisionDataTranferObject item)
+        public IApoDivisionDataTranferObject Edit(IApoDivisionForCreateOrEdit item)
         {
             throw new System.NotImplementedException();
         }
