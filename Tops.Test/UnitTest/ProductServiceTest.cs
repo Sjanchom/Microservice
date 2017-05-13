@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
+using AutoMapper;
 using Tops.Test.Helper;
 using TopsInterface;
 using TopsInterface.Core;
@@ -13,7 +13,21 @@ namespace Tops.Test.UnitTest
 {
     public class ProductServiceTest
     {
-        #region EntitiesUsage
+        public ProductServiceTest()
+        {
+            MapperHelper.SetUpMapper();
+
+            _productDomains = DataInitializer.GetProductFromTextFile();
+            _attrType = DataInitializer.GetAllTypeAttributeTypeDomains();
+            _attrValue = DataInitializer.GetAttributeValueDomains();
+            _productDetail = DataInitializer.GetaProductAttributeHeaders();
+
+
+            _productRepository = SetUpMockHelper.SetUpProductRepository();
+
+            _attributeTypeService = SetUpMockHelper.GetAttributeTypeService();
+            _attributeValueService = SetUpMockHelper.GetAttributeValueService();
+        }
 
         public class ProductDomain : IProductDomain
         {
@@ -40,7 +54,6 @@ namespace Tops.Test.UnitTest
             public IAttributeValueDomain AttributeValueDomain { get; set; }
         }
 
-      
 
         public class AttributeTypeDomain : IAttributeTypeDomain
         {
@@ -89,37 +102,12 @@ namespace Tops.Test.UnitTest
         }
 
         private readonly List<ProductDomain> _productDomains;
+        private readonly List<AttributeTypeDomain> _attrType;
+        private readonly List<AttributeValueDomain> _attrValue;
+        private readonly List<ProductAttributeDetail> _productDetail;
         private readonly IProductRepository _productRepository;
         private readonly IAttributeTypeService _attributeTypeService;
         private readonly IAttributeValueService _attributeValueService;
-
-        #endregion
-
-
-        public ProductServiceTest()
-        {
-               _productDomains = DataInitializer.GetProductFromTextFile();
-            _productRepository = SetUpMockHelper.SetUpProductRepository();
-
-            _attributeTypeService = SetUpMockHelper.GetAttributeTypeService();
-            _attributeValueService = SetUpMockHelper.GetAttributeValueService();
-        }
-
-        [Fact]
-        public void ServiceShouldReturnCorrectCriteria()
-        {
-            var service = new ProductService(_productRepository,_attributeTypeService,_attributeValueService);
-
-            var sut = service.GetAll(1, 5, "200", "Co");
-
-            Assert.True(sut.Count > 0);
-            Assert.True(sut.All(x => x.ApoClassCode == "200"));
-            Assert.True(
-                sut.All(
-                    x =>
-                        x.ApoClassCode.ToString().Contains("Co".ToUpperInvariant()) ||
-                        x.ProductName.ToUpperInvariant().Contains("Co".ToUpperInvariant())));
-        }
 
         [Fact]
         public void ServiceShouldReturnAllWhenNotAssignCriteria()
@@ -128,17 +116,73 @@ namespace Tops.Test.UnitTest
 
             var sut = service.GetAll(1, 20, "", "");
 
-            Assert.Equal(_productDomains.Count, sut.Count);
+            Assert.True(sut.Count <= 20);
         }
 
         [Fact]
-        public void ServiceShouldReturnNullWhenAssignNotExistInDatabase()
+        public void ServiceShouldReturnCorrectAttribute()
         {
             var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
 
-            var sut = service.GetAll(1, 20, "", "dfsfsdgsgsdg");
+            var sut = service.GetById(1);
 
-            Assert.True(sut.Count == 0);
+            var apoMatch = _productDomains.Single(x => x.Id == 1).ApoClassCode;
+            var totalTypeCount = _productDetail.Count(x => x.ApoClass == apoMatch && x.ProductId == "1");
+
+            Assert.Equal(totalTypeCount, sut.ListAttributeTypeAndValueDataTranferObjects.Count());
+            Assert.True(
+                sut.ListAttributeTypeAndValueDataTranferObjects.All(x => x.Value.TypeId == x.Type.Id.ToString()));
+        }
+
+        [Fact]
+        public void ServiceShouldReturnCorrectCriteria()
+        {
+            var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
+
+            var sut = service.GetAll(1, 5, "45020001", "อันอัน");
+
+            Assert.True(sut.Count > 0);
+            Assert.True(sut.All(x => x.ApoClassCode == "45020001"));
+            Assert.True(
+                sut.All(
+                    x =>
+                        x.ApoClassCode.ToString().Contains("อันอัน".ToUpperInvariant()) ||
+                        x.ProductName.ToUpperInvariant().Contains("อันอัน".ToUpperInvariant())));
+        }
+
+
+        [Fact]
+        public void ServiceShouldReturnCorrectProductWhenGetById()
+        {
+            var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
+
+            var sut = service.GetById(1);
+
+            Assert.Equal(sut.Id, 1);
+        }
+
+        [Fact]
+        public void ServiceShouldReturnCorrectValueWhenEditSuccess()
+        {
+            var product = new ProductForCreate();
+            product.ApoClassCode = "200";
+            product.BrandId = 2;
+            product.ProductCode = "304981";
+            product.ProductDescription = "BraBra";
+            product.ProductName = "HoHo";
+
+            var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
+
+            var sut = service.Edit(1, product) as ProductDto;
+
+            var result = new ProductDto();
+            result.ApoClassCode = product.ApoClassCode;
+            result.BrandId = product.BrandId;
+            result.ProductCode = product.ProductCode;
+            result.Id = 1;
+            result.ProductName = product.ProductName;
+
+            AssertObjects.PropertyValuesAreEquals(result, sut);
         }
 
         [Fact]
@@ -158,21 +202,20 @@ namespace Tops.Test.UnitTest
             var sut = service.Create(newProduct);
 
             Assert.True(sut.Id == lastId + 1);
-            Assert.Equal(sut.ApoClassCode,newProduct.ApoClassCode.ToString());
-            Assert.Equal(sut.ProductName,newProduct.ProductName);
-            Assert.Equal(sut.BrandId,newProduct.BrandId);
-            Assert.Equal(sut.ProductCode,newProduct.ProductCode);
+            Assert.Equal(sut.ApoClassCode, newProduct.ApoClassCode);
+            Assert.Equal(sut.ProductName, newProduct.ProductName);
+            Assert.Equal(sut.BrandId, newProduct.BrandId);
+            Assert.Equal(sut.ProductCode, newProduct.ProductCode);
         }
 
-
         [Fact]
-        public void ServiceShouldReturnCorrectProductWhenGetById()
+        public void ServiceShouldReturnNullWhenAssignNotExistInDatabase()
         {
             var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
 
-            var sut = service.GetById(1);
+            var sut = service.GetAll(1, 20, "", "dfsfsdgsgsdg");
 
-            Assert.Equal(sut.Id,1);
+            Assert.True(sut.Count == 0);
         }
 
         [Fact]
@@ -182,52 +225,7 @@ namespace Tops.Test.UnitTest
 
             var sut = service.GetById(333033);
 
-            Assert.Equal(sut,null);
-        }
-
-        [Fact]
-        public void ServiceShouldReturnCorrectAttribute()
-        {
-            var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
-
-            var sut = service.GetById(1);
-
-            Assert.Equal(3,sut.ListAttributeTypeAndValueDataTranferObjects.Count());
-            Assert.True(sut.ListAttributeTypeAndValueDataTranferObjects.All(x => x.Value.TypeId == x.Type.Id.ToString()));
-        }
-
-        [Fact]
-        public void ServiceShouldReturnNullWhenProductAndClassNoMatch()
-        {
-            var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
-
-            var sut = service.GetById(600);
-
-            Assert.Equal(sut.ListAttributeTypeAndValueDataTranferObjects.Count(),0);
-        }
-
-        [Fact]
-        public void ServiceShouldReturnCorrectValueWheneditSuccess()
-        {
-            var product = new ProductForCreate();
-            product.ApoClassCode = "200";
-            product.BrandId = 2;
-            product.ProductCode = "304981";
-            product.ProductDescription = "BraBra";
-            product.ProductName = "HoHo";
-             
-            var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
-
-            var sut = service.Edit(1, product) as ProductDto;
-
-            var result = new ProductDto();
-            result.ApoClassCode = product.ApoClassCode.ToString();
-            result.BrandId = product.BrandId;
-            result.ProductCode = product.ProductCode;
-            result.Id = 1;
-            result.ProductName = product.ProductName;
-
-            AssertObjects.PropertyValuesAreEquals(result, sut);
+            Assert.Equal(sut, null);
         }
 
         [Fact]
@@ -248,9 +246,18 @@ namespace Tops.Test.UnitTest
         }
 
         [Fact]
+        public void ServiceShouldNotReturnNullListOfAttribute()
+        {
+            var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
+
+            var sut = service.GetById(600);
+
+            Assert.True(sut.ListAttributeTypeAndValueDataTranferObjects.Count() != 0);
+        }
+
+        [Fact]
         public void ServiceShouldReturnTrueWhenDeleteSuccess()
         {
-
             var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
 
             var sut = service.Delete(1);
@@ -268,18 +275,21 @@ namespace Tops.Test.UnitTest
         public string ProductDescription { get; set; }
         public int BrandId { get; set; }
 
-        public IEnumerable<IAttributeTypeAndValueDataTranferObject> ListAttributeTypeAndValueDataTranferObjects { get;
-            set; }
+        public IEnumerable<IAttributeTypeAndValueDataTranferObject> ListAttributeTypeAndValueDataTranferObjects
+        {
+            get;
+            set;
+        }
     }
 
     public class ProductService : IProductService
     {
-        private readonly IProductRepository productRepository;
-        private readonly IAttributeValueService attributeValueService;
         private readonly IAttributeTypeService attributeTypeService;
+        private readonly IAttributeValueService attributeValueService;
+        private readonly IProductRepository productRepository;
 
         public ProductService(IProductRepository productRepository
-            ,IAttributeTypeService attributeTypeService,IAttributeValueService attributeValueService)
+            , IAttributeTypeService attributeTypeService, IAttributeValueService attributeValueService)
         {
             this.productRepository = productRepository;
             this.attributeValueService = attributeValueService;
@@ -291,18 +301,19 @@ namespace Tops.Test.UnitTest
             var productResourceParameter = new ProductResourceParamater(page, pageSize, apoClass, searchText);
             var products = productRepository.GetAll(productResourceParameter);
 
-            List<IProductBaseDomain> productDomains = new List<IProductBaseDomain>();
-            foreach (var productDomain in products)
-            {
-                var p = new ProductServiceTest.ProductDto();
-                p.Id = productDomain.Id;
-                p.ApoClassCode = productDomain.ApoClassCode;
-                p.BrandId = productDomain.BrandId;
-                p.ProductCode = productDomain.ProductCode;
-                p.ProductName = productDomain.ProductName;
+            //var productDomains = new List<IProductBaseDomain>();
+            //foreach (var productDomain in products)
+            //{
+            //    var p = new ProductServiceTest.ProductDto();
+            //    p.Id = productDomain.Id;
+            //    p.ApoClassCode = productDomain.ApoClassCode;
+            //    p.BrandId = productDomain.BrandId;
+            //    p.ProductCode = productDomain.ProductCode;
+            //    p.ProductName = productDomain.ProductName;
 
-                productDomains.Add(p);
-            }
+            //    productDomains.Add(p);
+            //}
+            var productDomains = Mapper.Map<List<ProductServiceTest.ProductDto>>(products);
 
             return PagedList<IProductBaseDomain>.Create(productDomains.AsQueryable(), page, pageSize);
         }
@@ -317,13 +328,15 @@ namespace Tops.Test.UnitTest
             var attrLists = productRepository.GetProductAttribute(id, product.ApoClassCode);
 
 
-            var p = new ProductForEdit();
-            p.Id = product.Id;
-            p.ApoClassCode = product.ApoClassCode;
-            p.BrandId = product.BrandId;
-            p.ProductCode = product.ProductCode;
-            p.ProductDescription = product.ProductDescription;
-            p.ProductName = product.ProductName;
+            //var p = new ProductForEdit();
+            //p.Id = product.Id;
+            //p.ApoClassCode = product.ApoClassCode;
+            //p.BrandId = product.BrandId;
+            //p.ProductCode = product.ProductCode;
+            //p.ProductDescription = product.ProductDescription;
+            //p.ProductName = product.ProductName;
+
+            var productFroEdit = Mapper.Map<ProductForEdit>(product);
 
             var list = new List<ProductServiceTest.AttributeTypeAndValueDto>();
 
@@ -333,28 +346,34 @@ namespace Tops.Test.UnitTest
                 var value = attributeValueService.GetValueByType(attributeTypeAndValueDomain.AttributeTypeDomain.Id
                     , attributeTypeAndValueDomain.AttributeValueDomain.Id);
 
-                var typeDto = new ProductServiceTest.AttributeTypeDto();
-                typeDto.Id = type.Id;
-                typeDto.Code = type.Code;
-                typeDto.Name = type.Name;
+                //var typeDto = new ProductServiceTest.AttributeTypeDto();
+                //typeDto.Id = type.Id;
+                //typeDto.Code = type.Code;
+                //typeDto.Name = type.Name;
 
-                var valueDto = new ProductServiceTest.AttributeValueDto();
-                valueDto.Id = value.Id;
-                valueDto.Code = value.Code;
-                valueDto.Name = value.Name;
-                valueDto.TypeId = value.TypeId;
+                //var valueDto = new ProductServiceTest.AttributeValueDto();
+                //valueDto.Id = value.Id;
+                //valueDto.Code = value.Code;
+                //valueDto.Name = value.Name;
+                //valueDto.TypeId = value.TypeId;
 
-                
-                list.Add(new ProductServiceTest.AttributeTypeAndValueDto()
+                //list.Add(new ProductServiceTest.AttributeTypeAndValueDto
+                //{
+                //    Type = typeDto,
+                //    Value = valueDto
+                //});
+
+                list.Add(new ProductServiceTest.AttributeTypeAndValueDto
                 {
-                    Type = typeDto,
-                    Value = valueDto
+                    Type = Mapper.Map<ProductServiceTest.AttributeTypeDto>(type),
+                    Value = Mapper.Map<ProductServiceTest.AttributeValueDto>(value)
                 });
             }
 
-            p.ListAttributeTypeAndValueDataTranferObjects = list;
+            //p.ListAttributeTypeAndValueDataTranferObjects = list;
+            productFroEdit.ListAttributeTypeAndValueDataTranferObjects = list;
 
-            return p;
+            return productFroEdit;
         }
 
         public IProductBaseDomain Create(IProductForCreate product)
@@ -415,7 +434,7 @@ namespace Tops.Test.UnitTest
         }
     }
 
-    public class ProductForEdit:IProductForEditBaseDomain
+    public class ProductForEdit : IProductForEditBaseDomain
     {
         public int Id { get; set; }
         public string ApoClassCode { get; set; }
@@ -423,7 +442,11 @@ namespace Tops.Test.UnitTest
         public string ProductName { get; set; }
         public int BrandId { get; set; }
         public string ProductDescription { get; set; }
-        public IEnumerable<IAttributeTypeAndValueDataTranferObject> ListAttributeTypeAndValueDataTranferObjects { get; set;
+
+        public IEnumerable<IAttributeTypeAndValueDataTranferObject> ListAttributeTypeAndValueDataTranferObjects
+        {
+            get;
+            set;
         }
     }
 

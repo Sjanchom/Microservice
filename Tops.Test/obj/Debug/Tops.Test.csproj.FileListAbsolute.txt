@@ -38,16 +38,20 @@
 \\Mac\Home\Documents\Microservice\Tops.Test\obj\Debug\Tops.Test.pdb
 C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\Tops.Test.dll
 C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\Tops.Test.pdb
+C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\AutoMapper.dll
 C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\Castle.Core.dll
 C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\Moq.dll
+C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\Newtonsoft.Json.dll
 C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\TopsInterface.dll
 C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\xunit.abstractions.dll
 C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\xunit.assert.dll
 C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\xunit.core.dll
 C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\xunit.execution.desktop.dll
 C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\TopsInterface.pdb
+C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\AutoMapper.xml
 C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\Castle.Core.xml
 C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\Moq.xml
+C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\Newtonsoft.Json.xml
 C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\xunit.abstractions.xml
 C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\xunit.assert.xml
 C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\xunit.core.xml
@@ -55,5 +59,3 @@ C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\xunit.execution.desktop.
 C:\Users\Sasin\Desktop\Microservice\Tops.Test\obj\Debug\Tops.Test.csprojResolveAssemblyReference.cache
 C:\Users\Sasin\Desktop\Microservice\Tops.Test\obj\Debug\Tops.Test.dll
 C:\Users\Sasin\Desktop\Microservice\Tops.Test\obj\Debug\Tops.Test.pdb
-C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\Newtonsoft.Json.dll
-C:\Users\Sasin\Desktop\Microservice\Tops.Test\bin\Debug\Newtonsoft.Json.xml
