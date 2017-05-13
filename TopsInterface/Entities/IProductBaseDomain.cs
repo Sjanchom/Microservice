@@ -3,8 +3,8 @@
     public interface IProductBaseDomain
     {
         int Id { get; set; }
-        int ApoClass { get; set; }
-        string Code { get; set; }
+        string ApoClassCode { get; set; }
+        string ProductCode { get; set; }
         string ProductName { get; set; }
         int BrandId { get; set; }
     }

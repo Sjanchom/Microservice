@@ -18,8 +18,8 @@ namespace Tops.Test.UnitTest
         public class ProductDomain : IProductDomain
         {
             public int Id { get; set; }
-            public int ApoClass { get; set; }
-            public string Code { get; set; }
+            public string ApoClassCode { get; set; }
+            public string ProductCode { get; set; }
             public string ProductName { get; set; }
             public string ProductDescription { get; set; }
             public int BrandId { get; set; }
@@ -28,8 +28,8 @@ namespace Tops.Test.UnitTest
         public class ProductDto : IProductBaseDomain
         {
             public int Id { get; set; }
-            public int ApoClass { get; set; }
-            public string Code { get; set; }
+            public string ApoClassCode { get; set; }
+            public string ProductCode { get; set; }
             public string ProductName { get; set; }
             public int BrandId { get; set; }
         }
@@ -94,9 +94,14 @@ namespace Tops.Test.UnitTest
 
         #endregion
 
+
+        //var currentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
+        //var archiveFolder = Path.Combine(currentDirectory, "Data");
+        //var files = Directory.GetFiles(archiveFolder);
         public ProductServiceTest()
         {
-            _productDomains = DataInitializer.GetAllProductDomain();
+            DataInitializer.GetProductFromTextFile();
+               _productDomains = DataInitializer.GetProductFromTextFile();
             _productRepository = SetUpMockHelper.SetUpProductRepository();
 
             _attributeTypeService = SetUpMockHelper.GetAttributeTypeService();
@@ -108,14 +113,14 @@ namespace Tops.Test.UnitTest
         {
             var service = new ProductService(_productRepository,_attributeTypeService,_attributeValueService);
 
-            var sut = service.GetAll(1, 5, 200, "Co");
+            var sut = service.GetAll(1, 5, "200", "Co");
 
             Assert.True(sut.Count > 0);
-            Assert.True(sut.All(x => x.ApoClass == 200));
+            Assert.True(sut.All(x => x.ApoClassCode == "200"));
             Assert.True(
                 sut.All(
                     x =>
-                        x.ApoClass.ToString().Contains("Co".ToUpperInvariant()) ||
+                        x.ApoClassCode.ToString().Contains("Co".ToUpperInvariant()) ||
                         x.ProductName.ToUpperInvariant().Contains("Co".ToUpperInvariant())));
         }
 
@@ -124,7 +129,7 @@ namespace Tops.Test.UnitTest
         {
             var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
 
-            var sut = service.GetAll(1, 20, 0, "");
+            var sut = service.GetAll(1, 20, "", "");
 
             Assert.Equal(_productDomains.Count, sut.Count);
         }
@@ -134,7 +139,7 @@ namespace Tops.Test.UnitTest
         {
             var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
 
-            var sut = service.GetAll(1, 20, 0, "dfsfsdgsgsdg");
+            var sut = service.GetAll(1, 20, "", "dfsfsdgsgsdg");
 
             Assert.True(sut.Count == 0);
         }
@@ -143,9 +148,9 @@ namespace Tops.Test.UnitTest
         public void ServiceShouldReturnNewProductWhenAddSuccess()
         {
             var newProduct = new ProductForCreate();
-            newProduct.ApoClass = 200;
+            newProduct.ApoClassCode = "200";
             newProduct.BrandId = 2;
-            newProduct.Code = "304981";
+            newProduct.ProductCode = "304981";
             newProduct.ProductDescription = "BraBra";
             newProduct.ProductName = "HoHo";
 
@@ -156,10 +161,10 @@ namespace Tops.Test.UnitTest
             var sut = service.Create(newProduct);
 
             Assert.True(sut.Id == lastId + 1);
-            Assert.Equal(sut.ApoClass,newProduct.ApoClass);
+            Assert.Equal(sut.ApoClassCode,newProduct.ApoClassCode.ToString());
             Assert.Equal(sut.ProductName,newProduct.ProductName);
             Assert.Equal(sut.BrandId,newProduct.BrandId);
-            Assert.Equal(sut.Code,newProduct.Code);
+            Assert.Equal(sut.ProductCode,newProduct.ProductCode);
         }
 
 
@@ -208,9 +213,9 @@ namespace Tops.Test.UnitTest
         public void ServiceShouldReturnCorrectValueWheneditSuccess()
         {
             var product = new ProductForCreate();
-            product.ApoClass = 200;
+            product.ApoClassCode = "200";
             product.BrandId = 2;
-            product.Code = "304981";
+            product.ProductCode = "304981";
             product.ProductDescription = "BraBra";
             product.ProductName = "HoHo";
              
@@ -219,9 +224,9 @@ namespace Tops.Test.UnitTest
             var sut = service.Edit(1, product) as ProductDto;
 
             var result = new ProductDto();
-            result.ApoClass = product.ApoClass;
+            result.ApoClassCode = product.ApoClassCode.ToString();
             result.BrandId = product.BrandId;
-            result.Code = product.Code;
+            result.ProductCode = product.ProductCode;
             result.Id = 1;
             result.ProductName = product.ProductName;
 
@@ -232,9 +237,9 @@ namespace Tops.Test.UnitTest
         public void ServiceShouldReturnNullWhenIdNotExist()
         {
             var product = new ProductForCreate();
-            product.ApoClass = 200;
+            product.ApoClassCode = "200";
             product.BrandId = 2;
-            product.Code = "304981";
+            product.ProductCode = "304981";
             product.ProductDescription = "BraBra";
             product.ProductName = "HoHo";
 
@@ -260,8 +265,8 @@ namespace Tops.Test.UnitTest
     public class ProductForCreate : IProductForCreate
     {
         public int Id { get; set; }
-        public int ApoClass { get; set; }
-        public string Code { get; set; }
+        public string ApoClassCode { get; set; }
+        public string ProductCode { get; set; }
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }
         public int BrandId { get; set; }
@@ -284,7 +289,7 @@ namespace Tops.Test.UnitTest
             this.attributeTypeService = attributeTypeService;
         }
 
-        public PagedList<IProductBaseDomain> GetAll(int page, int pageSize, int apoClass, string searchText)
+        public PagedList<IProductBaseDomain> GetAll(int page, int pageSize, string apoClass, string searchText)
         {
             var productResourceParameter = new ProductResourceParamater(page, pageSize, apoClass, searchText);
             var products = productRepository.GetAll(productResourceParameter);
@@ -294,9 +299,9 @@ namespace Tops.Test.UnitTest
             {
                 var p = new ProductServiceTest.ProductDto();
                 p.Id = productDomain.Id;
-                p.ApoClass = productDomain.ApoClass;
+                p.ApoClassCode = productDomain.ApoClassCode;
                 p.BrandId = productDomain.BrandId;
-                p.Code = productDomain.Code;
+                p.ProductCode = productDomain.ProductCode;
                 p.ProductName = productDomain.ProductName;
 
                 productDomains.Add(p);
@@ -312,14 +317,14 @@ namespace Tops.Test.UnitTest
             if (product == null)
                 return null;
 
-            var attrLists = productRepository.GetProductAttribute(id, product.ApoClass);
+            var attrLists = productRepository.GetProductAttribute(id, product.ApoClassCode);
 
 
             var p = new ProductForEdit();
             p.Id = product.Id;
-            p.ApoClass = product.ApoClass;
+            p.ApoClassCode = product.ApoClassCode;
             p.BrandId = product.BrandId;
-            p.Code = product.Code;
+            p.ProductCode = product.ProductCode;
             p.ProductDescription = product.ProductDescription;
             p.ProductName = product.ProductName;
 
@@ -358,18 +363,18 @@ namespace Tops.Test.UnitTest
         public IProductBaseDomain Create(IProductForCreate product)
         {
             var pro = new ProductServiceTest.ProductDomain();
-            pro.ApoClass = 200;
+            pro.ApoClassCode = "200";
             pro.BrandId = 2;
-            pro.Code = "304981";
+            pro.ProductCode = "304981";
             pro.ProductDescription = "BraBra";
             pro.ProductName = "HoHo";
             var lastestProduct = productRepository.Add(pro);
 
             var p = new ProductServiceTest.ProductDto();
             p.Id = lastestProduct.Id;
-            p.ApoClass = lastestProduct.ApoClass;
+            p.ApoClassCode = lastestProduct.ApoClassCode;
             p.BrandId = lastestProduct.BrandId;
-            p.Code = lastestProduct.Code;
+            p.ProductCode = lastestProduct.ProductCode;
             p.ProductName = lastestProduct.ProductName;
 
             return p;
@@ -378,8 +383,8 @@ namespace Tops.Test.UnitTest
         public IProductBaseDomain Edit(int productId, IProductForCreate product)
         {
             var domain = new ProductServiceTest.ProductDomain();
-            domain.ApoClass = product.ApoClass;
-            domain.Code = product.Code;
+            domain.ApoClassCode = product.ApoClassCode;
+            domain.ProductCode = product.ProductCode;
             domain.ProductDescription = product.ProductDescription;
             domain.ProductName = product.ProductName;
             domain.BrandId = product.BrandId;
@@ -390,9 +395,9 @@ namespace Tops.Test.UnitTest
                 return null;
 
             var p = new ProductServiceTest.ProductDto();
-            p.ApoClass = updatedProduct.ApoClass;
+            p.ApoClassCode = updatedProduct.ApoClassCode;
             p.BrandId = updatedProduct.BrandId;
-            p.Code = updatedProduct.Code;
+            p.ProductCode = updatedProduct.ProductCode;
             p.ProductName = updatedProduct.ProductName;
             p.Id = updatedProduct.Id;
 
@@ -416,8 +421,8 @@ namespace Tops.Test.UnitTest
     public class ProductForEdit:IProductForEditBaseDomain
     {
         public int Id { get; set; }
-        public int ApoClass { get; set; }
-        public string Code { get; set; }
+        public string ApoClassCode { get; set; }
+        public string ProductCode { get; set; }
         public string ProductName { get; set; }
         public int BrandId { get; set; }
         public string ProductDescription { get; set; }
@@ -427,7 +432,7 @@ namespace Tops.Test.UnitTest
 
     public class ProductResourceParamater : IProductResourceParameters
     {
-        public ProductResourceParamater(int page, int pageSize, int apoClass, string searchText)
+        public ProductResourceParamater(int page, int pageSize, string apoClass, string searchText)
         {
             Page = page;
             PageSize = pageSize;
@@ -438,6 +443,6 @@ namespace Tops.Test.UnitTest
         public int Page { get; set; }
         public int PageSize { get; set; }
         public string SearchText { get; set; }
-        public int ApoClass { get; set; }
+        public string ApoClass { get; set; }
     }
 }

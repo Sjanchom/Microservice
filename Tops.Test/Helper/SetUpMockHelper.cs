@@ -13,7 +13,7 @@ namespace Tops.Test.Helper
     {
         public static IProductRepository SetUpProductRepository()
         {
-            var products = DataInitializer.GetAllProductDomain();
+            var products = DataInitializer.GetProductFromTextFile();
             var attrType = DataInitializer.GetAllTypeAttributeTypeDomains();
             var attrValue = DataInitializer.GetAttributeValueDomains();
             var productHeader = DataInitializer.GetaProductAttributeHeaders();
@@ -28,10 +28,10 @@ namespace Tops.Test.Helper
                                 string.IsNullOrWhiteSpace(productResourceParameters.SearchText)
                                 || p.ProductName.ToUpperInvariant()
                                     .Contains(productResourceParameters.SearchText.ToUpperInvariant())
-                                || p.ApoClass.ToString()
+                                || p.ApoClassCode.ToString()
                                     .Contains(productResourceParameters.SearchText.ToUpperInvariant()))
-                            .Where(x => productResourceParameters.ApoClass == 0 ||
-                                        x.ApoClass == productResourceParameters.ApoClass)
+                            .Where(x => string.IsNullOrEmpty(productResourceParameters.ApoClass)||
+                                        x.ApoClassCode == productResourceParameters.ApoClass)
                             .AsQueryable();
                     }
                 ));
@@ -54,9 +54,9 @@ namespace Tops.Test.Helper
                     if (productDomain == null)
                         return null;
                     productDomain.BrandId = product.BrandId;
-                    productDomain.ApoClass = product.ApoClass;
+                    productDomain.ApoClassCode = product.ApoClassCode;
                     productDomain.ProductName = product.ProductName;
-                    productDomain.Code = product.Code;
+                    productDomain.ProductCode = product.ProductCode;
                     productDomain.ProductDescription = product.ProductDescription;
 
                     return productDomain;
@@ -72,11 +72,11 @@ namespace Tops.Test.Helper
             repository.Setup(x => x.GetById(It.IsAny<int>()))
                 .Returns(new Func<int, IProductDomain>(id => { return products.SingleOrDefault(x => x.Id == id); }));
 
-            repository.Setup(x => x.GetProductAttribute(It.IsAny<int>(), It.IsAny<int>()))
+            repository.Setup(x => x.GetProductAttribute(It.IsAny<int>(), It.IsAny<string>()))
                 .Returns(new Func<int, int, IEnumerable<IAttributeTypeAndValueDomain>>(
                     (productId, apoClass) =>
                     {
-                        var matchList = productHeader.Where(x => x.ApoClass == apoClass
+                        var matchList = productHeader.Where(x => x.ApoClass.Equals(apoClass)
                                                                  && x.ProductId == productId)
                             .ToList();
 

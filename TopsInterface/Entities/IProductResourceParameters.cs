@@ -10,6 +10,6 @@ namespace TopsInterface.Entities
         int Page { get; set; }
         int PageSize { get; set; }
         string SearchText { get; set; }
-        int ApoClass { get; set; }
+        string ApoClass { get; set; }
     }
 }
