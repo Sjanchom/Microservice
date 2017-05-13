@@ -54,7 +54,8 @@ namespace Tops.Test.UnitTest
             public int Id { get; set; }
             public string Name { get; set; }
             public string Code { get; set; }
-            public int TypeId { get; set; }
+            public string TypeId { get; set; }
+            public string ApoClass { get; set; }
         }
 
         public class AttributeTypeDto : IAttributeTypeDataTranferObject
@@ -66,7 +67,7 @@ namespace Tops.Test.UnitTest
 
         public class AttributeValueDto : IAttributeValueDataTranferObject
         {
-            public int TypeId { get; set; }
+            public string TypeId { get; set; }
             public int Id { get; set; }
             public string Name { get; set; }
             public string Code { get; set; }
@@ -78,13 +79,13 @@ namespace Tops.Test.UnitTest
             public IAttributeValueDataTranferObject Value { get; set; }
         }
 
-        public class ProductAttributeHeader : IProductHeader
+        public class ProductAttributeDetail : IProductDetail
         {
-            public int Id { get; set; }
-            public int ProductId { get; set; }
-            public int ApoClass { get; set; }
-            public int TypeId { get; set; }
-            public int ValueId { get; set; }
+            public string Id { get; set; }
+            public string ProductId { get; set; }
+            public string ApoClass { get; set; }
+            public string TypeId { get; set; }
+            public string ValueId { get; set; }
         }
 
         private readonly List<ProductDomain> _productDomains;
@@ -95,12 +96,8 @@ namespace Tops.Test.UnitTest
         #endregion
 
 
-        //var currentDirectory = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location);
-        //var archiveFolder = Path.Combine(currentDirectory, "Data");
-        //var files = Directory.GetFiles(archiveFolder);
         public ProductServiceTest()
         {
-            DataInitializer.GetProductFromTextFile();
                _productDomains = DataInitializer.GetProductFromTextFile();
             _productRepository = SetUpMockHelper.SetUpProductRepository();
 
@@ -196,7 +193,7 @@ namespace Tops.Test.UnitTest
             var sut = service.GetById(1);
 
             Assert.Equal(3,sut.ListAttributeTypeAndValueDataTranferObjects.Count());
-            Assert.True(sut.ListAttributeTypeAndValueDataTranferObjects.All(x => x.Value.TypeId == x.Type.Id));
+            Assert.True(sut.ListAttributeTypeAndValueDataTranferObjects.All(x => x.Value.TypeId == x.Type.Id.ToString()));
         }
 
         [Fact]
@@ -204,7 +201,7 @@ namespace Tops.Test.UnitTest
         {
             var service = new ProductService(_productRepository, _attributeTypeService, _attributeValueService);
 
-            var sut = service.GetById(6);
+            var sut = service.GetById(600);
 
             Assert.Equal(sut.ListAttributeTypeAndValueDataTranferObjects.Count(),0);
         }

@@ -2,6 +2,7 @@
 {
     public interface IAttributeValueDomain : IAttributeBase
     {
-        int TypeId { get; set; }
+        string TypeId { get; set; }
+        string ApoClass { get; set; }
     }
 }

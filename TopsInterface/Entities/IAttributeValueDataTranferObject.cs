@@ -7,6 +7,6 @@ namespace TopsInterface.Entities
 {
     public interface IAttributeValueDataTranferObject : IAttributeBase
     {
-        int TypeId { get; set; }
+        string TypeId { get; set; }
     }
 }

@@ -8,7 +8,7 @@ namespace Tops.Test
 {
     internal class ConstaintsConfig
     {
-        public const string APO_CLASS = "ApoClassCode";
+        public const string APO_CLASS = "ApoClass";
         public const string APO_SUBCLASS = "ApoSubClass";
         public const string APO_DEPT = "ApoDept";
         public const string APO_GROUP = "ApoGroup";

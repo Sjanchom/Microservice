@@ -16,7 +16,7 @@ namespace Tops.Test.Helper
             var products = DataInitializer.GetProductFromTextFile();
             var attrType = DataInitializer.GetAllTypeAttributeTypeDomains();
             var attrValue = DataInitializer.GetAttributeValueDomains();
-            var productHeader = DataInitializer.GetaProductAttributeHeaders();
+            var productDetail = DataInitializer.GetaProductAttributeHeaders();
 
             var repository = new Mock<IProductRepository>();
 
@@ -30,7 +30,7 @@ namespace Tops.Test.Helper
                                     .Contains(productResourceParameters.SearchText.ToUpperInvariant())
                                 || p.ApoClassCode.ToString()
                                     .Contains(productResourceParameters.SearchText.ToUpperInvariant()))
-                            .Where(x => string.IsNullOrEmpty(productResourceParameters.ApoClass)||
+                            .Where(x => string.IsNullOrEmpty(productResourceParameters.ApoClass) ||
                                         x.ApoClassCode == productResourceParameters.ApoClass)
                             .AsQueryable();
                     }
@@ -73,11 +73,11 @@ namespace Tops.Test.Helper
                 .Returns(new Func<int, IProductDomain>(id => { return products.SingleOrDefault(x => x.Id == id); }));
 
             repository.Setup(x => x.GetProductAttribute(It.IsAny<int>(), It.IsAny<string>()))
-                .Returns(new Func<int, int, IEnumerable<IAttributeTypeAndValueDomain>>(
+                .Returns(new Func<int, string, IEnumerable<IAttributeTypeAndValueDomain>>(
                     (productId, apoClass) =>
                     {
-                        var matchList = productHeader.Where(x => x.ApoClass.Equals(apoClass)
-                                                                 && x.ProductId == productId)
+                        var matchList = productDetail.Where(x => x.ApoClass.Equals(apoClass)
+                                                                 && x.ProductId.Equals(productId.ToString()))
                             .ToList();
 
                         var attrTypeAndValueList = new List<ProductServiceTest.AttributeTypeAndValueDomain>();
@@ -87,11 +87,11 @@ namespace Tops.Test.Helper
                             {
                                 AttributeTypeDomain = new ProductServiceTest.AttributeTypeDomain
                                 {
-                                    Id = productAttributeHeader.TypeId
+                                    Id = Convert.ToInt32(productAttributeHeader.TypeId)
                                 },
                                 AttributeValueDomain = new ProductServiceTest.AttributeValueDomain
                                 {
-                                    Id = productAttributeHeader.ValueId
+                                    Id = Convert.ToInt32(productAttributeHeader.ValueId)
                                 }
                             });
 
@@ -108,10 +108,8 @@ namespace Tops.Test.Helper
             var repository = new Mock<IAttributeTypeService>();
 
             repository.Setup(x => x.GetById(It.IsAny<int>()))
-                .Returns(new Func<int, IAttributeTypeDomain>(id =>
-                {
-                    return attrType.SingleOrDefault(x => x.Id == id);
-                }));
+                .Returns(new Func<int, IAttributeTypeDomain>(
+                    id => { return attrType.SingleOrDefault(x => x.Id == id); }));
 
             return repository.Object;
         }
@@ -122,10 +120,10 @@ namespace Tops.Test.Helper
             var repository = new Mock<IAttributeValueService>();
 
             repository.Setup(x => x.GetValueByType(It.IsAny<int>(), It.IsAny<int>()))
-                .Returns(new Func< int, int, IAttributeValueDomain>(
+                .Returns(new Func<int, int, IAttributeValueDomain>(
                     (typeId, valueId) =>
                     {
-                        return attrValue.SingleOrDefault(x => x.TypeId == typeId && x.Id == valueId);
+                        return attrValue.SingleOrDefault(x => x.TypeId == typeId.ToString() && x.Id == valueId);
                     }));
 
             return repository.Object;
