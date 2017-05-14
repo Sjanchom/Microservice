@@ -153,6 +153,20 @@ namespace Tops.Test.Helper
                     return apoDivision.SingleOrDefault(x => x.Id == id);
                 }));
 
+
+            repository.Setup(x => x.Add(It.IsAny<IApoDivisionDomain>()))
+                .Returns(new Func<IApoDivisionDomain, IApoDivisionDomain>(apoAddOrEdit =>
+                {
+                    dynamic maxId = apoDivision.Last().Id;
+                    var nextId = Convert.ToInt32(maxId) + 1;
+                    var nextCode = (Convert.ToInt32(apoDivision.Last().Code) + 1).ToString("D3");
+                    apoAddOrEdit.Id = (int)nextId;
+                    apoAddOrEdit.Code = nextCode;
+                    apoDivision.Add(apoAddOrEdit as ApoDivisionDomain);
+
+                    return apoAddOrEdit;
+                }));
+
             return repository.Object;
         }
     }

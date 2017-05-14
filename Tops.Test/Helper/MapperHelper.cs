@@ -16,6 +16,7 @@ namespace Tops.Test.Helper
 
 
                 cfg.CreateMap<ApoDivisionDomain, ApoDivisionDto>().ReverseMap();
+                cfg.CreateMap<IApoDivisionForCreateOrEdit, ApoDivisionDomain>().ReverseMap();
 
                 //cfg.CreateMap<Entities.Author, Models.AuthorDto>()
                 //    .ForMember(dest => dest.Name, opt => opt.MapFrom(src =>

@@ -107,6 +107,8 @@ namespace Tops.Test.UnitTest
             };
             
             var sut = service.Create(newApo);
+
+            Assert.Equal(sut.Id, _apoDivision.Last().Id + 1);
         }
 
 
@@ -175,7 +177,8 @@ namespace Tops.Test.UnitTest
         {
             var mapToDomain = Mapper.Map<ApoDivisionDto>(item);
             var apoDivisionFromRepository = _apoDivisionRepository.Add(mapToDomain);
-            throw new System.NotImplementedException();
+
+            return Mapper.Map<ApoDivisionDto>(apoDivisionFromRepository);
         }
 
         public IApoDivisionDataTranferObject Edit(IApoDivisionForCreateOrEdit item)
