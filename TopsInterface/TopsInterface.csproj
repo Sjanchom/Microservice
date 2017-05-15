@@ -39,8 +39,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\IApoBase.cs" />
+    <Compile Include="Entities\IAttributeBaseDomain.cs" />
     <Compile Include="Entities\IAttributeTypeAndValueDomain.cs" />
+    <Compile Include="Entities\IBaseDomain.cs" />
+    <Compile Include="Entities\IProductBase.cs" />
     <Compile Include="Entities\IBaseResourceParameter.cs" />
+    <Compile Include="Entities\IProductDataTranferObject.cs" />
     <Compile Include="Entities\IProductDomain.cs" />
     <Compile Include="Entities\IAttributeTypeDomain.cs" />
     <Compile Include="Entities\IAttributeValueDomain.cs" />
@@ -50,8 +55,7 @@
     <Compile Include="Entities\IAttributeValueDataTranferObject.cs" />
     <Compile Include="Entities\IAttributeBase.cs" />
     <Compile Include="Entities\IAttributeTypeAndValueDataTranferObject.cs" />
-    <Compile Include="Entities\IProductForEditBaseDomain.cs" />
-    <Compile Include="Entities\IProductForCreate.cs" />
+    <Compile Include="Entities\IProductForCreateOrEdit.cs" />
     <Compile Include="Entities\IProductDetail.cs" />
     <Compile Include="Entities\IProductResourceParameters.cs" />
     <Compile Include="PagedList.cs" />

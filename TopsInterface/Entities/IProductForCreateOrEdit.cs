@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TopsInterface.Entities
 {
-    public interface IProductForEditBaseDomain : IProductBaseDomain
+    public interface IProductForCreateOrEdit : IProductBase
     {
         string ProductDescription { get; set; }
         IEnumerable<IAttributeTypeAndValueDataTranferObject> ListAttributeTypeAndValueDataTranferObjects { get; set; }

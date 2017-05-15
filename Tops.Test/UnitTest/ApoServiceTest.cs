@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using AutoMapper;
@@ -206,9 +207,10 @@ namespace Tops.Test.UnitTest
     public interface IApoDivisionForCreateOrEdit
     {
          string Name { get; set; }
+         int Id { get; set; }
     }
 
-    public interface IApoDivisionDataTranferObject : IApoDivisionDomain
+    public interface IApoDivisionDataTranferObject : IApoBase
     {
     }
 
@@ -329,5 +331,13 @@ namespace Tops.Test.UnitTest
         public int Id { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
+        public DateTime? CreateDate { get; set; }
+        public DateTime? UpdatedDate { get; set; }
+        public DateTime? LastUpdateDate { get; set; }
+        public int CreateBy { get; set; }
+        public int EditBy { get; set; }
+        public int LastEditBy { get; set; }
+        public int IsActive { get; set; }
+        public string Remark { get; set; }
     }
 }

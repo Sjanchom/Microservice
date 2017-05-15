@@ -1,6 +1,6 @@
 ﻿namespace TopsInterface.Entities
 {
-    public interface IAttributeBase
+    public interface IApoBase
     {
         int Id { get; set; }
         string Name { get; set; }

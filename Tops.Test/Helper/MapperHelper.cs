@@ -10,7 +10,7 @@ namespace Tops.Test.Helper
             AutoMapper.Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<ProductServiceTest.ProductDomain,ProductServiceTest.ProductDto>().ReverseMap();
-                cfg.CreateMap<ProductServiceTest.ProductDomain,ProductForEdit>().ReverseMap();
+                cfg.CreateMap<ProductServiceTest.ProductDomain,ProductForCreateOrEdit>().ReverseMap();
                 cfg.CreateMap<ProductServiceTest.AttributeTypeDomain, ProductServiceTest.AttributeTypeDto>().ReverseMap();
                 cfg.CreateMap<ProductServiceTest.AttributeValueDomain, ProductServiceTest.AttributeValueDto>().ReverseMap();
 

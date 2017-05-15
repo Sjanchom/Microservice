@@ -4,10 +4,10 @@ namespace TopsInterface.Core
 {
     public interface IProductService
     {
-        PagedList<IProductBaseDomain> GetAll(int page, int pageSize, string apoClass, string searchText);
-        IProductForEditBaseDomain GetById(int id);
-        IProductBaseDomain Create(IProductForCreate product);
-        IProductBaseDomain Edit(int proudctId, IProductForCreate product);
+        PagedList<IProductDataTranferObject> GetAll(int page, int pageSize, string apoClass, string searchText);
+        IProductForCreateOrEdit GetById(int id);
+        IProductDataTranferObject Create(IProductForCreateOrEdit product);
+        IProductDataTranferObject Edit(int proudctId, IProductForCreateOrEdit product);
         bool Delete(int productId);
     }
 }

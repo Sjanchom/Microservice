@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TopsInterface.Entities
 {
-    public interface IAttributeTypeDomain : IAttributeBase
+    public interface IAttributeTypeDomain : IAttributeBaseDomain
     {
 
     }

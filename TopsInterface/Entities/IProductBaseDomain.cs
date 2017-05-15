@@ -1,11 +1,7 @@
 ﻿namespace TopsInterface.Entities
 {
-    public interface IProductBaseDomain
+    public interface IProductBaseDomain:IBaseDomain,IProductBase
     {
-        int Id { get; set; }
-        string ApoClassCode { get; set; }
-        string ProductCode { get; set; }
-        string ProductName { get; set; }
-        int BrandId { get; set; }
+      
     }
 }

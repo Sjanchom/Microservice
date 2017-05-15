@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace TopsInterface.Entities
+﻿namespace TopsInterface.Entities
 {
     public interface IApoDivisionDomain : IApoBaseDomain { }
 

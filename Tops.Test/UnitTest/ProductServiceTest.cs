@@ -36,16 +36,24 @@ namespace Tops.Test.UnitTest
             public string ProductCode { get; set; }
             public string ProductName { get; set; }
             public string ProductDescription { get; set; }
-            public int BrandId { get; set; }
+            public int? BrandId { get; set; }
+            public DateTime? CreateDate { get; set; }
+            public DateTime? UpdatedDate { get; set; }
+            public DateTime? LastUpdateDate { get; set; }
+            public int CreateBy { get; set; }
+            public int EditBy { get; set; }
+            public int LastEditBy { get; set; }
+            public int IsActive { get; set; }
+            public string Remark { get; set; }
         }
 
-        public class ProductDto : IProductBaseDomain
+        public class ProductDto : IProductDataTranferObject
         {
             public int Id { get; set; }
             public string ApoClassCode { get; set; }
             public string ProductCode { get; set; }
             public string ProductName { get; set; }
-            public int BrandId { get; set; }
+            public int? BrandId { get; set; }
         }
 
         public class AttributeTypeAndValueDomain : IAttributeTypeAndValueDomain
@@ -60,6 +68,14 @@ namespace Tops.Test.UnitTest
             public int Id { get; set; }
             public string Name { get; set; }
             public string Code { get; set; }
+            public DateTime? CreateDate { get; set; }
+            public DateTime? UpdatedDate { get; set; }
+            public DateTime? LastUpdateDate { get; set; }
+            public int CreateBy { get; set; }
+            public int EditBy { get; set; }
+            public int LastEditBy { get; set; }
+            public int IsActive { get; set; }
+            public string Remark { get; set; }
         }
 
         public class AttributeValueDomain : IAttributeValueDomain
@@ -69,6 +85,14 @@ namespace Tops.Test.UnitTest
             public string Code { get; set; }
             public string TypeId { get; set; }
             public string ApoClass { get; set; }
+            public DateTime? CreateDate { get; set; }
+            public DateTime? UpdatedDate { get; set; }
+            public DateTime? LastUpdateDate { get; set; }
+            public int CreateBy { get; set; }
+            public int EditBy { get; set; }
+            public int LastEditBy { get; set; }
+            public int IsActive { get; set; }
+            public string Remark { get; set; }
         }
 
         public class AttributeTypeDto : IAttributeTypeDataTranferObject
@@ -99,6 +123,14 @@ namespace Tops.Test.UnitTest
             public string ApoClass { get; set; }
             public string TypeId { get; set; }
             public string ValueId { get; set; }
+            public DateTime? CreateDate { get; set; }
+            public DateTime? UpdatedDate { get; set; }
+            public DateTime? LastUpdateDate { get; set; }
+            public int CreateBy { get; set; }
+            public int EditBy { get; set; }
+            public int LastEditBy { get; set; }
+            public int IsActive { get; set; }
+            public string Remark { get; set; }
         }
 
         private readonly List<ProductDomain> _productDomains;
@@ -266,14 +298,14 @@ namespace Tops.Test.UnitTest
         }
     }
 
-    public class ProductForCreate : IProductForCreate
+    public class ProductForCreate : IProductForCreateOrEdit
     {
         public int Id { get; set; }
         public string ApoClassCode { get; set; }
         public string ProductCode { get; set; }
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }
-        public int BrandId { get; set; }
+        public int? BrandId { get; set; }
 
         public IEnumerable<IAttributeTypeAndValueDataTranferObject> ListAttributeTypeAndValueDataTranferObjects
         {
@@ -296,7 +328,7 @@ namespace Tops.Test.UnitTest
             this.attributeTypeService = attributeTypeService;
         }
 
-        public PagedList<IProductBaseDomain> GetAll(int page, int pageSize, string apoClass, string searchText)
+        public PagedList<IProductDataTranferObject> GetAll(int page, int pageSize, string apoClass, string searchText)
         {
             var productResourceParameter = new ProductResourceParamater(page, pageSize, apoClass, searchText);
 
@@ -304,10 +336,10 @@ namespace Tops.Test.UnitTest
 
             var productDomains = Mapper.Map<List<ProductServiceTest.ProductDto>>(products);
 
-            return PagedList<IProductBaseDomain>.Create(productDomains.AsQueryable(), page, pageSize);
+            return PagedList<IProductDataTranferObject>.Create(productDomains.AsQueryable(), page, pageSize);
         }
 
-        public IProductForEditBaseDomain GetById(int id)
+        public IProductForCreateOrEdit GetById(int id)
         {
             var product = productRepository.GetById(id);
 
@@ -316,7 +348,7 @@ namespace Tops.Test.UnitTest
 
             var attrLists = productRepository.GetProductAttribute(id, product.ApoClassCode);
 
-            var productFroEdit = Mapper.Map<ProductForEdit>(product);
+            var productFroEdit = Mapper.Map<ProductForCreateOrEdit>(product);
 
             var list = new List<ProductServiceTest.AttributeTypeAndValueDto>();
 
@@ -338,7 +370,7 @@ namespace Tops.Test.UnitTest
             return productFroEdit;
         }
 
-        public IProductBaseDomain Create(IProductForCreate product)
+        public IProductDataTranferObject Create(IProductForCreateOrEdit product)
         {
             var pro = new ProductServiceTest.ProductDomain();
             pro.ApoClassCode = "200";
@@ -358,7 +390,7 @@ namespace Tops.Test.UnitTest
             return p;
         }
 
-        public IProductBaseDomain Edit(int productId, IProductForCreate product)
+        public IProductDataTranferObject Edit(int productId, IProductForCreateOrEdit product)
         {
             var domain = new ProductServiceTest.ProductDomain();
             domain.ApoClassCode = product.ApoClassCode;
@@ -396,13 +428,13 @@ namespace Tops.Test.UnitTest
         }
     }
 
-    public class ProductForEdit : IProductForEditBaseDomain
+    public class ProductForCreateOrEdit : IProductForCreateOrEdit
     {
         public int Id { get; set; }
         public string ApoClassCode { get; set; }
         public string ProductCode { get; set; }
         public string ProductName { get; set; }
-        public int BrandId { get; set; }
+        public int? BrandId { get; set; }
         public string ProductDescription { get; set; }
 
         public IEnumerable<IAttributeTypeAndValueDataTranferObject> ListAttributeTypeAndValueDataTranferObjects

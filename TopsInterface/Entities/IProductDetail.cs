@@ -1,6 +1,6 @@
 ﻿namespace TopsInterface.Entities
 {
-    public interface IProductDetail
+    public interface IProductDetail:IBaseDomain
     {
         string Id { get; set; }
         string ProductId { get; set; }
