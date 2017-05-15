@@ -16,7 +16,7 @@ namespace TopsInterface.Repositories
         T GetById(int id);
         T Get(Expression<Func<T, bool>> where);
 
-        IQueryable<T> GetAll(IProductResourceParameters productResourceParameters);
+        IQueryable<T> GetAll(IBaseResourceParameter resourceParameters);
         IQueryable<T> GetMany(Expression<Func<T, bool>> where);
     }
 }

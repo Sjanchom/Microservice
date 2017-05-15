@@ -7,6 +7,7 @@ using Tops.Test.Helper;
 using TopsInterface;
 using TopsInterface.Core;
 using TopsInterface.Entities;
+using TopsInterface.Repositories;
 using Xunit;
 
 namespace Tops.Test.UnitTest
@@ -214,13 +215,9 @@ namespace Tops.Test.UnitTest
     {
     }
 
-    public interface IApoBaseRepository<T>
+    public interface IApoBaseRepository<T> : IRepository<T> where T :class
     {
-        IEnumerable<T> GetAll(IBaseResourceParameter resourceParameter);
-        T GetById(int id);
-        T Add(T entity);
-        T Update(int id, T entity);
-        bool Delete(int id);
+  
     }
 
     public interface IApoDivisionRepository : IApoBaseRepository<IApoDivisionDomain>
