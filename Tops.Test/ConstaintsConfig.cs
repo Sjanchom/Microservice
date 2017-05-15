@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Tops.Test
+﻿namespace Tops.Test
 {
-    internal class ConstaintsConfig
+    internal class CONSTAINTSCONFIG
     {
+        //public const string DIR_PATH = @"c:\Tops\";
+        public const string DIR_PATH = @"\\Mac\Home\Desktop\TopsJson\";
+
+
         public const string APO_CLASS = "ApoClass";
         public const string APO_SUBCLASS = "ApoSubClass";
         public const string APO_DEPT = "ApoDept";

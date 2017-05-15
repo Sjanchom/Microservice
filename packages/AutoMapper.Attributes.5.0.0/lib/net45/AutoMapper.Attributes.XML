@@ -1,0 +1,112 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AutoMapper.Attributes</name>
+    </assembly>
+    <members>
+        <member name="M:AutoMapper.Attributes.Extensions.MapTypes(System.Reflection.Assembly,AutoMapper.IMapperConfigurationExpression)">
+            <summary>
+            Maps all types with the MapsTo/MapsFrom attributes to the type specified in MapTo/MapFrom.
+            </summary>
+            <param name="assembly">The assembly to search for types.</param>
+            <param name="mapperConfiguration">The mapper configuration.</param>
+        </member>
+        <member name="M:AutoMapper.Attributes.Extensions.Mapptivate(AutoMapper.Attributes.Mapptribute,System.Type,System.Type,AutoMapper.IMapperConfigurationExpression,System.Type[],System.Boolean)">
+            <summary>
+            All these map puns are giving me a headache.
+            </summary>
+        </member>
+        <member name="T:AutoMapper.Attributes.Mapptribute">
+            <summary>
+            The base class for attributes that map objects to other objects using AutoMapper.
+            </summary>
+        </member>
+        <member name="P:AutoMapper.Attributes.Mapptribute.ReverseMap">
+            <summary>
+            If true, mapping will be configured in reverse as well.
+            </summary>
+        </member>
+        <member name="T:AutoMapper.Attributes.MapsFromAttribute">
+            <summary>
+            Specifies that the target class maps from the specified type. The attributed class is the target, the type specified is the source.
+            </summary>
+        </member>
+        <member name="P:AutoMapper.Attributes.MapsFromAttribute.SourceType">
+            <summary>
+            The type that the target class will be mapped to.
+            </summary>
+        </member>
+        <member name="M:AutoMapper.Attributes.MapsFromAttribute.#ctor(System.Type)">
+            <summary>
+            Creates the MapsTo attribute.
+            </summary>
+            <param name="sourceType">The type that the target class maps to.</param>
+        </member>
+        <member name="T:AutoMapper.Attributes.MapsFromPropertyAttribute">
+            <summary>
+            Specifies that the target property maps from a property from the specified type.
+            </summary>
+        </member>
+        <member name="P:AutoMapper.Attributes.MapsFromPropertyAttribute.SourceType">
+            <summary>
+            The type whose property the target property will be mapped from.
+            </summary>
+        </member>
+        <member name="P:AutoMapper.Attributes.MapsFromPropertyAttribute.PropertyName">
+            <summary>
+            The name of the property to map from.
+            </summary>
+        </member>
+        <member name="M:AutoMapper.Attributes.MapsFromPropertyAttribute.#ctor(System.Type,System.String)">
+            <summary>
+            Creates the MapsFromProperty attribute.
+            </summary>
+            <param name="sourceType">The type whose property the target property will be mapped from.</param>
+            <param name="propertyName">The name of the property to map from. Supports dot notation.</param>
+        </member>
+        <member name="T:AutoMapper.Attributes.MapsPropertyAttribute">
+            <summary>
+            Base class for mapping properties to other properties.
+            </summary>
+            <seealso cref="T:System.Attribute" />
+        </member>
+        <member name="T:AutoMapper.Attributes.MapsToAttribute">
+            <summary>
+            Specifies that the target class maps to the specified type. The attributed class is the source, the type specified is the target.
+            </summary>
+        </member>
+        <member name="P:AutoMapper.Attributes.MapsToAttribute.TargetType">
+            <summary>
+            The type that the target class will be mapped to.
+            </summary>
+        </member>
+        <member name="M:AutoMapper.Attributes.MapsToAttribute.#ctor(System.Type)">
+            <summary>
+            Creates the MapsTo attribute.
+            </summary>
+            <param name="targetType">The type that the target class maps to.</param>
+        </member>
+        <member name="T:AutoMapper.Attributes.MapsToPropertyAttribute">
+            <summary>
+            Specifies that the target property maps to a property from the specified type.
+            </summary>
+        </member>
+        <member name="P:AutoMapper.Attributes.MapsToPropertyAttribute.TargetType">
+            <summary>
+            The type whose property the target property will be mapped to.
+            </summary>
+        </member>
+        <member name="P:AutoMapper.Attributes.MapsToPropertyAttribute.PropertyName">
+            <summary>
+            The name of the property to map to.
+            </summary>
+        </member>
+        <member name="M:AutoMapper.Attributes.MapsToPropertyAttribute.#ctor(System.Type,System.String)">
+            <summary>
+            Creates the MapsToProperty attribute.
+            </summary>
+            <param name="targetType">The type whose property the target property will be mapped to.</param>
+            <param name="propertyName">The name of the property to map to. Supports dot notation.</param>
+        </member>
+    </members>
+</doc>

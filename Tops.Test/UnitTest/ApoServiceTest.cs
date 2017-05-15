@@ -111,12 +111,96 @@ namespace Tops.Test.UnitTest
             Assert.Equal(sut.Id, _apoDivision.Last().Id + 1);
         }
 
+        [Fact]
+        public void ApoDivisionServiceShouldReturnNullWhenNameIsAlreadyExist()
+        {
+            var service = new ApoDivisionService(_apoDivisionRepository);
+
+            var newApo = new ApoDivisionForCreateOrEdit()
+            {
+                Name = "food"
+            };
+
+            var sut = service.Create(newApo);
+
+            Assert.Null(sut);
+
+        }
+
+        [Fact]
+        public void ApoDivisionServiceShouldReturnCorrectValueWhenEditSuccess()
+        {
+            var service = new ApoDivisionService(_apoDivisionRepository);
+
+            var editApo = new ApoDivisionForCreateOrEdit()
+            {
+                Name = "FOOD EDIT",
+            };
+
+            var sut = service.Edit(0,editApo);
+
+            Assert.Equal(sut.Id, 0);
+            Assert.Equal(sut.Name, "FOOD EDIT");
+        }
+
+        [Fact]
+        public void ApoDivisonServiceShouldReturnNullWhenUpdateDuplicateValueButNotOwnId()
+        {
+            var service = new ApoDivisionService(_apoDivisionRepository);
+
+            var editApo = new ApoDivisionForCreateOrEdit()
+            {
+                Name = "FOOD",
+            };
+
+            var sut = service.Edit(10, editApo);
+
+            Assert.Null(sut);
+        }
+
+        [Fact]
+        public void ApoDivisionServiceShouldReturnCorrectValueWhenUpdateSameValueToSameId()
+        {
+            var service = new ApoDivisionService(_apoDivisionRepository);
+
+            var editApo = new ApoDivisionForCreateOrEdit()
+            {
+                Name = "Food",
+            };
+
+            var sut = service.Edit(0, editApo);
+
+            Assert.Equal(sut.Id, 0);
+            AssertObjects.PropertyValuesAreEquals(sut,Mapper.Map<ApoDivisionDto>(_apoDivision.Single(x => x.Id ==0)));
+        }
+
+        [Fact]
+        public void ApoDivisionShouldReturnTrueWhenDelteSuccess()
+        {
+            var service = new ApoDivisionService(_apoDivisionRepository);
+
+            var sut = service.Delete(0);
+
+            Assert.True(sut);
+        }
+
+        [Fact]
+        public void ApoDivionShouldReturnFalseWhenDeleteFailed()
+        {
+            var service = new ApoDivisionService(_apoDivisionRepository);
+
+            var sut = service.Delete(150);
+
+            Assert.False(sut);
+        }
+
 
     }
 
     public class ApoDivisionForCreateOrEdit: IApoDivisionForCreateOrEdit
     {
         public string Name { get; set; }
+        public int Id { get; set; }
     }
 
     public interface IApoDivisionForCreateOrEdit
@@ -134,12 +218,12 @@ namespace Tops.Test.UnitTest
         T GetById(int id);
         T Add(T entity);
         T Update(int id, T entity);
-        bool Edit(T item);
         bool Delete(int id);
     }
 
     public interface IApoDivisionRepository : IApoBaseRepository<IApoDivisionDomain>
     {
+        IApoDivisionDomain GetByName(IApoDivisionForCreateOrEdit item);
     }
 
 
@@ -175,18 +259,45 @@ namespace Tops.Test.UnitTest
 
         public IApoDivisionDataTranferObject Create(IApoDivisionForCreateOrEdit item)
         {
-            var mapToDomain = Mapper.Map<ApoDivisionDto>(item);
+            var mapToDomain = Mapper.Map<ApoDivisionDomain>(item);
+
+            if (_apoDivisionRepository.GetByName(item) != null)
+            {
+                return null;
+            }
+
             var apoDivisionFromRepository = _apoDivisionRepository.Add(mapToDomain);
 
             return Mapper.Map<ApoDivisionDto>(apoDivisionFromRepository);
         }
 
-        public IApoDivisionDataTranferObject Edit(IApoDivisionForCreateOrEdit item)
+        public IApoDivisionDataTranferObject Edit(int id,IApoDivisionForCreateOrEdit item)
         {
-            throw new System.NotImplementedException();
+            var mapToDomain = Mapper.Map<ApoDivisionDomain>(item);
+
+            var selectedApoDivision = _apoDivisionRepository.GetByName(item);
+
+            if (selectedApoDivision != null 
+                && selectedApoDivision.Name.ToLowerInvariant().Equals(item.Name.Trim().ToLowerInvariant())
+                && id != selectedApoDivision.Id)
+            {
+                return null;
+            }
+
+            var apoDivisionFromRepository = _apoDivisionRepository.Update(id, mapToDomain);
+
+            return Mapper.Map<ApoDivisionDto>(apoDivisionFromRepository);
+
         }
 
         public bool Delete(int id)
+        {
+            var status = _apoDivisionRepository.Delete(id);
+
+            return status;
+        }
+
+        public IApoDivisionDataTranferObject GetByName(IApoDivisionForCreateOrEdit item)
         {
             throw new System.NotImplementedException();
         }

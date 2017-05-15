@@ -139,12 +139,12 @@ namespace Tops.Test.Helper
                     resourceParameter =>
                     {
                         return apoDivision.Where(x => string.IsNullOrWhiteSpace(resourceParameter.SearchText)
-                                                      || x.Name.ToLowerInvariant().ToLowerInvariant()
+                                                      || x.Name.ToLowerInvariant()
+                                                          .ToLowerInvariant()
                                                           .Contains(resourceParameter.SearchText.ToLowerInvariant())
                                                       ||
                                                       x.Code.ToLowerInvariant()
                                                           .Contains(resourceParameter.SearchText.ToLowerInvariant()));
-
                     }));
 
             repository.Setup(x => x.GetById(It.IsAny<int>()))
@@ -160,13 +160,47 @@ namespace Tops.Test.Helper
                     dynamic maxId = apoDivision.Last().Id;
                     var nextId = Convert.ToInt32(maxId) + 1;
                     var nextCode = (Convert.ToInt32(apoDivision.Last().Code) + 1).ToString("D3");
-                    apoAddOrEdit.Id = (int)nextId;
+                    apoAddOrEdit.Id = (int) nextId;
                     apoAddOrEdit.Code = nextCode;
                     apoDivision.Add(apoAddOrEdit as ApoDivisionDomain);
 
                     return apoAddOrEdit;
                 }));
 
+            repository.Setup(x => x.GetByName(It.IsAny<IApoDivisionForCreateOrEdit>()))
+                .Returns(new Func<IApoDivisionForCreateOrEdit, IApoDivisionDomain>(apoAddOrEdit =>
+                {
+                    return apoDivision.FirstOrDefault(x => x.Name.ToLowerInvariant()
+                        .Equals(apoAddOrEdit.Name.Trim().ToLowerInvariant()));
+                }));
+
+            repository.Setup(x => x.Update(It.IsAny<int>(), It.IsAny<IApoDivisionDomain>()))
+                .Returns(new Func<int, IApoDivisionDomain, IApoDivisionDomain>((id, apoDivisionDomain) =>
+                {
+                    var apoDiv = apoDivision.SingleOrDefault(x => x.Id == id);
+
+                    if (apoDiv != null)
+                    {
+                        apoDiv.Name = apoDivisionDomain.Name;
+
+                        return apoDiv;
+                    }
+
+                    return null;
+                }));
+
+            repository.Setup(x => x.Delete(It.IsAny<int>()))
+                .Returns(new Func<int, bool>(id =>
+                {
+                    try
+                    {
+                        return apoDivision.Single(x => x.Id == id) != null;
+                    }
+                    catch (Exception e)
+                    {
+                        return false;
+                    }
+                }));
             return repository.Object;
         }
     }
