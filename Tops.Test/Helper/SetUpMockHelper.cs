@@ -205,5 +205,29 @@ namespace Tops.Test.Helper
                 }));
             return repository.Object;
         }
+
+        public static IApoGroupRepository GetApoGroupRepository()
+        {
+            var apoGroup = DataInitializer.GetApoGroup();
+
+            var repository = new Mock<IApoGroupRepository>();
+
+            repository.Setup(x => x.GetAll(It.IsAny<IApoGroupResourceParameter>()))
+                .Returns(new Func<IApoGroupResourceParameter, IQueryable<IApoGroupDomain>>(apoGroupResourceParameter =>
+                {
+                    return apoGroup.Where(x => (!apoGroupResourceParameter.ApoDivsionId.HasValue
+                                                || apoGroupResourceParameter.ApoDivsionId.Value == x.DivisionId)
+                                               && (string.IsNullOrWhiteSpace(apoGroupResourceParameter.SearchText)
+                                                   || x.Name.ToLowerInvariant()
+                                                       .Contains(
+                                                           apoGroupResourceParameter.SearchText.ToLowerInvariant())
+                                                   || x.Code.ToLowerInvariant()
+                                                       .Contains(
+                                                           apoGroupResourceParameter.SearchText.ToLowerInvariant())))
+                        .AsQueryable();
+                }));
+
+            return repository.Object;
+        }
     }
 }

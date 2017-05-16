@@ -47,7 +47,7 @@
     <Compile Include="Entities\IAttributeTypeAndValueDomain.cs" />
     <Compile Include="Entities\IBaseDomain.cs" />
     <Compile Include="Entities\IApoDivisionForCreateOrEdit.cs" />
-    <Compile Include="Entities\Interface2.cs" />
+    <Compile Include="Entities\IApoDivisionDataTranferObject.cs" />
     <Compile Include="Entities\IProductBase.cs" />
     <Compile Include="Entities\IBaseResourceParameter.cs" />
     <Compile Include="Entities\IProductDataTranferObject.cs" />

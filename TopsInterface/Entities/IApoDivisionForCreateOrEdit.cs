@@ -1,8 +1,6 @@
 ﻿namespace TopsInterface.Entities
 {
-    public interface IApoDivisionForCreateOrEdit
+    public interface IApoDivisionForCreateOrEdit:IApoBaseForCreateOrEdit
     {
-        string Name { get; set; }
-        int Id { get; set; }
     }
 }

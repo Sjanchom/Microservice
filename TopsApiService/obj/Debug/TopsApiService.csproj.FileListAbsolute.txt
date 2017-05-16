@@ -61,5 +61,3 @@
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsApiService\bin\xunit.assert.xml
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsApiService\bin\xunit.abstractions.xml
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsApiService\bin\Castle.Core.xml
-\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsApiService\bin\xunit.core.pdb
-\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsApiService\bin\xunit.assert.pdb

@@ -2,6 +2,6 @@
 {
     public interface IApoGroupDomain : IApoBaseDomain
     {
-        int ApoDivisionId { get; set; }
+        int DivisionId { get; set; }
     }
 }

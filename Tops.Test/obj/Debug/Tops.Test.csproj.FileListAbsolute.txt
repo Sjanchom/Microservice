@@ -84,7 +84,8 @@ C:\Users\Sasin\Desktop\Microservice\Tops.Test\obj\Debug\Tops.Test.pdb
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\TopsService.dll
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\TopsService.pdb
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\xunit.execution.desktop.dll
-\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\xunit.assert.pdb
-\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\xunit.core.pdb
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\xunit.execution.desktop.pdb
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\xunit.execution.desktop.xml
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\System.Runtime.InteropServices.RuntimeInformation.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\xunit.execution.dotnet.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\xunit.execution.dotnet.xml
