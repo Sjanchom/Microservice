@@ -38,7 +38,7 @@ namespace Tops.Test.UnitTest
             public string ProductDescription { get; set; }
             public int? BrandId { get; set; }
             public DateTime? CreateDate { get; set; }
-            public DateTime? UpdatedDate { get; set; }
+            public DateTime? EditDate { get; set; }
             public DateTime? LastUpdateDate { get; set; }
             public int CreateBy { get; set; }
             public int EditBy { get; set; }
@@ -69,7 +69,7 @@ namespace Tops.Test.UnitTest
             public string Name { get; set; }
             public string Code { get; set; }
             public DateTime? CreateDate { get; set; }
-            public DateTime? UpdatedDate { get; set; }
+            public DateTime? EditDate { get; set; }
             public DateTime? LastUpdateDate { get; set; }
             public int CreateBy { get; set; }
             public int EditBy { get; set; }
@@ -86,7 +86,7 @@ namespace Tops.Test.UnitTest
             public string TypeId { get; set; }
             public string ApoClass { get; set; }
             public DateTime? CreateDate { get; set; }
-            public DateTime? UpdatedDate { get; set; }
+            public DateTime? EditDate { get; set; }
             public DateTime? LastUpdateDate { get; set; }
             public int CreateBy { get; set; }
             public int EditBy { get; set; }
@@ -124,7 +124,7 @@ namespace Tops.Test.UnitTest
             public string TypeId { get; set; }
             public string ValueId { get; set; }
             public DateTime? CreateDate { get; set; }
-            public DateTime? UpdatedDate { get; set; }
+            public DateTime? EditDate { get; set; }
             public DateTime? LastUpdateDate { get; set; }
             public int CreateBy { get; set; }
             public int EditBy { get; set; }

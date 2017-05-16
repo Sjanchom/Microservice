@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Text;
 using Newtonsoft.Json;
 using Tops.Test.UnitTest;
+using TopsService.Models.Domain;
 
 namespace Tops.Test.Helper
 {

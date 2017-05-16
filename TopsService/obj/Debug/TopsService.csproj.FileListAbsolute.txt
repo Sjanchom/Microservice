@@ -1,0 +1,11 @@
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsService\obj\Debug\TopsService.csprojResolveAssemblyReference.cache
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsService\bin\Debug\TopsService.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsService\bin\Debug\TopsService.pdb
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsService\bin\Debug\AutoMapper.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsService\bin\Debug\Newtonsoft.Json.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsService\bin\Debug\TopsInterface.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsService\bin\Debug\TopsInterface.pdb
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsService\bin\Debug\AutoMapper.xml
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsService\bin\Debug\Newtonsoft.Json.xml
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsService\obj\Debug\TopsService.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsService\obj\Debug\TopsService.pdb

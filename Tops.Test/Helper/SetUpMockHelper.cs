@@ -6,10 +6,11 @@ using Tops.Test.UnitTest;
 using TopsInterface.Core;
 using TopsInterface.Entities;
 using TopsInterface.Repositories;
+using TopsService.Models.Domain;
 
 namespace Tops.Test.Helper
 {
-    internal class SetUpMockHelper
+    public class SetUpMockHelper
     {
         public static IProductRepository SetUpProductRepository()
         {
@@ -135,7 +136,7 @@ namespace Tops.Test.Helper
             var repository = new Mock<IApoDivisionRepository>();
 
             repository.Setup(x => x.GetAll(It.IsAny<IBaseResourceParameter>()))
-                .Returns(new Func<IBaseResourceParameter, IEnumerable<ApoDivisionDomain>>(
+                .Returns(new Func<IBaseResourceParameter, IQueryable<ApoDivisionDomain>>(
                     resourceParameter =>
                     {
                         return apoDivision.Where(x => string.IsNullOrWhiteSpace(resourceParameter.SearchText)
@@ -144,7 +145,8 @@ namespace Tops.Test.Helper
                                                           .Contains(resourceParameter.SearchText.ToLowerInvariant())
                                                       ||
                                                       x.Code.ToLowerInvariant()
-                                                          .Contains(resourceParameter.SearchText.ToLowerInvariant()));
+                                                          .Contains(resourceParameter.SearchText.ToLowerInvariant()))
+                                                          .AsQueryable();
                     }));
 
             repository.Setup(x => x.GetById(It.IsAny<int>()))

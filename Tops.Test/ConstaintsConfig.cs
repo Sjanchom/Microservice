@@ -3,6 +3,7 @@
     internal class CONSTAINTSCONFIG
     {
         //public const string DIR_PATH = @"c:\Tops\";
+        //public const string DIR_PATH = @"C:\inetpub\wwwroot\topsservice\TopsJson\";
         public const string DIR_PATH = @"\\Mac\Home\Desktop\TopsJson\";
 
 

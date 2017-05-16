@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
 using Tops.Test.UnitTest;
+using TopsInterface.Entities;
+using TopsService.Models.DataTranferObjects;
+using TopsService.Models.Domain;
 
 namespace Tops.Test.Helper
 {
-    class MapperHelper
+    public class MapperHelper
     {
         public static void SetUpMapper()
         {

@@ -65,7 +65,6 @@ C:\Users\Sasin\Desktop\Microservice\Tops.Test\obj\Debug\Tops.Test.pdb
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\Tops.Test.dll.config
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\Tops.Test.dll
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\Tops.Test.pdb
-\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\AutoMapper.Attributes.dll
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\AutoMapper.dll
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\Castle.Core.dll
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\Moq.dll
@@ -74,7 +73,6 @@ C:\Users\Sasin\Desktop\Microservice\Tops.Test\obj\Debug\Tops.Test.pdb
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\xunit.abstractions.dll
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\xunit.assert.dll
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\xunit.core.dll
-\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\xunit.execution.desktop.dll
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\TopsInterface.pdb
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\AutoMapper.xml
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\Castle.Core.xml
@@ -83,4 +81,5 @@ C:\Users\Sasin\Desktop\Microservice\Tops.Test\obj\Debug\Tops.Test.pdb
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\xunit.abstractions.xml
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\xunit.assert.xml
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\xunit.core.xml
-\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\xunit.execution.desktop.xml
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\TopsService.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\Tops.Test\bin\Debug\TopsService.pdb

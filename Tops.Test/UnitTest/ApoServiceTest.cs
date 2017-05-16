@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Remoting.Messaging;
 using AutoMapper;
 using Tops.Test.Helper;
 using TopsInterface;
-using TopsInterface.Core;
 using TopsInterface.Entities;
 using TopsInterface.Repositories;
+using TopsService.Models.DataTranferObjects;
+using TopsService.Models.Domain;
+using TopsService.Services;
 using Xunit;
 
 namespace Tops.Test.UnitTest
@@ -199,142 +199,4 @@ namespace Tops.Test.UnitTest
 
     }
 
-    public class ApoDivisionForCreateOrEdit: IApoDivisionForCreateOrEdit
-    {
-        public string Name { get; set; }
-        public int Id { get; set; }
-    }
-
-    public interface IApoDivisionForCreateOrEdit
-    {
-         string Name { get; set; }
-         int Id { get; set; }
-    }
-
-    public interface IApoDivisionDataTranferObject : IApoBase
-    {
-    }
-
-    public interface IApoBaseRepository<T> : IRepository<T> where T :class
-    {
-  
-    }
-
-    public interface IApoDivisionRepository : IApoBaseRepository<IApoDivisionDomain>
-    {
-        IApoDivisionDomain GetByName(IApoDivisionForCreateOrEdit item);
-    }
-
-
-    public class ApoDivisionService:IApoBaseService<IApoDivisionDataTranferObject,IApoDivisionForCreateOrEdit>
-    {
-        private IApoDivisionRepository _apoDivisionRepository;
-
-
-        public ApoDivisionService(IApoDivisionRepository apoDivisionRepository)
-        {
-            _apoDivisionRepository = apoDivisionRepository;
-        }
-
-        public PagedList<IApoDivisionDataTranferObject> GetAll(int page,int pageSize,string searchText)
-        {
-            var apoDivisionFromRepository =
-                _apoDivisionRepository.GetAll(new ResourceParamater(page, pageSize, searchText));
-
-            return PagedList<IApoDivisionDataTranferObject>.Create(Mapper.Map<List<ApoDivisionDto>>(apoDivisionFromRepository).AsQueryable(),page,pageSize);
-        }
-
-        public IApoDivisionDataTranferObject GetById(int id)
-        {
-            var apoDivisionFromRepository = _apoDivisionRepository.GetById(id);
-
-            if (apoDivisionFromRepository == null)
-            {
-                return null;
-            }
-
-            return Mapper.Map<ApoDivisionDto>(apoDivisionFromRepository);
-        }
-
-        public IApoDivisionDataTranferObject Create(IApoDivisionForCreateOrEdit item)
-        {
-            var mapToDomain = Mapper.Map<ApoDivisionDomain>(item);
-
-            if (_apoDivisionRepository.GetByName(item) != null)
-            {
-                return null;
-            }
-
-            var apoDivisionFromRepository = _apoDivisionRepository.Add(mapToDomain);
-
-            return Mapper.Map<ApoDivisionDto>(apoDivisionFromRepository);
-        }
-
-        public IApoDivisionDataTranferObject Edit(int id,IApoDivisionForCreateOrEdit item)
-        {
-            var mapToDomain = Mapper.Map<ApoDivisionDomain>(item);
-
-            var selectedApoDivision = _apoDivisionRepository.GetByName(item);
-
-            if (selectedApoDivision != null 
-                && selectedApoDivision.Name.ToLowerInvariant().Equals(item.Name.Trim().ToLowerInvariant())
-                && id != selectedApoDivision.Id)
-            {
-                return null;
-            }
-
-            var apoDivisionFromRepository = _apoDivisionRepository.Update(id, mapToDomain);
-
-            return Mapper.Map<ApoDivisionDto>(apoDivisionFromRepository);
-
-        }
-
-        public bool Delete(int id)
-        {
-            var status = _apoDivisionRepository.Delete(id);
-
-            return status;
-        }
-
-        public IApoDivisionDataTranferObject GetByName(IApoDivisionForCreateOrEdit item)
-        {
-            throw new System.NotImplementedException();
-        }
-    }
-
-    public class ApoDivisionDto: IApoDivisionDataTranferObject
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Code { get; set; }
-    }
-
-    public class ResourceParamater : IBaseResourceParameter
-    {
-        public ResourceParamater(int page, int pageSize, string searchText)
-        {
-            Page = page;
-            PageSize = pageSize;
-            SearchText = searchText;
-        }
-
-        public int Page { get; set; }
-        public int PageSize { get; set; }
-        public string SearchText { get; set; }
-    }
-
-    public class ApoDivisionDomain : IApoDivisionDomain
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Code { get; set; }
-        public DateTime? CreateDate { get; set; }
-        public DateTime? UpdatedDate { get; set; }
-        public DateTime? LastUpdateDate { get; set; }
-        public int CreateBy { get; set; }
-        public int EditBy { get; set; }
-        public int LastEditBy { get; set; }
-        public int IsActive { get; set; }
-        public string Remark { get; set; }
-    }
 }

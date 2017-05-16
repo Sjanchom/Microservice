@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TopsInterface</RootNamespace>
     <AssemblyName>TopsInterface</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -43,6 +46,8 @@
     <Compile Include="Entities\IAttributeBaseDomain.cs" />
     <Compile Include="Entities\IAttributeTypeAndValueDomain.cs" />
     <Compile Include="Entities\IBaseDomain.cs" />
+    <Compile Include="Entities\IApoDivisionForCreateOrEdit.cs" />
+    <Compile Include="Entities\Interface2.cs" />
     <Compile Include="Entities\IProductBase.cs" />
     <Compile Include="Entities\IBaseResourceParameter.cs" />
     <Compile Include="Entities\IProductDataTranferObject.cs" />
@@ -70,6 +75,8 @@
     <Compile Include="Entities\IApoGroupDomain.cs" />
     <Compile Include="Entities\IApoDivisionDomain.cs" />
     <Compile Include="Entities\IApoBaseDomain.cs" />
+    <Compile Include="Repositories\IApoDivisionRepository.cs" />
+    <Compile Include="Repositories\IApoBaseRepository.cs" />
     <Compile Include="Repositories\IUnitOfWork.cs" />
     <Compile Include="Repositories\IAttributeValueRepository.cs" />
     <Compile Include="Repositories\IProductRepository.cs" />
