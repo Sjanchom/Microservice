@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using TopsInterface;
@@ -75,14 +76,31 @@ namespace TopsService.Services
 
         public bool Delete(int id)
         {
-            var status = _apoDivisionRepository.Delete(id);
+            if (_apoDivisionRepository.GetById(id) == null)
+                return false;
+            try
+            {
+                var status = _apoDivisionRepository.Delete(id);
+                return status;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
 
-            return status;
         }
 
         public IApoDivisionDataTranferObject GetByName(IApoDivisionForCreateOrEdit item)
         {
-            throw new System.NotImplementedException();
+
+            var selectedApoDivision = _apoDivisionRepository.GetByName(item);
+
+            if (selectedApoDivision == null)
+            {
+                return null;
+            }
+
+            return Mapper.Map<ApoDivisionDto>(selectedApoDivision);
         }
     }
 

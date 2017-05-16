@@ -34,7 +34,7 @@ namespace Tops.Test.UnitTest
             Assert.Equal(sut.CurrentPage,1);
             Assert.Equal(sut.HasNext,true);
             Assert.Equal(sut.HasPrevious,false);
-            Assert.True(sut.Count() <= 5);
+            Assert.True(sut.List.Count() <= 5);
             Assert.IsType<PagedList<IApoDivisionDataTranferObject>>(sut);
         }
 
@@ -47,7 +47,7 @@ namespace Tops.Test.UnitTest
 
            
             Assert.IsType<PagedList<IApoDivisionDataTranferObject>>(sut);
-            Assert.Equal(sut.Count,0);
+            Assert.Equal(sut.List.Count,0);
         }
 
         [Fact]
@@ -59,8 +59,8 @@ namespace Tops.Test.UnitTest
 
 
             Assert.IsType<PagedList<IApoDivisionDataTranferObject>>(sut);
-            Assert.True(sut.All(x => x.Code.Contains("Food") || x.Name.Contains("Food")));
-            Assert.Equal(sut.Count, _apoDivision.Count(x => x.Code.ToLowerInvariant().Contains("Food".ToLowerInvariant()) 
+            Assert.True(sut.List.All(x => x.Code.Contains("Food") || x.Name.Contains("Food")));
+            Assert.Equal(sut.List.Count, _apoDivision.Count(x => x.Code.ToLowerInvariant().Contains("Food".ToLowerInvariant()) 
             || x.Name.ToLowerInvariant().Contains("Food".ToLowerInvariant())));
         }
 
@@ -73,7 +73,7 @@ namespace Tops.Test.UnitTest
 
 
             Assert.IsType<PagedList<IApoDivisionDataTranferObject>>(sut);
-            Assert.Equal(sut.Count, 0);
+            Assert.Equal(sut.List.Count, 0);
         }
 
         [Fact]
@@ -196,6 +196,24 @@ namespace Tops.Test.UnitTest
             Assert.False(sut);
         }
 
+        [Fact]
+        public void ApoDivisionShouldReturnCorrectvaluewhenSearchByName()
+        {
+            var service = new ApoDivisionService(_apoDivisionRepository);
+
+            var searchObj = new ApoDivisionForCreateOrEdit()
+            {
+                Name = "Food"
+            };
+
+            var sut = service.GetByName(searchObj);
+
+            var shouldEqual = _apoDivision.Single(x => x.Name.Equals(searchObj.Name));
+
+
+            AssertObjects.PropertyValuesAreEquals(sut,Mapper.Map<ApoDivisionDto>(shouldEqual));
+
+        }
 
     }
 

@@ -148,7 +148,7 @@ namespace Tops.Test.UnitTest
 
             var sut = service.GetAll(1, 20, "", "");
 
-            Assert.True(sut.Count <= 20);
+            Assert.True(sut.List.Count <= 20);
         }
 
         [Fact]
@@ -173,10 +173,10 @@ namespace Tops.Test.UnitTest
 
             var sut = service.GetAll(1, 5, "45020001", "อันอัน");
 
-            Assert.True(sut.Count > 0);
-            Assert.True(sut.All(x => x.ApoClassCode == "45020001"));
+            Assert.True(sut.List.Count > 0);
+            Assert.True(sut.List.All(x => x.ApoClassCode == "45020001"));
             Assert.True(
-                sut.All(
+                sut.List.All(
                     x =>
                         x.ApoClassCode.ToString().Contains("อันอัน".ToUpperInvariant()) ||
                         x.ProductName.ToUpperInvariant().Contains("อันอัน".ToUpperInvariant())));
@@ -247,7 +247,7 @@ namespace Tops.Test.UnitTest
 
             var sut = service.GetAll(1, 20, "", "dfsfsdgsgsdg");
 
-            Assert.True(sut.Count == 0);
+            Assert.True(sut.List.Count == 0);
         }
 
         [Fact]
