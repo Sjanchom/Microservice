@@ -6,19 +6,22 @@ using TopsInterface;
 using TopsInterface.Core;
 using TopsInterface.Entities;
 using TopsInterface.Repositories;
-using TopsService.Models.DataTranferObjects;
-using TopsService.Models.Domain;
+
+using TopsShareClass.Models.DataTranferObjects;
+using TopsShareClass.Models.Domain;
 
 namespace TopsService.Services
 {
     public class ApoDivisionService : IApoBaseService<IApoDivisionDataTranferObject, IApoDivisionForCreateOrEdit>
     {
-        private IApoDivisionRepository _apoDivisionRepository;
+        private readonly IApoDivisionRepository _apoDivisionRepository;
+        private readonly IApoGroupService _apoGroupService;
 
 
-        public ApoDivisionService(IApoDivisionRepository apoDivisionRepository)
+        public ApoDivisionService(IApoDivisionRepository apoDivisionRepository, IApoGroupService apoGroupService)
         {
             _apoDivisionRepository = apoDivisionRepository;
+            _apoGroupService = apoGroupService;
         }
 
         public PagedList<IApoDivisionDataTranferObject> GetAll(int page, int pageSize, string searchText)
@@ -47,7 +50,7 @@ namespace TopsService.Services
 
             if (_apoDivisionRepository.GetByName(item) != null)
             {
-                return null;
+                throw new ArgumentException($"Name {item.Name} is Already exist.");
             }
 
             var apoDivisionFromRepository = _apoDivisionRepository.Add(mapToDomain);
@@ -65,7 +68,7 @@ namespace TopsService.Services
                 && selectedApoDivision.Name.ToLowerInvariant().Equals(item.Name.Trim().ToLowerInvariant())
                 && id != selectedApoDivision.Id)
             {
-                return null;
+                throw new ArgumentException($"Name {item.Name} is Already exist.");
             }
 
             var apoDivisionFromRepository = _apoDivisionRepository.Update(id, mapToDomain);
@@ -78,6 +81,14 @@ namespace TopsService.Services
         {
             if (_apoDivisionRepository.GetById(id) == null)
                 return false;
+
+            var listOfChildHierachy = _apoGroupService.GetApoGroupByApoDivision(id);
+
+            if (listOfChildHierachy.Any())
+            {
+                throw new InvalidOperationException($"Id :{id} has child hierachy.");
+            }
+
             try
             {
                 var status = _apoDivisionRepository.Delete(id);
@@ -85,7 +96,7 @@ namespace TopsService.Services
             }
             catch (Exception)
             {
-                return false;
+                throw new InvalidOperationException($"Delete not Success with Internal Error");
             }
 
         }

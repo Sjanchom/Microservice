@@ -1,6 +1,4 @@
 ﻿using TopsInterface.Entities;
-using TopsService.Models.DataTranferObjects;
-using TopsService.Models.Domain;
 
 namespace TopsService.Helper
 {

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Moq;
 using Tops.Test.UnitTest;
 using TopsInterface.Core;
 using TopsInterface.Entities;
 using TopsInterface.Repositories;
-using TopsService.Models.Domain;
+using TopsShareClass.Models.Domain;
 
 namespace Tops.Test.Helper
 {
@@ -146,13 +147,14 @@ namespace Tops.Test.Helper
                                                       ||
                                                       x.Code.ToLowerInvariant()
                                                           .Contains(resourceParameter.SearchText.ToLowerInvariant()))
+                                                          .Where(x => x.IsActive == 1)
                                                           .AsQueryable();
                     }));
 
             repository.Setup(x => x.GetById(It.IsAny<int>()))
                 .Returns(new Func<int, IApoDivisionDomain>(id =>
                 {
-                    return apoDivision.SingleOrDefault(x => x.Id == id);
+                    return apoDivision.SingleOrDefault(x => x.Id == id && x.IsActive == 1);
                 }));
 
 
@@ -161,7 +163,7 @@ namespace Tops.Test.Helper
                 {
                     dynamic maxId = apoDivision.Last().Id;
                     var nextId = Convert.ToInt32(maxId) + 1;
-                    var nextCode = (Convert.ToInt32(apoDivision.Last().Code) + 1).ToString("D3");
+                    var nextCode = (Convert.ToInt32(apoDivision.Last().Code) + 1).ToString("D2");
                     apoAddOrEdit.Id = (int) nextId;
                     apoAddOrEdit.Code = nextCode;
                     apoDivision.Add(apoAddOrEdit as ApoDivisionDomain);
@@ -225,6 +227,86 @@ namespace Tops.Test.Helper
                                                        .Contains(
                                                            apoGroupResourceParameter.SearchText.ToLowerInvariant())))
                         .AsQueryable();
+                }));
+
+            repository.Setup(x => x.GetById(It.IsAny<int>()))
+                .Returns(new Func<int, IApoGroupDomain>(id =>
+                {
+                    return apoGroup.SingleOrDefault(x => x.Id == id);
+                } ));
+
+
+            repository.Setup(x => x.Add(It.IsAny<IApoGroupDomain>()))
+                .Returns(new Func<IApoGroupDomain, IApoGroupDomain>(apoAddOrEdit =>
+                {
+                    dynamic maxId = apoGroup.Last().Id;
+                    var nextId = Convert.ToInt32(maxId) + 1;
+                    var nextCode = (Convert.ToInt32(apoGroup.Last().Code) + 1).ToString("D2");
+                    apoAddOrEdit.Id = (int)nextId;
+                    apoAddOrEdit.Code = nextCode;
+                    apoGroup.Add(apoAddOrEdit as ApoGroupDomain);
+
+                    return apoAddOrEdit;
+                }));
+
+            repository.Setup(x => x.GetByName(It.IsAny<IApoGroupForCreateOrEdit>()))
+                .Returns(new Func<IApoGroupForCreateOrEdit, ApoGroupDomain>(apoAddOrEdit =>
+                {
+                    return apoGroup.FirstOrDefault(x => x.Name.ToLowerInvariant()
+                        .Equals(apoAddOrEdit.Name.Trim().ToLowerInvariant()));
+                }));
+
+
+            repository.Setup(x => x.Update(It.IsAny<int>(), It.IsAny<IApoGroupDomain>()))
+                .Returns(new Func<int, IApoGroupDomain, IApoGroupDomain>((id, apoDivisionDomain) =>
+                {
+                    var apoDiv = apoGroup.SingleOrDefault(x => x.Id == id);
+
+                    if (apoDiv != null)
+                    {
+                        apoDiv.Name = apoDivisionDomain.Name;
+
+                        return apoDiv;
+                    }
+
+                    return null;
+                }));
+
+            repository.Setup(x => x.Delete(It.IsAny<int>()))
+                .Returns(new Func<int, bool>(id =>
+                {
+                    try
+                    {
+                        return apoGroup.Single(x => x.Id == id) != null;
+                    }
+                    catch (Exception e)
+                    {
+                        return false;
+                    }
+                }));
+
+            repository.Setup(x => x.GetByApoDivision(It.IsAny<int>()))
+                .Returns(new Func<int, IQueryable<IApoGroupDomain>>(id =>
+                {
+                    return apoGroup.Where(x => x.DivisionId == id).AsQueryable();
+                }));
+
+            return repository.Object;
+        }
+
+        public static IApoGroupService GetApoGroupService()
+        {
+            var apoGroup = DataInitializer.GetApoGroup();
+
+            var repository = new Mock<IApoGroupService>();
+
+
+            repository.Setup(x => x.GetApoGroupByApoDivision(It.IsAny<int>()))
+                .Returns(new Func<int, IEnumerable<IApoGroupDataTranferObject>>(id =>
+                {
+                    var list = apoGroup.Where(x => x.DivisionId == id);
+                    return Mapper.Map<List<ApoGroupDto>>(list);
+
                 }));
 
             return repository.Object;

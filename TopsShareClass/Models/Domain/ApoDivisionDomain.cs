@@ -1,7 +1,7 @@
 ﻿using System;
 using TopsInterface.Entities;
 
-namespace TopsService.Models.Domain
+namespace TopsShareClass.Models.Domain
 {
 
     public class ApoDivisionDomain : IApoDivisionDomain

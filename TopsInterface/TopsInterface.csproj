@@ -42,7 +42,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\IApoGroupService.cs" />
+    <Compile Include="Entities\IApoGroupDataTranferObject.cs" />
+    <Compile Include="Entities\IApoGroupForCreateOrEdit.cs" />
+    <Compile Include="Entities\IApoGroupResourceParameter.cs" />
     <Compile Include="Entities\IApoBase.cs" />
+    <Compile Include="Entities\IApoBaseForCreateOrEdit.cs" />
     <Compile Include="Entities\IAttributeBaseDomain.cs" />
     <Compile Include="Entities\IAttributeTypeAndValueDomain.cs" />
     <Compile Include="Entities\IBaseDomain.cs" />

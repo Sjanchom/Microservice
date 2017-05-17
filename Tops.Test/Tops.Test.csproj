@@ -112,6 +112,10 @@
       <Project>{1cd28957-71e4-476b-91a7-d0534e53e10d}</Project>
       <Name>TopsService</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TopsShareClass\TopsShareClass.csproj">
+      <Project>{f61bafef-29e8-46e9-8962-962c9b8d71db}</Project>
+      <Name>TopsShareClass</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

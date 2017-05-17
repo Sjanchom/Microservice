@@ -1,6 +1,6 @@
 ﻿using TopsInterface.Entities;
 
-namespace TopsService.Models.DataTranferObjects
+namespace TopsShareClass.Models.DataTranferObjects
 {
     public class ResourceParamater : IBaseResourceParameter
     {

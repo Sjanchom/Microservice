@@ -50,10 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helper\MapperHelper.cs" />
-    <Compile Include="Models\DataTranferObjects\ApoDivisionForCreateOrEdit.cs" />
-    <Compile Include="Models\DataTranferObjects\ApoDivisionDto.cs" />
-    <Compile Include="Models\DataTranferObjects\ResourceParamater.cs" />
-    <Compile Include="Models\Domain\ApoDivisionDomain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ApoDivisionService.cs" />
   </ItemGroup>
@@ -62,8 +58,14 @@
       <Project>{7631f6de-6f35-405c-93ca-6e881962c135}</Project>
       <Name>TopsInterface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TopsShareClass\TopsShareClass.csproj">
+      <Project>{f61bafef-29e8-46e9-8962-962c9b8d71db}</Project>
+      <Name>TopsShareClass</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Models\DataTranferObjects\" />
+    <Folder Include="Models\Domain\" />
     <Folder Include="Persistence\" />
   </ItemGroup>
   <ItemGroup>

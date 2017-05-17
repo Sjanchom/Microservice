@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using Tops.Test.UnitTest;
 using TopsInterface.Entities;
-using TopsService.Models.DataTranferObjects;
-using TopsService.Models.Domain;
+using TopsShareClass.Models.DataTranferObjects;
+using TopsShareClass.Models.Domain;
 
 namespace Tops.Test.Helper
 {
@@ -24,6 +24,13 @@ namespace Tops.Test.Helper
 
 
                 cfg.CreateMap<ApoGroupDomain, ApoGroupDto>().ReverseMap();
+                cfg.CreateMap<IApoGroupForCreateOrEdit, ApoGroupDto>()
+                .ForMember(dest => dest.DivisionId,opt => opt.MapFrom(src => src.ApoDivisionId))
+                .ReverseMap();
+                cfg.CreateMap<IApoGroupForCreateOrEdit, ApoGroupDomain>().ReverseMap();
+                cfg.CreateMap<IApoGroupDataTranferObject, ApoDivisionDomain>().ReverseMap();
+
+
 
                 //cfg.CreateMap<Entities.Author, Models.AuthorDto>()
                 //    .ForMember(dest => dest.Name, opt => opt.MapFrom(src =>
