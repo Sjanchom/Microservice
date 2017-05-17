@@ -8,6 +8,7 @@ using TopsInterface.Core;
 using TopsInterface.Entities;
 using TopsInterface.Repositories;
 using TopsShareClass.Models.Domain;
+using TopsShareClass.Models.DataTranferObjects;
 
 namespace Tops.Test.Helper
 {
@@ -205,6 +206,9 @@ namespace Tops.Test.Helper
                         return false;
                     }
                 }));
+
+            repository.Setup(x => x.GetAll())
+                .Returns(new Func<IEnumerable<IApoDivisionDomain>>(() => apoDivision.ToList()));
             return repository.Object;
         }
 
@@ -291,6 +295,9 @@ namespace Tops.Test.Helper
                     return apoGroup.Where(x => x.DivisionId == id).AsQueryable();
                 }));
 
+            repository.Setup(x => x.GetAll())
+                .Returns(new Func<IEnumerable<IApoGroupDomain>>(() => apoGroup.ToList()));
+
             return repository.Object;
         }
 
@@ -309,6 +316,17 @@ namespace Tops.Test.Helper
 
                 }));
 
+            return repository.Object;
+        }
+
+        public static IApoDivisionService GetApoDivisionService()
+        {
+            var apoDivisions = DataInitializer.GetApoDivisions();
+
+            var repository = new Mock<IApoGroupService>();
+
+
+           
             return repository.Object;
         }
     }

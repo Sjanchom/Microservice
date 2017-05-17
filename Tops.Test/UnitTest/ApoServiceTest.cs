@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
@@ -22,6 +21,7 @@ namespace Tops.Test.UnitTest
         private readonly List<ApoDivisionDomain> _apoDivision;
         private readonly List<ApoGroupDomain> _apoGroup;
         private readonly IApoGroupService _apoGroupService;
+        private readonly IApoDivisionService _apoDivisionService;
 
         public ApoServiceTest()
         {
@@ -31,6 +31,7 @@ namespace Tops.Test.UnitTest
             _apoGroupRepository = SetUpMockHelper.GetApoGroupRepository();
             _apoGroup = DataInitializer.GetApoGroup();
             _apoGroupService = SetUpMockHelper.GetApoGroupService();
+            _apoDivisionService = SetUpMockHelper.GetApoDivisionService();
         }
 
         #region ApoDivision
@@ -267,6 +268,19 @@ namespace Tops.Test.UnitTest
 
         }
 
+
+        [Fact]
+        public void ApoDivisionServiceShouldReturnAllItem()
+        {
+            var service = new ApoDivisionService(_apoDivisionRepository,_apoGroupService);
+
+            var sut = service.GetAll();
+
+            Assert.IsType<List<ApoDivisionDto>>(sut);
+            Assert.Equal(sut.Count(), _apoDivision.Count());
+
+        }
+
         #endregion
 
 
@@ -286,6 +300,7 @@ namespace Tops.Test.UnitTest
             Assert.Equal(sut.HasPrevious, false);
             Assert.True(sut.List.Count() <= 10);
             Assert.IsType<PagedList<IApoGroupDataTranferObject>>(sut);
+            Assert.True(sut.List.All(x => x.DivisionName.Equals(_apoDivision.Single(a => a.Id == x.DivisionId).Name)));
         }
 
         [Fact]
@@ -303,6 +318,8 @@ namespace Tops.Test.UnitTest
             Assert.True(sut.List.Count() <= 10);
             Assert.IsType<PagedList<IApoGroupDataTranferObject>>(sut);
             Assert.True(sut.List.All(x => x.DivisionId == parameter.ApoDivsionId));
+            Assert.True(sut.List.All(x => x.DivisionName.Equals(_apoDivision.Single(a => a.Id == x.DivisionId).Name)));
+
 
         }
 
@@ -431,7 +448,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupServiceShouldReturnCorrectValueWhenUpdateSameValueToSameId()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new TopsService.Services.ApoGroupService(_apoGroupRepository);
 
             var editApo = new ApoGroupForCreateOrUpdate()
             {
@@ -483,6 +500,18 @@ namespace Tops.Test.UnitTest
 
         }
 
+        [Fact]
+        public void ApoGroupServiceShouldReturnAllItem()
+        {
+            var service = new ApoGroupService(_apoGroupRepository);
+
+            var sut = service.GetAll();
+
+            Assert.IsType<List<ApoGroupDto>>(sut);
+            Assert.Equal(sut.Count(),_apoGroup.Count());
+
+        }
+
 
 
         #endregion
@@ -491,176 +520,4 @@ namespace Tops.Test.UnitTest
 
     }
 
-    public class ApoGroupForCreateOrUpdate : IApoGroupForCreateOrEdit
-    {
-        public string Name { get; set; }
-        public int Id { get; set; }
-        public int ApoDivisionId { get; set; }
-    }
-
-    public class ApoGroupDomain : IApoGroupDomain
-    {
-        public DateTime? CreateDate { get; set; }
-        public DateTime? EditDate { get; set; }
-        public DateTime? LastUpdateDate { get; set; }
-        public int CreateBy { get; set; }
-        public int EditBy { get; set; }
-        public int LastEditBy { get; set; }
-        public int IsActive { get; set; }
-        public string Remark { get; set; }
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Code { get; set; }
-        public int DivisionId { get; set; }
-    }
-
-    public class ApoGroupResourceParameter : IApoGroupResourceParameter
-    {
-        public ApoGroupResourceParameter(int page, int pageSize, int? apoDivisionId, string searchText)
-        {
-            Page = page;
-            PageSize = pageSize;
-            ApoDivsionId = apoDivisionId;
-            SearchText = searchText;
-        }
-
-        public int Page { get; set; }
-        public int PageSize { get; set; }
-        public string SearchText { get; set; }
-        public int? ApoDivsionId { get; set; }
-    }
-
-   
-
-  
-
- 
-
-  
-
-
-    public class ApoGroupService : IApoGroupService
-    {
-        private readonly IApoGroupRepository _apoGroupRepository;
-
-        public ApoGroupService(IApoGroupRepository apoGroupGroupRepository)
-        {
-            _apoGroupRepository = apoGroupGroupRepository;
-        }
-
-        public PagedList<IApoGroupDataTranferObject> GetAll(IApoGroupResourceParameter apoGroupResourceParameter)
-        {
-            var apoGroupFromRepository = _apoGroupRepository.GetAll(apoGroupResourceParameter);
-
-            var mapDomainToDto = Mapper.Map<List<ApoGroupDto>>(apoGroupFromRepository);
-
-            return PagedList<IApoGroupDataTranferObject>.Create(mapDomainToDto.AsQueryable(), apoGroupResourceParameter.Page,
-                apoGroupResourceParameter.PageSize);
-        }
-
-        public IEnumerable<IApoGroupDataTranferObject> GetApoGroupByApoDivision(int id)
-        {
-            var apoGroupFromRepository = _apoGroupRepository.GetByApoDivision(id);
-
-            var mapDomainToDto = Mapper.Map<List<ApoGroupDto>>(apoGroupFromRepository);
-
-            return mapDomainToDto;
-        }
-
-        public PagedList<IApoGroupDataTranferObject> GetAll(int page, int pageSize, string searchText)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public IApoGroupDataTranferObject GetById(int id)
-        {
-            var apoGroupFromRepository = _apoGroupRepository.GetById(id);
-
-            if (apoGroupFromRepository == null)
-            {
-                return null;
-            }
-
-            return Mapper.Map<ApoGroupDto>(apoGroupFromRepository);
-        }
-
-        public IApoGroupDataTranferObject Create(IApoGroupForCreateOrEdit item)
-        {
-            var mapToDomain = Mapper.Map<ApoGroupDomain>(item);
-
-
-            if (_apoGroupRepository.GetByName(item) != null)
-            {
-                throw new ArgumentException($"Name {item.Name} is Already exist.");
-            }
-
-            var apoGroupFromRepository = _apoGroupRepository.Add(mapToDomain);
-
-            return Mapper.Map<ApoGroupDto>(apoGroupFromRepository);
-        }
-
-        public IApoGroupDataTranferObject Edit(int id, IApoGroupForCreateOrEdit item)
-        {
-            var mapToDomain = Mapper.Map<ApoGroupDomain>(item);
-
-            var selectedApoDivision = _apoGroupRepository.GetByName(item);
-
-            if (selectedApoDivision != null
-                && selectedApoDivision.Name.ToLowerInvariant().Equals(item.Name.Trim().ToLowerInvariant())
-                && id != selectedApoDivision.Id)
-            {
-                throw new ArgumentException($"Name {item.Name} is Already exist.");
-            }
-
-            var apoDivisionFromRepository = _apoGroupRepository.Update(id, mapToDomain);
-
-            return Mapper.Map<ApoGroupDto>(apoDivisionFromRepository);
-        }
-
-        public bool Delete(int id)
-        {
-            if (_apoGroupRepository.GetById(id) == null)
-                return false;
-            try
-            {
-                var status = _apoGroupRepository.Delete(id);
-                return status;
-            }
-            catch (Exception)
-            {
-                throw new InvalidOperationException($"Delete not Success with Internal Error");
-            }
-        }
-
-        public IApoGroupDataTranferObject GetByName(IApoGroupForCreateOrEdit item)
-        {
-            var selectedApoDivision = _apoGroupRepository.GetByName(item);
-
-            if (selectedApoDivision == null)
-            {
-                return null;
-            }
-
-            return Mapper.Map<ApoGroupDto>(selectedApoDivision);
-        }
-
-       
-    }
-
-    public class ApoGroupDto : IApoGroupDataTranferObject
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Code { get; set; }
-        public int IsActive { get; set; }
-        public int DivisionId { get; set; }
-    }
-    
-
-    public interface IApoGroupRepository : IApoBaseRepository<IApoGroupDomain>
-    {
-        IQueryable<IApoGroupDomain> GetAll(IApoGroupResourceParameter resourceParameters);
-        ApoGroupDomain GetByName(IApoGroupForCreateOrEdit item);
-        IQueryable<IApoGroupDomain> GetByApoDivision(int id);
-    }
 }

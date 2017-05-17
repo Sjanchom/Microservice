@@ -12,7 +12,9 @@ using TopsShareClass.Models.Domain;
 
 namespace TopsService.Services
 {
-    public class ApoDivisionService : IApoBaseService<IApoDivisionDataTranferObject, IApoDivisionForCreateOrEdit>
+ 
+
+    public class ApoDivisionService : IApoDivisionService
     {
         private readonly IApoDivisionRepository _apoDivisionRepository;
         private readonly IApoGroupService _apoGroupService;
@@ -112,6 +114,13 @@ namespace TopsService.Services
             }
 
             return Mapper.Map<ApoDivisionDto>(selectedApoDivision);
+        }
+
+        public IEnumerable<IApoDivisionDataTranferObject> GetAll()
+        {
+            var selectedApoDivision = _apoDivisionRepository.GetAll();
+
+            return Mapper.Map<IEnumerable<ApoDivisionDto>>(selectedApoDivision);
         }
     }
 

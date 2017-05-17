@@ -9,7 +9,6 @@
 \\Mac\Home\Documents\Microservice\TopsInterface\obj\Debug\TopsInterface.pdb
 C:\Users\Sasin\Desktop\Microservice\TopsInterface\bin\Debug\TopsInterface.dll
 C:\Users\Sasin\Desktop\Microservice\TopsInterface\bin\Debug\TopsInterface.pdb
-C:\Users\Sasin\Desktop\Microservice\TopsInterface\obj\Debug\TopsInterface.csprojResolveAssemblyReference.cache
 C:\Users\Sasin\Desktop\Microservice\TopsInterface\obj\Debug\TopsInterface.dll
 C:\Users\Sasin\Desktop\Microservice\TopsInterface\obj\Debug\TopsInterface.pdb
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsInterface\bin\Debug\TopsInterface.dll

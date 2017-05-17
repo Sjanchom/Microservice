@@ -11,3 +11,16 @@
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsService\obj\Debug\TopsService.pdb
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsService\bin\Debug\TopsShareClass.dll
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsService\bin\Debug\TopsShareClass.pdb
+C:\Users\Sasin\Desktop\Microservice\TopsService\bin\Debug\TopsService.dll
+C:\Users\Sasin\Desktop\Microservice\TopsService\bin\Debug\TopsService.pdb
+C:\Users\Sasin\Desktop\Microservice\TopsService\bin\Debug\AutoMapper.dll
+C:\Users\Sasin\Desktop\Microservice\TopsService\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Sasin\Desktop\Microservice\TopsService\bin\Debug\TopsInterface.dll
+C:\Users\Sasin\Desktop\Microservice\TopsService\bin\Debug\TopsShareClass.dll
+C:\Users\Sasin\Desktop\Microservice\TopsService\bin\Debug\TopsInterface.pdb
+C:\Users\Sasin\Desktop\Microservice\TopsService\bin\Debug\TopsShareClass.pdb
+C:\Users\Sasin\Desktop\Microservice\TopsService\bin\Debug\AutoMapper.xml
+C:\Users\Sasin\Desktop\Microservice\TopsService\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Sasin\Desktop\Microservice\TopsService\obj\Debug\TopsService.csprojResolveAssemblyReference.cache
+C:\Users\Sasin\Desktop\Microservice\TopsService\obj\Debug\TopsService.dll
+C:\Users\Sasin\Desktop\Microservice\TopsService\obj\Debug\TopsService.pdb

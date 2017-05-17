@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\IApoDivisionService.cs" />
     <Compile Include="Core\IApoGroupService.cs" />
     <Compile Include="Entities\IApoGroupDataTranferObject.cs" />
     <Compile Include="Entities\IApoGroupForCreateOrEdit.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Entities\IApoGroupDomain.cs" />
     <Compile Include="Entities\IApoDivisionDomain.cs" />
     <Compile Include="Entities\IApoBaseDomain.cs" />
+    <Compile Include="Repositories\IApoGroupRepository.cs" />
     <Compile Include="Repositories\IApoDivisionRepository.cs" />
     <Compile Include="Repositories\IApoBaseRepository.cs" />
     <Compile Include="Repositories\IUnitOfWork.cs" />

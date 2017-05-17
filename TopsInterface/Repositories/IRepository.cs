@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using TopsInterface.Entities;
@@ -17,6 +18,7 @@ namespace TopsInterface.Repositories
         T Get(Expression<Func<T, bool>> where);
 
         IQueryable<T> GetAll(IBaseResourceParameter resourceParameters);
+        IEnumerable<T> GetAll();
         IQueryable<T> GetMany(Expression<Func<T, bool>> where);
     }
 }

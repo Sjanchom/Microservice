@@ -52,6 +52,7 @@
     <Compile Include="Helper\MapperHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ApoDivisionService.cs" />
+    <Compile Include="Services\ApoGroupService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TopsInterface\TopsInterface.csproj">

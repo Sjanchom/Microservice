@@ -5,3 +5,10 @@
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsShareClass\bin\Debug\TopsInterface.pdb
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsShareClass\obj\Debug\TopsShareClass.dll
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsShareClass\obj\Debug\TopsShareClass.pdb
+C:\Users\Sasin\Desktop\Microservice\TopsShareClass\bin\Debug\TopsShareClass.dll
+C:\Users\Sasin\Desktop\Microservice\TopsShareClass\bin\Debug\TopsShareClass.pdb
+C:\Users\Sasin\Desktop\Microservice\TopsShareClass\bin\Debug\TopsInterface.dll
+C:\Users\Sasin\Desktop\Microservice\TopsShareClass\bin\Debug\TopsInterface.pdb
+C:\Users\Sasin\Desktop\Microservice\TopsShareClass\obj\Debug\TopsShareClass.csprojResolveAssemblyReference.cache
+C:\Users\Sasin\Desktop\Microservice\TopsShareClass\obj\Debug\TopsShareClass.dll
+C:\Users\Sasin\Desktop\Microservice\TopsShareClass\obj\Debug\TopsShareClass.pdb

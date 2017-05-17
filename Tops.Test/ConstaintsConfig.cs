@@ -1,10 +1,13 @@
-﻿namespace Tops.Test
+﻿using System;
+using System.Collections.Generic;
+
+namespace Tops.Test
 {
     internal class CONSTAINTSCONFIG
     {
         //public const string DIR_PATH = @"c:\Tops\";
         //public const string DIR_PATH = @"C:\inetpub\wwwroot\topsservice\TopsJson\";
-        public const string DIR_PATH = @"\\Mac\Home\Desktop\TopsJson\";
+        public static  List<string> DIR_PATH = new List<string> { @"\\Mac\Home\Desktop\TopsJson\", @"C:\inetpub\wwwroot\topsservice\TopsJson\", @"c:\Tops\" } ;
 
 
         public const string APO_CLASS = "ApoClass";
