@@ -288,7 +288,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupShouldReturnCorrectValueWhenGetAll()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var parameter = new ApoGroupResourceParameter(1, 10, null, "");
 
@@ -306,7 +306,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupShouldReturnCorrectCriteriaWhenGivenDivision()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var parameter = new ApoGroupResourceParameter(1, 10, 1, "");
 
@@ -318,7 +318,7 @@ namespace Tops.Test.UnitTest
             Assert.True(sut.List.Count() <= 10);
             Assert.IsType<PagedList<IApoGroupDataTranferObject>>(sut);
             Assert.True(sut.List.All(x => x.DivisionId == parameter.ApoDivsionId));
-            Assert.True(sut.List.All(x => x.DivisionName.Equals(_apoDivision.Single(a => a.Id == x.DivisionId).Name)));
+            Assert.True(sut.List.All(x => x.DivisionName.Equals(_apoDivision.SingleOrDefault(a => a.Id == x.DivisionId)?.Name)));
 
 
         }
@@ -326,7 +326,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupReturnCorrectValueWhenSearchText()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var parameter = new ApoGroupResourceParameter(1,5,1, "Tobacco");
 
@@ -340,7 +340,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupReturnNullWhenGivenNoExistValue()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var parameter = new ApoGroupResourceParameter(1, 5, 1, "Tobacasdasdco");
 
@@ -353,18 +353,21 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupReturnCorrectObjectWhenAssignCorrectId()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
 
             var sut = service.GetById(10);
 
-            AssertObjects.PropertyValuesAreEquals(sut,Mapper.Map<ApoGroupDto>(_apoGroup.Single(x => x.Id == 10)));
+            var compareObj = Mapper.Map<ApoGroupDto>(_apoGroup.Single(x => x.Id == 10));
+            compareObj.DivisionName = _apoDivision.Single(x => x.Id == compareObj.DivisionId).Name;
+
+            AssertObjects.PropertyValuesAreEquals(sut, compareObj);
         }
 
         [Fact]
         public void ApoGroupShouldReturnNullWhenIdIsNotExistInDatabase()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var sut = service.GetById(100);
 
@@ -374,7 +377,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupSouldReturnCreatedApoWhenCreateSuccess()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var createdApoGroup = new ApoGroupForCreateOrUpdate()
             {
@@ -385,6 +388,7 @@ namespace Tops.Test.UnitTest
             var compareEqualObject = Mapper.Map<ApoGroupDto>(createdApoGroup);
             compareEqualObject.Code = nextCode;
             compareEqualObject.Id = _apoGroup.Last().Id + 1;
+            compareEqualObject.DivisionName = _apoDivision.Single(x => x.Id == compareEqualObject.DivisionId).Name;
 
             var sut = service.Create(createdApoGroup);
 
@@ -395,7 +399,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupSouldReturnErrorWhenCreateAlreadyExistValue()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var createdApoGroup = new ApoGroupForCreateOrUpdate()
             {
@@ -413,7 +417,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupServiceShouldReturnCorrectValueWhenEditSuccess()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var updateApo = new ApoGroupForCreateOrUpdate()
             {
@@ -429,7 +433,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupServiceShouldReturnNullWhenUpdateDuplicateValueButNotOwnId()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var editApo = new ApoGroupForCreateOrUpdate()
             {
@@ -448,7 +452,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupServiceShouldReturnCorrectValueWhenUpdateSameValueToSameId()
         {
-            var service = new TopsService.Services.ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var editApo = new ApoGroupForCreateOrUpdate()
             {
@@ -457,14 +461,17 @@ namespace Tops.Test.UnitTest
 
             var sut = service.Edit(1, editApo);
 
+            var compareObj = Mapper.Map<ApoGroupDto>(_apoGroup.Single(x => x.Id == 1));
+            compareObj.DivisionName = _apoDivision.Single(x => x.Id == compareObj.DivisionId).Name;
+
             Assert.Equal(sut.Id, 1);
-            AssertObjects.PropertyValuesAreEquals(sut, Mapper.Map<ApoGroupDto>(_apoGroup.Single(x => x.Id == 1)));
+            AssertObjects.PropertyValuesAreEquals(sut, compareObj);
         }
 
         [Fact]
         public void ApoGroupShouldReturnTrueWhenDelteSuccess()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var sut = service.Delete(0);
 
@@ -474,7 +481,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupShouldReturnFalseWhenDeleteFailed()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var sut = service.Delete(150);
 
@@ -484,7 +491,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupShouldReturnCorrectvaluewhenSearchByName()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var searchObj = new ApoGroupForCreateOrUpdate()
             {
@@ -493,17 +500,17 @@ namespace Tops.Test.UnitTest
 
             var sut = service.GetByName(searchObj);
 
-            var shouldEqual = _apoGroup.Single(x => x.Name.Equals(searchObj.Name));
+            var compareObj = Mapper.Map<ApoGroupDto>(_apoGroup.Single(x => x.Name.Equals(searchObj.Name)));
+            compareObj.DivisionName = _apoDivision.Single(x => x.Id == compareObj.DivisionId).Name;
 
-
-            AssertObjects.PropertyValuesAreEquals(sut, Mapper.Map<ApoGroupDto>(shouldEqual));
+            AssertObjects.PropertyValuesAreEquals(sut, Mapper.Map<ApoGroupDto>(compareObj));
 
         }
 
         [Fact]
         public void ApoGroupServiceShouldReturnAllItem()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var sut = service.GetAll();
 

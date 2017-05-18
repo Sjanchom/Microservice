@@ -8,30 +8,28 @@ using TopsShareClass.Models.DataTranferObjects;
 
 namespace TopsApiService.Controllers
 {
-    [RoutePrefix("api/beta/apodivision")]
-    public class ApoDivisonController : ApiController
+    [RoutePrefix("api/beta/apogroup")]
+    public class ApoGroupController : ApiController
     {
-        private IApoDivisionService _apoDivisionService;
+        private IApoGroupService _apoGroupService;
 
-        public ApoDivisonController()
+        public ApoGroupController()
         {
-            var apoDivisionRepository = SetUpMockHelper.GetApoDivisionRepository();
-            _apoDivisionService = new ApoDivisionService(apoDivisionRepository
-                , new ApoGroupService(SetUpMockHelper.GetApoGroupRepository(), apoDivisionRepository));
+            _apoGroupService = new ApoGroupService(SetUpMockHelper.GetApoGroupRepository(), SetUpMockHelper.GetApoDivisionRepository());
         }
 
         [HttpGet]
         [Route("")]
-        public IHttpActionResult Get(int page =1,int pageSize = 15,string searchText = "")
+        public IHttpActionResult Get(int page = 1, int pageSize = 15, int? apoDivisionId = null, string searchText = "")
         {
-            return Ok(_apoDivisionService.GetAll(page, pageSize, searchText));
+            return Ok(_apoGroupService.GetAll(new ApoGroupResourceParameter(page,pageSize, apoDivisionId, searchText)));
         }
 
         [HttpGet]
         [Route("{id}")]
         public IHttpActionResult Get(int id)
         {
-            var selectedApo = _apoDivisionService.GetById(id);
+            var selectedApo = _apoGroupService.GetById(id);
 
             if (selectedApo == null)
             {
@@ -44,11 +42,11 @@ namespace TopsApiService.Controllers
 
         [HttpPost]
         [Route("")]
-        public IHttpActionResult Post([FromBody]ApoDivisionForCreateOrEdit apoDivisionForCreateOrEdit)
+        public IHttpActionResult Post([FromBody]ApoGroupForCreateOrUpdate apoGroupForCreateOrEdit)
         {
             try
             {
-                var createdApo = _apoDivisionService.Create(apoDivisionForCreateOrEdit as IApoDivisionForCreateOrEdit);
+                var createdApo = _apoGroupService.Create(apoGroupForCreateOrEdit as IApoGroupForCreateOrEdit);
 
                 if (createdApo != null)
                 {
@@ -61,17 +59,17 @@ namespace TopsApiService.Controllers
             {
                 return InternalServerError(e);
             }
-           
+
         }
 
         [HttpPost]
         [Route("{id}")]
-        public IHttpActionResult Update(int id,[FromBody]ApoDivisionForCreateOrEdit apoDivisionForCreateOrEdit)
+        public IHttpActionResult Update(int id, [FromBody]ApoGroupForCreateOrUpdate apoGroupForCreateOrEdit)
         {
 
             try
             {
-                var updateApo = _apoDivisionService.Edit(id, apoDivisionForCreateOrEdit as IApoDivisionForCreateOrEdit);
+                var updateApo = _apoGroupService.Edit(id, apoGroupForCreateOrEdit as IApoGroupForCreateOrEdit);
 
                 if (updateApo != null)
                 {
@@ -85,7 +83,7 @@ namespace TopsApiService.Controllers
                 return InternalServerError(e);
 
             }
-           
+
         }
 
         [HttpDelete]
@@ -94,7 +92,7 @@ namespace TopsApiService.Controllers
         {
             try
             {
-                if (_apoDivisionService.Delete(id))
+                if (_apoGroupService.Delete(id))
                 {
                     return Ok();
                 }
@@ -105,7 +103,7 @@ namespace TopsApiService.Controllers
             {
                 return InternalServerError(e);
             }
-           
+
 
         }
 
@@ -113,7 +111,7 @@ namespace TopsApiService.Controllers
         [Route("getbyname/{name}")]
         public IHttpActionResult GetByName(string name)
         {
-            var selectedApo = _apoDivisionService.GetByName(new ApoDivisionForCreateOrEdit()
+            var selectedApo = _apoGroupService.GetByName(new ApoGroupForCreateOrUpdate()
             {
                 Name = name
             });
@@ -131,7 +129,8 @@ namespace TopsApiService.Controllers
         [Route("getall")]
         public IHttpActionResult GetAllApo()
         {
-            return Ok(_apoDivisionService.GetAll());
+            return Ok(_apoGroupService.GetAll());
         }
+
     }
 }

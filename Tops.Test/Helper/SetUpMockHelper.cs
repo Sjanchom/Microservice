@@ -323,9 +323,13 @@ namespace Tops.Test.Helper
         {
             var apoDivisions = DataInitializer.GetApoDivisions();
 
-            var repository = new Mock<IApoGroupService>();
+            var repository = new Mock<IApoDivisionService>();
 
-
+            repository.Setup(x => x.GetAll())
+                .Returns(new Func<IEnumerable<IApoDivisionDataTranferObject>>(() =>
+                {
+                    return Mapper.Map<IEnumerable<IApoDivisionDataTranferObject>>(apoDivisions.ToList());
+                }));
            
             return repository.Object;
         }

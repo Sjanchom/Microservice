@@ -19,6 +19,7 @@ namespace Tops.Test.Helper
 
 
                 cfg.CreateMap<ApoDivisionDomain, ApoDivisionDto>().ReverseMap();
+                cfg.CreateMap<ApoDivisionDomain, IApoDivisionDataTranferObject>().ReverseMap();
                 cfg.CreateMap<IApoDivisionForCreateOrEdit, ApoDivisionDto>().ReverseMap();
                 cfg.CreateMap<IApoDivisionForCreateOrEdit, ApoDivisionDomain>().ReverseMap();
 

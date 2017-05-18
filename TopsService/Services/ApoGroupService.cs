@@ -6,6 +6,7 @@ using TopsInterface;
 using TopsInterface.Core;
 using TopsInterface.Entities;
 using TopsInterface.Repositories;
+using TopsService.Models.Instance;
 using TopsShareClass.Models.DataTranferObjects;
 using TopsShareClass.Models.Domain;
 
@@ -14,12 +15,12 @@ namespace TopsService.Services
     public class ApoGroupService : IApoGroupService
     {
         private readonly IApoGroupRepository _apoGroupRepository;
-        private readonly IApoDivisionService _apoDivisionService;
+        private readonly IApoDivisionRepository _apoDivisionRepository;
 
-        public ApoGroupService(IApoGroupRepository apoGroupGroupRepository,IApoDivisionService apoDivisionService)
+        public ApoGroupService(IApoGroupRepository apoGroupGroupRepository, IApoDivisionRepository apoDivisionRepository)
         {
             _apoGroupRepository = apoGroupGroupRepository;
-            _apoDivisionService = apoDivisionService;
+            _apoDivisionRepository = apoDivisionRepository;
         }
 
         public PagedList<IApoGroupDataTranferObject> GetAll(IApoGroupResourceParameter apoGroupResourceParameter)
@@ -28,7 +29,9 @@ namespace TopsService.Services
 
             var mapDomainToDto = Mapper.Map<List<ApoGroupDto>>(apoGroupFromRepository);
 
-            return PagedList<IApoGroupDataTranferObject>.Create(mapDomainToDto.AsQueryable(), apoGroupResourceParameter.Page,
+            
+
+            return PagedList<IApoGroupDataTranferObject>.Create(MapDivisionToDto(mapDomainToDto).AsQueryable(), apoGroupResourceParameter.Page,
                 apoGroupResourceParameter.PageSize);
         }
 
@@ -38,7 +41,7 @@ namespace TopsService.Services
 
             var mapDomainToDto = Mapper.Map<List<ApoGroupDto>>(apoGroupFromRepository);
 
-            return mapDomainToDto;
+            return MapDivisionToDto(mapDomainToDto);
         }
 
         public PagedList<IApoGroupDataTranferObject> GetAll(int page, int pageSize, string searchText)
@@ -50,7 +53,7 @@ namespace TopsService.Services
         {
             var selectedApoDivision = _apoGroupRepository.GetAll();
 
-            return Mapper.Map<IEnumerable<ApoGroupDto>>(selectedApoDivision);
+            return MapDivisionToDto(Mapper.Map<IEnumerable<ApoGroupDto>>(selectedApoDivision).ToList());
         }
 
         public IApoGroupDataTranferObject GetById(int id)
@@ -62,7 +65,7 @@ namespace TopsService.Services
                 return null;
             }
 
-            return Mapper.Map<ApoGroupDto>(apoGroupFromRepository);
+            return MapDivisionToDto(Mapper.Map<ApoGroupDto>(apoGroupFromRepository));
         }
 
         public IApoGroupDataTranferObject Create(IApoGroupForCreateOrEdit item)
@@ -77,7 +80,7 @@ namespace TopsService.Services
 
             var apoGroupFromRepository = _apoGroupRepository.Add(mapToDomain);
 
-            return Mapper.Map<ApoGroupDto>(apoGroupFromRepository);
+            return MapDivisionToDto(Mapper.Map<ApoGroupDto>(apoGroupFromRepository));
         }
 
         public IApoGroupDataTranferObject Edit(int id, IApoGroupForCreateOrEdit item)
@@ -95,7 +98,7 @@ namespace TopsService.Services
 
             var apoDivisionFromRepository = _apoGroupRepository.Update(id, mapToDomain);
 
-            return Mapper.Map<ApoGroupDto>(apoDivisionFromRepository);
+            return MapDivisionToDto(Mapper.Map<ApoGroupDto>(apoDivisionFromRepository));
         }
 
         public bool Delete(int id)
@@ -122,7 +125,23 @@ namespace TopsService.Services
                 return null;
             }
 
-            return Mapper.Map<ApoGroupDto>(selectedApoDivision);
+            return MapDivisionToDto(Mapper.Map<ApoGroupDto>(selectedApoDivision));
+        }
+
+        private List<ApoGroupDto> MapDivisionToDto(List<ApoGroupDto> apoGroupDtos)
+        {
+            foreach (var apoGroupDto in apoGroupDtos)
+            {
+                apoGroupDto.DivisionName = ApoDivisionInstances.GetInstance(_apoDivisionRepository).GetApoDivisionDomains.Single(x => x.Id == apoGroupDto.DivisionId).Name;
+            }
+
+            return apoGroupDtos;
+        }
+
+        private ApoGroupDto MapDivisionToDto(ApoGroupDto apoGroupDto)
+        {
+            apoGroupDto.DivisionName = ApoDivisionInstances.GetInstance(_apoDivisionRepository).GetApoDivisionDomains.Single(x => x.Id == apoGroupDto.DivisionId).Name;
+            return apoGroupDto;
         }
 
 

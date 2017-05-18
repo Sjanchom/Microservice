@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using Newtonsoft.Json.Serialization;
 
 namespace TopsApiService
 {
@@ -15,6 +16,8 @@ namespace TopsApiService
 
             // Web API routes
             config.MapHttpAttributeRoutes();
+
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
             GlobalConfiguration.Configuration.Formatters.JsonFormatter.MediaTypeMappings
                 .Add(new RequestHeaderMapping("Accept",
