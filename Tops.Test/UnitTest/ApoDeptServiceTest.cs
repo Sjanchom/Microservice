@@ -7,6 +7,8 @@ using TopsInterface;
 using TopsInterface.Core;
 using TopsInterface.Entities;
 using TopsInterface.Repositories;
+using TopsService.Models.Instance;
+using TopsShareClass.Models.DataTranferObjects;
 using TopsShareClass.Models.Domain;
 using Xunit;
 
@@ -39,18 +41,127 @@ namespace Tops.Test.UnitTest
         {
             var service = new ApoDepartmentService(_apoDivisionRepository, _apoGroupRepository, _apoDepartmentRepository);
 
-            var resource = new ApoDepartmentResourceParameter(1,10,1,0,"");
+            var resource = new ApoDepartmentResourceParameter(1,10,1,0,"a");
 
             var sut = service.GetAll(resource);
 
 
             Assert.IsType<PagedList<IApoDepartmentDataTranferObject>>(sut);
-            Assert.True(sut.List.Count == _apoDepartment.Count(x => x.GroupId == 0 && x.DivisionId == 1));
-            Assert.Equal(sut.List.Count,_apoDepartment.Count(x => x.GroupId == 0 && x.DivisionId == 0));
+            Assert.Equal(sut.List.Count , _apoDepartment.Count(x => x.GroupId == 0 && x.DivisionId == 1) > 10 ? 10 : _apoDepartment.Count(x => x.GroupId == 0 && x.DivisionId == 1));
+
+            Assert.True(sut.List.All(x => _apoGroup.Single(g => g.Id == x.GroupId).Name.Equals(x.GroupName) 
+            && _apoDivision.Single(d => d.Id == x.DivisionId).Name.Equals(x.DivisionName)
+            && (x.Name.ToLowerInvariant().Contains("a") ||x.Code.ToLowerInvariant().Contains("a")) ));
         }
+
+        [Fact]
+        public void ApoDepartmentReturnCorrectValueWhenCriteriaNull()
+        {
+            var service = new ApoDepartmentService(_apoDivisionRepository, _apoGroupRepository, _apoDepartmentRepository);
+
+
+
+            var resource = new ApoDepartmentResourceParameter(1, 10, null, null, null);
+
+            var sut = service.GetAll(resource);
+
+
+            Assert.IsType<PagedList<IApoDepartmentDataTranferObject>>(sut);
+            Assert.True(sut.List.All(x => x.IsActive == 1));
+        }
+
+        [Fact]
+        public void ApoDepartmentServiceReturnAllList()
+        {
+            var service = new ApoDepartmentService(_apoDivisionRepository, _apoGroupRepository, _apoDepartmentRepository);
+
+            var sut = service.GetAll();
+
+            Assert.IsType<List<ApoDepartmentDto>>(sut);
+            Assert.Equal(sut.Count(), _apoDepartment.Count());
+        }
+
+        [Fact]
+        public void ApoDepartmentServiceGetByIdReturnCorrectApo()
+        {
+            var service = new ApoDepartmentService(_apoDivisionRepository, _apoGroupRepository, _apoDepartmentRepository);
+
+            var sut = service.GetById(10);
+
+            var compareObj = Mapper.Map<ApoDepartmentDto>(_apoDepartment.Single(x => x.Id == 10));
+            compareObj.DivisionName = _apoDivision.Single(x => x.Id == compareObj.DivisionId).Name;
+            compareObj.GroupName = _apoGroup.Single(x => x.Id == compareObj.GroupId).Name;
+
+            AssertObjects.PropertyValuesAreEquals(sut, compareObj);
+        }
+
+
+        [Fact]
+        public void ApoDepartmentServiceGetByIdReturnNullWhenNoExistIdinDatabse()
+        {
+            var service = new ApoDepartmentService(_apoDivisionRepository, _apoGroupRepository, _apoDepartmentRepository);
+
+            var sut = service.GetById(1000);
+
+            Assert.Null(sut);
+        }
+
+        [Fact]
+        public void ApoDepartmentServiceReturnCorrectIdAndValueWhenCreateSuccess()
+        {
+            var service = new ApoDepartmentService(_apoDivisionRepository, _apoGroupRepository, _apoDepartmentRepository);
+
+            var resource = new ApoDepartmentCreateOrEdit()
+            {
+                ApoDivisionId = 1,
+                ApoGroupId = 0,
+                Name = "New Dept"
+            };
+
+            var sut = service.Create(resource);
+
+            var lastId = _apoDepartment.Where(x => x.DivisionId == 1 && x.GroupId == 0).Select(x => x.Id).Max() +1 ;
+        
+
+            Assert.IsType<ApoDepartmentDto>(sut);
+            Assert.Equal(sut.Id,lastId);
+            Assert.Equal(sut.DivisionId,1);
+            Assert.Equal(sut.GroupId,0);
+            Assert.Equal(sut.Name,"New Dept");
+
+        }
+
+        [Fact]
+        public void ApoDepartmentServiceReturnErrorWhenCreateDuplicateName()
+        {
+            var service = new ApoDepartmentService(_apoDivisionRepository, _apoGroupRepository, _apoDepartmentRepository);
+
+            var resource = new ApoDepartmentCreateOrEdit()
+            {
+                ApoDivisionId = 1,
+                ApoGroupId = 0,
+                Name = "Beverages"
+            };
+
+            var exception = Record.Exception(() => service.Create(resource));
+
+            Assert.NotNull(exception);
+            Assert.IsType<ArgumentException>(exception);
+            Assert.True(exception.Message.Contains($"Name {resource.Name} is Already exist."));
+
+        }
+
+
     }
 
-  
+    public class ApoDepartmentCreateOrEdit : IApoDepartmentForCreateOrEdit
+    {
+        public string Name { get; set; }
+        public int Id { get; set; }
+        public int ApoDivisionId { get; set; }
+        public int ApoGroupId { get; set; }
+    }
+
 
     public class ApoDepartmentResourceParameter: IApoDepartmentResourceParameter
     {
@@ -59,22 +170,22 @@ namespace Tops.Test.UnitTest
             Page = page;
             PageSize = pageSize;
             SearchText = searchText;
-            ApoDivision = apoDivision;
-            ApoGroup = apoGroup;
+            ApoDivisionId = apoDivision;
+            ApoGroupId = apoGroup;
 
         }
 
         public int Page { get; set; }
         public int PageSize { get; set; }
         public string SearchText { get; set; }
-        public int? ApoDivision { get; set; }
-        public int? ApoGroup { get; set; }
+        public int? ApoDivisionId { get; set; }
+        public int? ApoGroupId { get; set; }
     }
 
     public interface IApoDepartmentResourceParameter : IBaseResourceParameter
     {
-        int? ApoDivision { get; set; }
-        int? ApoGroup { get; set; }
+        int? ApoDivisionId { get; set; }
+        int? ApoGroupId { get; set; }
     }
 
     public class ApoDepartmentService: IApoDepartmentService
@@ -97,23 +208,56 @@ namespace Tops.Test.UnitTest
 
             var apoMapToDepartment = Mapper.Map<List<ApoDepartmentDto>>(selectedApo);
 
+            MapDivisionAndGroupToDto(apoMapToDepartment);
+
             return PagedList<IApoDepartmentDataTranferObject>.Create(apoMapToDepartment.AsQueryable(),
                 apoDepartmentResourceParameter.Page, apoDepartmentResourceParameter.PageSize);
         }
 
         public IEnumerable<IApoDepartmentDataTranferObject> GetAll()
         {
-            throw new System.NotImplementedException();
+            var selectedApo = _apoDepartmentRepository.GetAll();
+
+            var mapToObj = Mapper.Map<List<ApoDepartmentDto>>(selectedApo);
+
+            MapDivisionAndGroupToDto(mapToObj);
+
+            return mapToObj;
         }
 
         public IApoDepartmentDataTranferObject GetById(int id)
         {
-            throw new System.NotImplementedException();
+            var apoDepartmentFromRepository = _apoDepartmentRepository.GetById(id);
+
+            if (apoDepartmentFromRepository == null)
+            {
+                return null;
+            }
+
+            var mapToObj = Mapper.Map<ApoDepartmentDto>(apoDepartmentFromRepository);
+
+            MapDivisionToDto(mapToObj);
+            MapGroupToDto(mapToObj);
+
+            return mapToObj;
         }
 
         public IApoDepartmentDataTranferObject Create(IApoDepartmentForCreateOrEdit item)
         {
-            throw new System.NotImplementedException();
+            var mapToDomain = Mapper.Map<ApoDepartmentDomain>(item);
+
+            if (_apoDepartmentRepository.GetByName(item) != null)
+            {
+                throw new ArgumentException($"Name {item.Name} is Already exist.");
+            }
+
+            var apoDepathmentFromRepository = _apoDepartmentRepository.Add(mapToDomain);
+
+            var maptoDto = Mapper.Map<ApoDepartmentDto>(apoDepathmentFromRepository);
+
+            MapDivisionToDto(maptoDto);
+
+            return maptoDto;
         }
 
         public IApoDepartmentDataTranferObject Edit(int id, IApoDepartmentForCreateOrEdit item)
@@ -142,6 +286,35 @@ namespace Tops.Test.UnitTest
         {
             throw new System.NotImplementedException();
         }
+
+        private void MapDivisionAndGroupToDto(List<ApoDepartmentDto> apoDepartmentDtos)
+        {
+            foreach (var apoDepartmentDto in apoDepartmentDtos)
+            {
+                MapDivisionToDto(apoDepartmentDto);
+                MapGroupToDto(apoDepartmentDto);
+            }
+        }
+
+        private void MapDivisionToDto(ApoDepartmentDto apoDepartmentDto)
+        {
+            try
+            {
+                apoDepartmentDto.DivisionName = ApoDivisionInstances.GetInstance(_apoDivisionRepository).GetApoDivisionDomains.Single(x => x.Id == apoDepartmentDto.DivisionId).Name;
+            }
+            catch (Exception e)
+            {
+                apoDepartmentDto.DivisionName = "-.-";
+            }
+        }
+
+
+        private void MapGroupToDto(ApoDepartmentDto apoDepartmentDto)
+        {
+            apoDepartmentDto.GroupName = ApoGroupInstances.GetInstance(_apoGroupRepository).GetApoGroupDomains.Single(x => x.Id == apoDepartmentDto.GroupId).Name;
+        }
+
+  
     }
 
     public class ApoDepartmentDto : IApoDepartmentDataTranferObject
@@ -158,8 +331,8 @@ namespace Tops.Test.UnitTest
 
     public interface IApoDepartmentRepository : IApoBaseRepository<IApoDepartmentDomain>
     {
-        IQueryable<IApoDepartmentDomain> GetAll(IApoGroupResourceParameter resourceParameters);
-        IApoDepartmentDomain GetByName(IApoGroupForCreateOrEdit item);
+        IQueryable<IApoDepartmentDomain> GetAll(IApoDepartmentResourceParameter resourceParameters);
+        IApoDepartmentDomain GetByName(IApoDepartmentForCreateOrEdit item);
         IQueryable<IApoDepartmentDomain> GetByApoGroup(int id);
     }
 

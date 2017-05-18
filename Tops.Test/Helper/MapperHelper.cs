@@ -33,6 +33,17 @@ namespace Tops.Test.Helper
 
 
 
+                cfg.CreateMap<ApoDepartmentDomain,ApoDepartmentDto>().ReverseMap();
+                cfg.CreateMap<ApoDepartmentDomain,IApoDepartmentDataTranferObject>().ReverseMap();
+                cfg.CreateMap<IApoDepartmentForCreateOrEdit,ApoDepartmentDomain>()
+                .ForMember(dest => dest.GroupId, opt => opt.MapFrom(src =>src.ApoGroupId
+                   ))
+                    .ForMember(dest => dest.DivisionId, opt => opt.MapFrom(src => src.ApoDivisionId
+                    ))
+                .ReverseMap();
+
+
+
                 //cfg.CreateMap<Entities.Author, Models.AuthorDto>()
                 //    .ForMember(dest => dest.Name, opt => opt.MapFrom(src =>
                 //    $"{src.FirstName} {src.LastName}"))

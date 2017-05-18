@@ -341,21 +341,49 @@ namespace Tops.Test.Helper
             var repository = new Mock<IApoDepartmentRepository>();
 
             repository.Setup(x => x.GetAll(It.IsAny<IApoDepartmentResourceParameter>()))
-                .Returns(new Func<IApoDepartmentResourceParameter, IQueryable<IApoDepartmentDomain>>
-                (apoDepartmentResourceParameter =>
+                .Returns(new Func<IApoDepartmentResourceParameter, IQueryable<IApoDepartmentDomain>>(
+                    apoDepartmentResourceParameter =>
+                    {
+                        return apoDept.Where(x => (!apoDepartmentResourceParameter.ApoDivisionId.HasValue || apoDepartmentResourceParameter.ApoDivisionId == x.DivisionId)
+                        && (!apoDepartmentResourceParameter.ApoGroupId.HasValue || apoDepartmentResourceParameter.ApoGroupId == x.GroupId)
+                        && (string.IsNullOrWhiteSpace(apoDepartmentResourceParameter.SearchText) || 
+                        x.Name.ToLowerInvariant().Contains(apoDepartmentResourceParameter.SearchText.ToLowerInvariant()) ||
+                        x.Code.ToLowerInvariant().Contains(apoDepartmentResourceParameter.SearchText.ToLowerInvariant()))
+                        && x.IsActive == 1).AsQueryable();
+                    }));
+
+            repository.Setup(x => x.GetAll())
+                .Returns(new Func<IEnumerable<IApoDepartmentDomain>>(() => apoDept.ToList()));
+
+            repository.Setup(x => x.Add(It.IsAny<IApoDepartmentDomain>()))
+                .Returns(new Func<IApoDepartmentDomain, IApoDepartmentDomain>(apoDepartmentDomain =>
                 {
-                    apoDept.Where(x => (!apoDepartmentResourceParameter.ApoDivsionId.HasValue
-                                         || apoGroupResourceParameter.ApoDivsionId.Value == x.DivisionId)
-                                        && (string.IsNullOrWhiteSpace(apoGroupResourceParameter.SearchText)
-                                            || x.Name.ToLowerInvariant()
-                                                .Contains(
-                                                    apoGroupResourceParameter.SearchText.ToLowerInvariant())
-                                            || x.Code.ToLowerInvariant()
-                                                .Contains(
-                                                    apoGroupResourceParameter.SearchText.ToLowerInvariant())))
-                        .AsQueryable();
+
+                    var lastestItem = apoDept
+                        .Where(x => x.DivisionId == apoDepartmentDomain.DivisionId &&
+                                    x.GroupId == apoDepartmentDomain.GroupId).OrderByDescending(x => x.Id).First();
+
+                    var lastId = lastestItem.Id + 1;
+                    var code = (Convert.ToInt32(lastestItem.Code) + 1).ToString("D2");
+
+                    apoDepartmentDomain.Id = lastId;
+                    apoDepartmentDomain.Code = code;
+
+                    apoDept.Add(apoDepartmentDomain as ApoDepartmentDomain);
+
+                    return apoDepartmentDomain;
+
                 }));
 
+            repository.Setup(x => x.GetByName(It.IsAny<IApoDepartmentForCreateOrEdit>()))
+                .Returns(new Func<IApoDepartmentForCreateOrEdit, IApoDepartmentDomain>(apoDepartmentCreateOrEdit =>
+                {
+                    return apoDept.FirstOrDefault(x => x.Name.ToLowerInvariant()
+                        .Equals(apoDepartmentCreateOrEdit.Name.ToLowerInvariant()));
+                }));
+
+            repository.Setup(x => x.GetById(It.IsAny<int>()))
+                .Returns(new Func<int, IApoDepartmentDomain>(id => apoDept.SingleOrDefault(x => x.Id == id)));
             return repository.Object;
         }
     }
