@@ -71,5 +71,10 @@ namespace Tops.Test.Helper
         {
             return JsonConvert.DeserializeObject<List<ApoGroupDomain>>(ReadFile(CONSTAINTSCONFIG.APO_GROUP));
         }
+
+        public static List<ApoDepartmentDomain> GetApoDepartment()
+        {
+            return JsonConvert.DeserializeObject<List<ApoDepartmentDomain>>(ReadFile(CONSTAINTSCONFIG.APO_DEPT));
+        }
     }
 }

@@ -2,7 +2,8 @@
 {
     public interface IApoDepartmentDomain : IApoBaseDomain
     {
-        int ApoGroupId { get; set; }
+        int GroupId { get; set; }
+        int DivisionId { get; set; }
     }
 
 }

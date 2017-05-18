@@ -333,5 +333,30 @@ namespace Tops.Test.Helper
            
             return repository.Object;
         }
+
+        public static IApoDepartmentRepository GetApoDepartmentRepository()
+        {
+            var apoDept = DataInitializer.GetApoDepartment();
+
+            var repository = new Mock<IApoDepartmentRepository>();
+
+            repository.Setup(x => x.GetAll(It.IsAny<IApoDepartmentResourceParameter>()))
+                .Returns(new Func<IApoDepartmentResourceParameter, IQueryable<IApoDepartmentDomain>>
+                (apoDepartmentResourceParameter =>
+                {
+                    apoDept.Where(x => (!apoDepartmentResourceParameter.ApoDivsionId.HasValue
+                                         || apoGroupResourceParameter.ApoDivsionId.Value == x.DivisionId)
+                                        && (string.IsNullOrWhiteSpace(apoGroupResourceParameter.SearchText)
+                                            || x.Name.ToLowerInvariant()
+                                                .Contains(
+                                                    apoGroupResourceParameter.SearchText.ToLowerInvariant())
+                                            || x.Code.ToLowerInvariant()
+                                                .Contains(
+                                                    apoGroupResourceParameter.SearchText.ToLowerInvariant())))
+                        .AsQueryable();
+                }));
+
+            return repository.Object;
+        }
     }
 }
