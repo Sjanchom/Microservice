@@ -128,3 +128,6 @@ C:\Users\Sasin\Desktop\Microservice\TopsApiService\bin\Castle.Core.xml
 C:\Users\Sasin\Desktop\Microservice\TopsApiService\obj\Debug\TopsApiService.csprojResolveAssemblyReference.cache
 C:\Users\Sasin\Desktop\Microservice\TopsApiService\obj\Debug\TopsApiService.dll
 C:\Users\Sasin\Desktop\Microservice\TopsApiService\obj\Debug\TopsApiService.pdb
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsApiService\bin\System.Web.Cors.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsApiService\bin\System.Web.Http.Cors.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsApiService\bin\System.Web.Http.Cors.xml
