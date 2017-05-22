@@ -82,9 +82,9 @@ namespace Tops.Test.Helper
             return JsonConvert.DeserializeObject<List<ApoClassDomain>>(ReadFile(CONSTAINTSCONFIG.APO_CLASS));
         }
 
-        public static List<ApoDepartmentDomain> GetApoSubClass()
+        public static List<ApoSubClassDomain> GetApoSubClass()
         {
-            return JsonConvert.DeserializeObject<List<ApoDepartmentDomain>>(ReadFile(CONSTAINTSCONFIG.APO_SUBCLASS));
+            return JsonConvert.DeserializeObject<List<ApoSubClassDomain>>(ReadFile(CONSTAINTSCONFIG.APO_SUBCLASS));
         }
     }
 }

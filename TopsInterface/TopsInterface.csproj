@@ -42,10 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\IApoSubClassService.cs" />
     <Compile Include="Core\IApoClassService.cs" />
     <Compile Include="Core\IApoDepartmentService.cs" />
     <Compile Include="Core\IApoDivisionService.cs" />
     <Compile Include="Core\IApoGroupService.cs" />
+    <Compile Include="Entities\IApoSubClassForCreateOrEdit.cs" />
+    <Compile Include="Entities\IApoSubClassDataTranferObject.cs" />
+    <Compile Include="Entities\IApoSubClassResourceParameter.cs" />
     <Compile Include="Entities\IApoClassDataTranferObject.cs" />
     <Compile Include="Entities\IApoClassForCreateOrEdit.cs" />
     <Compile Include="Entities\IApoClassResourceParameter.cs" />
@@ -89,6 +93,7 @@
     <Compile Include="Entities\IApoGroupDomain.cs" />
     <Compile Include="Entities\IApoDivisionDomain.cs" />
     <Compile Include="Entities\IApoBaseDomain.cs" />
+    <Compile Include="Repositories\IApoSubClassRepository.cs" />
     <Compile Include="Repositories\IApoClassRepository.cs" />
     <Compile Include="Repositories\IApoDepartmentRepository.cs" />
     <Compile Include="Repositories\IApoGroupRepository.cs" />

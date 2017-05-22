@@ -518,5 +518,97 @@ namespace Tops.Test.Helper
             return repository.Object;
         }
 
+        public static IApoSubClassRepository GetApoSubClassRepository()
+        {
+            var apoSubClass = DataInitializer.GetApoSubClass();
+
+            var repository = new Mock<IApoSubClassRepository>();
+
+            repository.Setup(x => x.GetAll(It.IsAny<IApoSubClassResourceParameter>()))
+                .Returns(new Func<IApoSubClassResourceParameter, IQueryable<IApoSubClassDomain>>(
+                    apoSubClassResourceParameter =>
+                    {
+                        return apoSubClass.Where(x => (!apoSubClassResourceParameter.ApoClassId.HasValue || apoSubClassResourceParameter.ApoClassId == x.ApoClassId)
+                                                   && (string.IsNullOrWhiteSpace(apoSubClassResourceParameter.SearchText) ||
+                                                       x.Name.ToLowerInvariant().Contains(apoSubClassResourceParameter.SearchText.ToLowerInvariant()) ||
+                                                       x.Code.ToLowerInvariant().Contains(apoSubClassResourceParameter.SearchText.ToLowerInvariant()))
+                                                   && x.IsActive == 1).AsQueryable();
+                    }));
+
+            repository.Setup(x => x.GetAll())
+                .Returns(() => apoSubClass.ToList());
+
+            repository.Setup(x => x.Add(It.IsAny<IApoSubClassDomain>()))
+                .Returns(new Func<IApoSubClassDomain, IApoSubClassDomain>(apoSubClassDomain =>
+                {
+
+                    var lastestItem = apoSubClass.OrderByDescending(x => x.Id).First();
+
+                    var lastId = lastestItem.Id + 1;
+                    var code = (Convert.ToInt64(lastestItem.Code) + 1).ToString("D2");
+
+                    apoSubClassDomain.Id = lastId;
+                    apoSubClassDomain.Code = code;
+                    apoSubClassDomain.ApoClassId = apoSubClassDomain.ApoClassId;
+                    apoSubClassDomain.IsActive = 1;
+
+                    apoSubClass.Add(apoSubClassDomain as ApoSubClassDomain);
+
+                    return apoSubClassDomain;
+
+                }));
+
+
+            repository.Setup(x => x.GetByName(It.IsAny<IApoSubClassForCreateOrEdit>()))
+                .Returns(new Func<IApoSubClassForCreateOrEdit, IApoSubClassDomain>(apoSubClassForCreateOrEdit =>
+                {
+                    return apoSubClass.FirstOrDefault(x => x.Name.ToLowerInvariant()
+                        .Equals(apoSubClassForCreateOrEdit.Name.ToLowerInvariant()));
+                }));
+
+            repository.Setup(x => x.GetById(It.IsAny<int>()))
+                .Returns(new Func<int, IApoSubClassDomain>(id => apoSubClass.SingleOrDefault(x => x.Id == id)));
+
+
+            repository.Setup(x => x.Update(It.IsAny<int>(), It.IsAny<IApoSubClassDomain>()))
+                .Returns(new Func<int, IApoSubClassDomain, IApoSubClassDomain>((id, apoSubClassDomain) =>
+                {
+                    var classDomain = apoSubClass.SingleOrDefault(x => x.Id == id);
+
+                    if (classDomain != null)
+                    {
+                        classDomain.Name = apoSubClassDomain.Name;
+                        classDomain.ApoClassId = apoSubClassDomain.ApoClassId;
+
+                        return classDomain;
+                    }
+
+                    return null;
+                }));
+
+            repository.Setup(x => x.Delete(It.IsAny<int>()))
+                .Returns(new Func<int, bool>(id =>
+                {
+                    try
+                    {
+                        return apoSubClass.Single(x => x.Id == id) != null;
+                    }
+                    catch (Exception e)
+                    {
+                        return false;
+                    }
+                }));
+
+            repository.Setup(x => x.GetByApoClass(It.IsAny<int>()))
+                .Returns(new Func<int, IQueryable<IApoSubClassDomain>>(id =>
+                {
+                    return apoSubClass.Where(x => x.ApoClassId == id).AsQueryable();
+                }));
+
+
+            return repository.Object;
+        }
+
+
     }
 }

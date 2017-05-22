@@ -56,11 +56,15 @@
     <Compile Include="Models\DataTranferObjects\ApoClassForCreateOrEdit.cs" />
     <Compile Include="Models\DataTranferObjects\ApoClassDto.cs" />
     <Compile Include="Models\DataTranferObjects\ApoClassResourceParameter.cs" />
+    <Compile Include="Models\DataTranferObjects\ApoSubClassForCreateOrEdit.cs" />
+    <Compile Include="Models\DataTranferObjects\ApoSubClassResourceParameter.cs" />
+    <Compile Include="Models\DataTranferObjects\ApoSubClassDto.cs" />
     <Compile Include="Models\DataTranferObjects\ResourceParamater.cs" />
     <Compile Include="Models\Domain\ApoDivisionDomain.cs" />
     <Compile Include="Models\Domain\ApoGroupDomain.cs" />
     <Compile Include="Models\Domain\ApoDepartmentDomain.cs" />
     <Compile Include="Models\Domain\ApoClassDomain.cs" />
+    <Compile Include="Models\Domain\ApoSubClassDomain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

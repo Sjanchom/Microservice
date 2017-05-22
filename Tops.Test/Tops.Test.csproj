@@ -99,6 +99,7 @@
     <Compile Include="UnitTest\ApoClassTest.cs" />
     <Compile Include="UnitTest\ApoDeptServiceTest.cs" />
     <Compile Include="UnitTest\ApoServiceTest.cs" />
+    <Compile Include="UnitTest\ApoSubClassTest.cs" />
     <Compile Include="UnitTest\ProductServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
