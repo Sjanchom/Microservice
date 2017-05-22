@@ -1,0 +1,12 @@
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\bin\Debug\TopsDataAccessLayer.dll.config
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\bin\Debug\TopsDataAccessLayer.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\bin\Debug\TopsDataAccessLayer.pdb
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\bin\Debug\EntityFramework.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\bin\Debug\EntityFramework.SqlServer.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\bin\Debug\Oracle.ManagedDataAccess.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\bin\Debug\Oracle.ManagedDataAccess.EntityFramework.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\bin\Debug\EntityFramework.xml
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\bin\Debug\EntityFramework.SqlServer.xml
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\obj\Debug\TopsDataAccessLayer.csprojResolveAssemblyReference.cache
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\obj\Debug\TopsDataAccessLayer.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\obj\Debug\TopsDataAccessLayer.pdb

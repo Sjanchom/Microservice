@@ -375,6 +375,7 @@ namespace Tops.Test.Helper
 
                 }));
 
+
             repository.Setup(x => x.GetByName(It.IsAny<IApoDepartmentForCreateOrEdit>()))
                 .Returns(new Func<IApoDepartmentForCreateOrEdit, IApoDepartmentDomain>(apoDepartmentCreateOrEdit =>
                 {
@@ -384,6 +385,45 @@ namespace Tops.Test.Helper
 
             repository.Setup(x => x.GetById(It.IsAny<int>()))
                 .Returns(new Func<int, IApoDepartmentDomain>(id => apoDept.SingleOrDefault(x => x.Id == id)));
+
+
+            repository.Setup(x => x.Update(It.IsAny<int>(), It.IsAny<IApoDepartmentDomain>()))
+                .Returns(new Func<int, IApoDepartmentDomain, IApoDepartmentDomain>((id, apoDepartmentDomain) =>
+                {
+                    var dept = apoDept.SingleOrDefault(x => x.Id == id);
+
+                    if (dept != null)
+                    {
+                        dept.Name = apoDepartmentDomain.Name;
+                        dept.GroupId = apoDepartmentDomain.GroupId;
+                        dept.DivisionId = apoDepartmentDomain.DivisionId;
+
+                        return dept;
+                    }
+
+                    return null;
+                }));
+
+            repository.Setup(x => x.Delete(It.IsAny<int>()))
+                .Returns(new Func<int, bool>(id =>
+                {
+                    try
+                    {
+                        return apoDept.Single(x => x.Id == id) != null;
+                    }
+                    catch (Exception e)
+                    {
+                        return false;
+                    }
+                }));
+
+            repository.Setup(x => x.GetByApoGroup(It.IsAny<int>()))
+                .Returns(new Func<int, IQueryable<IApoDepartmentDomain>>(id =>
+                {
+                    return apoDept.Where(x => x.GroupId == id).AsQueryable();
+                }));
+
+
             return repository.Object;
         }
     }

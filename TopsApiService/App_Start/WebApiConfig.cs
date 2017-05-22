@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Newtonsoft.Json.Serialization;
 
 namespace TopsApiService
@@ -14,8 +15,12 @@ namespace TopsApiService
         {
             // Web API configuration and services
             config.EnableCors();
+            
             // Web API routes
             config.MapHttpAttributeRoutes();
+
+            config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
+            //config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 
             config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
