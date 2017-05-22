@@ -43,6 +43,12 @@ namespace Tops.Test.Helper
                 .ReverseMap();
 
 
+                cfg.CreateMap<ApoClassDomain, ApoClassDto>()
+                    .ForMember(dest => dest.DepartmentId, opt => opt.MapFrom(src => src.ApoDepartmentId
+                    ))
+                .ReverseMap();
+                cfg.CreateMap<ApoClassDomain, IApoClassDataTranferObject>().ReverseMap();
+                cfg.CreateMap<IApoClassForCreateOrEdit, ApoClassDomain>();
 
                 //cfg.CreateMap<Entities.Author, Models.AuthorDto>()
                 //    .ForMember(dest => dest.Name, opt => opt.MapFrom(src =>

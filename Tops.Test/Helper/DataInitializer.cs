@@ -76,5 +76,15 @@ namespace Tops.Test.Helper
         {
             return JsonConvert.DeserializeObject<List<ApoDepartmentDomain>>(ReadFile(CONSTAINTSCONFIG.APO_DEPT));
         }
+
+        public static List<ApoClassDomain> GetApoClass()
+        {
+            return JsonConvert.DeserializeObject<List<ApoClassDomain>>(ReadFile(CONSTAINTSCONFIG.APO_CLASS));
+        }
+
+        public static List<ApoDepartmentDomain> GetApoSubClass()
+        {
+            return JsonConvert.DeserializeObject<List<ApoDepartmentDomain>>(ReadFile(CONSTAINTSCONFIG.APO_SUBCLASS));
+        }
     }
 }

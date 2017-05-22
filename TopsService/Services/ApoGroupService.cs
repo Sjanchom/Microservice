@@ -17,10 +17,9 @@ namespace TopsService.Services
         private readonly IApoGroupRepository _apoGroupRepository;
         private readonly IApoDivisionRepository _apoDivisionRepository;
 
-        public ApoGroupService(IApoGroupRepository apoGroupGroupRepository, IApoDivisionRepository apoDivisionRepository)
+        public ApoGroupService(IApoGroupRepository apoGroupGroupRepository)
         {
             _apoGroupRepository = apoGroupGroupRepository;
-            _apoDivisionRepository = apoDivisionRepository;
         }
 
         public PagedList<IApoGroupDataTranferObject> GetAll(IApoGroupResourceParameter apoGroupResourceParameter)
@@ -29,7 +28,6 @@ namespace TopsService.Services
 
             var mapDomainToDto = Mapper.Map<List<ApoGroupDto>>(apoGroupFromRepository);
 
-            
 
             return PagedList<IApoGroupDataTranferObject>.Create(MapDivisionToDto(mapDomainToDto).AsQueryable(), apoGroupResourceParameter.Page,
                 apoGroupResourceParameter.PageSize);

@@ -6,7 +6,6 @@ using TopsInterface;
 using TopsInterface.Core;
 using TopsInterface.Entities;
 using TopsInterface.Repositories;
-using TopsService.Models.Instance;
 using TopsShareClass.Models.DataTranferObjects;
 using TopsShareClass.Models.Domain;
 

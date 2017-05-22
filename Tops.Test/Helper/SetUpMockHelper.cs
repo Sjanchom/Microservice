@@ -426,5 +426,97 @@ namespace Tops.Test.Helper
 
             return repository.Object;
         }
+
+        public static IApoClassRepository GetApoClassRepository()
+        {
+            var apoClass = DataInitializer.GetApoClass();
+
+            var repository = new Mock<IApoClassRepository>();
+
+            repository.Setup(x => x.GetAll(It.IsAny<IApoClassResourceParameter>()))
+                .Returns(new Func<IApoClassResourceParameter, IQueryable<IApoClassDomain>>(
+                    apoClassResourceParameter =>
+                    {
+                        return apoClass.Where(x => (!apoClassResourceParameter.ApoDepartmentId.HasValue || apoClassResourceParameter.ApoDepartmentId == x.ApoDepartmentId)
+                                                  && (string.IsNullOrWhiteSpace(apoClassResourceParameter.SearchText) ||
+                                                      x.Name.ToLowerInvariant().Contains(apoClassResourceParameter.SearchText.ToLowerInvariant()) ||
+                                                      x.Code.ToLowerInvariant().Contains(apoClassResourceParameter.SearchText.ToLowerInvariant()))
+                                                  && x.IsActive == 1).AsQueryable();
+                    }));
+
+            repository.Setup(x => x.GetAll())
+                .Returns(() => apoClass.ToList());
+
+            repository.Setup(x => x.Add(It.IsAny<IApoClassDomain>()))
+                .Returns(new Func<IApoClassDomain, IApoClassDomain>(apoClassDomain =>
+                {
+
+                    var lastestItem = apoClass.OrderByDescending(x => x.Id).First();
+
+                    var lastId = lastestItem.Id + 1;
+                    var code = (Convert.ToInt32(lastestItem.Code) + 1).ToString("D2");
+
+                    apoClassDomain.Id = lastId;
+                    apoClassDomain.Code = code;
+                    apoClassDomain.ApoDepartmentId = apoClassDomain.ApoDepartmentId;
+                    apoClassDomain.IsActive = 1;
+
+                    apoClass.Add(apoClassDomain as ApoClassDomain);
+
+                    return apoClassDomain;
+
+                }));
+
+
+            repository.Setup(x => x.GetByName(It.IsAny<IApoClassForCreateOrEdit>()))
+                .Returns(new Func<IApoClassForCreateOrEdit, IApoClassDomain>(apoClassCreateOrEdit =>
+                {
+                    return apoClass.FirstOrDefault(x => x.Name.ToLowerInvariant()
+                        .Equals(apoClassCreateOrEdit.Name.ToLowerInvariant()));
+                }));
+
+            repository.Setup(x => x.GetById(It.IsAny<int>()))
+                .Returns(new Func<int, IApoClassDomain>(id => apoClass.SingleOrDefault(x => x.Id == id)));
+
+
+            repository.Setup(x => x.Update(It.IsAny<int>(), It.IsAny<IApoClassDomain>()))
+                .Returns(new Func<int, IApoClassDomain, IApoClassDomain>((id, apoClassDomain) =>
+                {
+                    var classDomain = apoClass.SingleOrDefault(x => x.Id == id);
+
+                    if (classDomain != null)
+                    {
+                        classDomain.Name = apoClassDomain.Name;
+                        classDomain.ApoDepartmentId = apoClassDomain.ApoDepartmentId;
+
+                        return classDomain;
+                    }
+
+                    return null;
+                }));
+
+            repository.Setup(x => x.Delete(It.IsAny<int>()))
+                .Returns(new Func<int, bool>(id =>
+                {
+                    try
+                    {
+                        return apoClass.Single(x => x.Id == id) != null;
+                    }
+                    catch (Exception e)
+                    {
+                        return false;
+                    }
+                }));
+
+            repository.Setup(x => x.GetByApoDepartment(It.IsAny<int>()))
+                .Returns(new Func<int, IQueryable<IApoClassDomain>>(id =>
+                {
+                    return apoClass.Where(x => x.ApoDepartmentId == id).AsQueryable();
+                }));
+
+
+            return repository.Object;
+        }
+
     }
 }

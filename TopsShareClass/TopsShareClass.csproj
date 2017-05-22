@@ -46,9 +46,13 @@
     <Compile Include="Models\DataTranferObjects\ApoGroupForCreateOrUpdate.cs" />
     <Compile Include="Models\DataTranferObjects\ApoGroupResourceParameter.cs" />
     <Compile Include="Models\DataTranferObjects\ApoGroupDto.cs" />
+    <Compile Include="Models\DataTranferObjects\ApoDepartmentCreateOrEdit.cs" />
+    <Compile Include="Models\DataTranferObjects\ApoDepartmentResourceParameter.cs" />
+    <Compile Include="Models\DataTranferObjects\ApoDepartmentDto.cs" />
     <Compile Include="Models\DataTranferObjects\ResourceParamater.cs" />
     <Compile Include="Models\Domain\ApoDivisionDomain.cs" />
     <Compile Include="Models\Domain\ApoGroupDomain.cs" />
+    <Compile Include="Models\Domain\ApoDepartmentDomain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
