@@ -288,7 +288,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupShouldReturnCorrectValueWhenGetAll()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository,_apoDivisionRepository);
 
             var parameter = new ApoGroupResourceParameter(1, 10, null, "");
 
@@ -306,7 +306,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupShouldReturnCorrectCriteriaWhenGivenDivision()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var parameter = new ApoGroupResourceParameter(1, 10, 1, "");
 
@@ -326,7 +326,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupReturnCorrectValueWhenSearchText()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var parameter = new ApoGroupResourceParameter(1,5,1, "Tobacco");
 
@@ -340,7 +340,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupReturnNullWhenGivenNoExistValue()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var parameter = new ApoGroupResourceParameter(1, 5, 1, "Tobacasdasdco");
 
@@ -353,7 +353,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupReturnCorrectObjectWhenAssignCorrectId()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
 
             var sut = service.GetById(10);
@@ -367,7 +367,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupShouldReturnNullWhenIdIsNotExistInDatabase()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var sut = service.GetById(100);
 
@@ -377,7 +377,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupSouldReturnCreatedApoWhenCreateSuccess()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var createdApoGroup = new ApoGroupForCreateOrUpdate()
             {
@@ -399,7 +399,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupSouldReturnErrorWhenCreateAlreadyExistValue()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var createdApoGroup = new ApoGroupForCreateOrUpdate()
             {
@@ -417,7 +417,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupServiceShouldReturnCorrectValueWhenEditSuccess()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var updateApo = new ApoGroupForCreateOrUpdate()
             {
@@ -433,7 +433,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupServiceShouldReturnNullWhenUpdateDuplicateValueButNotOwnId()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var editApo = new ApoGroupForCreateOrUpdate()
             {
@@ -452,7 +452,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupServiceShouldReturnCorrectValueWhenUpdateSameValueToSameId()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var editApo = new ApoGroupForCreateOrUpdate()
             {
@@ -471,7 +471,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupShouldReturnTrueWhenDelteSuccess()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var sut = service.Delete(0);
 
@@ -481,7 +481,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupShouldReturnFalseWhenDeleteFailed()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var sut = service.Delete(150);
 
@@ -491,7 +491,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupShouldReturnCorrectvaluewhenSearchByName()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var searchObj = new ApoGroupForCreateOrUpdate()
             {
@@ -510,7 +510,7 @@ namespace Tops.Test.UnitTest
         [Fact]
         public void ApoGroupServiceShouldReturnAllItem()
         {
-            var service = new ApoGroupService(_apoGroupRepository);
+            var service = new ApoGroupService(_apoGroupRepository, _apoDivisionRepository);
 
             var sut = service.GetAll();
 

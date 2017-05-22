@@ -31,6 +31,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -49,10 +53,14 @@
     <Compile Include="Models\DataTranferObjects\ApoDepartmentCreateOrEdit.cs" />
     <Compile Include="Models\DataTranferObjects\ApoDepartmentResourceParameter.cs" />
     <Compile Include="Models\DataTranferObjects\ApoDepartmentDto.cs" />
+    <Compile Include="Models\DataTranferObjects\ApoClassForCreateOrEdit.cs" />
+    <Compile Include="Models\DataTranferObjects\ApoClassDto.cs" />
+    <Compile Include="Models\DataTranferObjects\ApoClassResourceParameter.cs" />
     <Compile Include="Models\DataTranferObjects\ResourceParamater.cs" />
     <Compile Include="Models\Domain\ApoDivisionDomain.cs" />
     <Compile Include="Models\Domain\ApoGroupDomain.cs" />
     <Compile Include="Models\Domain\ApoDepartmentDomain.cs" />
+    <Compile Include="Models\Domain\ApoClassDomain.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -60,6 +68,9 @@
       <Project>{7631F6DE-6F35-405C-93CA-6E881962C135}</Project>
       <Name>TopsInterface</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

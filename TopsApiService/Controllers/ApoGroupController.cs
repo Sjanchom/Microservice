@@ -15,7 +15,7 @@ namespace TopsApiService.Controllers
 
         public ApoGroupController()
         {
-            _apoGroupService = new ApoGroupService(SetUpMockHelper.GetApoGroupRepository());
+            _apoGroupService = new ApoGroupService(SetUpMockHelper.GetApoGroupRepository(), SetUpMockHelper.GetApoDivisionRepository());
         }
 
         [HttpGet]

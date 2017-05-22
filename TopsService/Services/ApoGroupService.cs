@@ -17,9 +17,10 @@ namespace TopsService.Services
         private readonly IApoGroupRepository _apoGroupRepository;
         private readonly IApoDivisionRepository _apoDivisionRepository;
 
-        public ApoGroupService(IApoGroupRepository apoGroupGroupRepository)
+        public ApoGroupService(IApoGroupRepository apoGroupGroupRepository, IApoDivisionRepository apoDivisionRepository)
         {
             _apoGroupRepository = apoGroupGroupRepository;
+            _apoDivisionRepository = apoDivisionRepository;
         }
 
         public PagedList<IApoGroupDataTranferObject> GetAll(IApoGroupResourceParameter apoGroupResourceParameter)

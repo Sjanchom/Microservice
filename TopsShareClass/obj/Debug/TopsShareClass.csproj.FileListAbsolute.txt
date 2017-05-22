@@ -12,3 +12,5 @@ C:\Users\Sasin\Desktop\Microservice\TopsShareClass\bin\Debug\TopsInterface.pdb
 C:\Users\Sasin\Desktop\Microservice\TopsShareClass\obj\Debug\TopsShareClass.csprojResolveAssemblyReference.cache
 C:\Users\Sasin\Desktop\Microservice\TopsShareClass\obj\Debug\TopsShareClass.dll
 C:\Users\Sasin\Desktop\Microservice\TopsShareClass\obj\Debug\TopsShareClass.pdb
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsShareClass\bin\Debug\Newtonsoft.Json.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsShareClass\bin\Debug\Newtonsoft.Json.xml

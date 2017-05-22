@@ -57,6 +57,7 @@
     <Compile Include="Services\ApoDivisionService.cs" />
     <Compile Include="Services\ApoGroupService.cs" />
     <Compile Include="Services\ApoDepartmentService.cs" />
+    <Compile Include="Services\ApoClassService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TopsInterface\TopsInterface.csproj">
