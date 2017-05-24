@@ -14,7 +14,7 @@ namespace TopsService.Models.Instance
 
         private ApoClassInstances(IApoClassRepository db)
         {
-            _apoClassDomains = db.GetAll().ToList();
+            _apoClassDomains = db.All().ToList();
         }
 
         private static readonly object SyncLock = new object();

@@ -30,7 +30,7 @@ namespace TopsService.Services
 
         public IEnumerable<IApoSubClassDataTranferObject> GetAll()
         {
-            var selectedApoDivision = _apoSubClassRepository.GetAll();
+            var selectedApoDivision = _apoSubClassRepository.All();
 
             var mapToDto = Mapper.Map<IEnumerable<ApoSubClassDto>>(selectedApoDivision).ToList();
 
@@ -41,7 +41,7 @@ namespace TopsService.Services
 
         public IApoSubClassDataTranferObject GetById(int id)
         {
-            var apoSubClassFromRepository = _apoSubClassRepository.GetById(id);
+            var apoSubClassFromRepository = _apoSubClassRepository.FindByKey(id);
 
             if (apoSubClassFromRepository == null)
             {

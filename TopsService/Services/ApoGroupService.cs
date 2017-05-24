@@ -50,14 +50,14 @@ namespace TopsService.Services
 
         public IEnumerable<IApoGroupDataTranferObject> GetAll()
         {
-            var selectedApoDivision = _apoGroupRepository.GetAll();
+            var selectedApoDivision = _apoGroupRepository.All();
 
             return MapDivisionToDto(Mapper.Map<IEnumerable<ApoGroupDto>>(selectedApoDivision).ToList());
         }
 
         public IApoGroupDataTranferObject GetById(int id)
         {
-            var apoGroupFromRepository = _apoGroupRepository.GetById(id);
+            var apoGroupFromRepository = _apoGroupRepository.FindByKey(id);
 
             if (apoGroupFromRepository == null)
             {
@@ -77,7 +77,7 @@ namespace TopsService.Services
                 throw new ArgumentException($"Name {item.Name} is Already exist.");
             }
 
-            var apoGroupFromRepository = _apoGroupRepository.Add(mapToDomain);
+            var apoGroupFromRepository = _apoGroupRepository.Insert(mapToDomain);
 
             return MapDivisionToDto(Mapper.Map<ApoGroupDto>(apoGroupFromRepository));
         }
@@ -102,7 +102,7 @@ namespace TopsService.Services
 
         public bool Delete(int id)
         {
-            if (_apoGroupRepository.GetById(id) == null)
+            if (_apoGroupRepository.FindByKey(id) == null)
                 return false;
             try
             {

@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\GenericRepository.cs" />
     <Compile Include="Migrations\201705240553512_initial.cs" />
     <Compile Include="Migrations\201705240553512_initial.Designer.cs">
       <DependentUpon>201705240553512_initial.cs</DependentUpon>
@@ -79,6 +80,16 @@
     <EmbeddedResource Include="Migrations\201705240553512_initial.resx">
       <DependentUpon>201705240553512_initial.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TopsInterface\TopsInterface.csproj">
+      <Project>{7631f6de-6f35-405c-93ca-6e881962c135}</Project>
+      <Name>TopsInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TopsShareClass\TopsShareClass.csproj">
+      <Project>{f61bafef-29e8-46e9-8962-962c9b8d71db}</Project>
+      <Name>TopsShareClass</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

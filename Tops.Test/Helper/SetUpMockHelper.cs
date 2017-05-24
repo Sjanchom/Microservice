@@ -137,7 +137,7 @@ namespace Tops.Test.Helper
             var apoDivision = DataInitializer.GetApoDivisions();
             var repository = new Mock<IApoDivisionRepository>();
 
-            repository.Setup(x => x.GetAll(It.IsAny<IBaseResourceParameter>()))
+            repository.Setup(x => x.All(It.IsAny<IBaseResourceParameter>()))
                 .Returns(new Func<IBaseResourceParameter, IQueryable<ApoDivisionDomain>>(
                     resourceParameter =>
                     {
@@ -152,14 +152,14 @@ namespace Tops.Test.Helper
                                                           .AsQueryable();
                     }));
 
-            repository.Setup(x => x.GetById(It.IsAny<int>()))
+            repository.Setup(x => x.FindByKey(It.IsAny<int>()))
                 .Returns(new Func<int, IApoDivisionDomain>(id =>
                 {
                     return apoDivision.SingleOrDefault(x => x.Id == id && x.IsActive == 1);
                 }));
 
 
-            repository.Setup(x => x.Add(It.IsAny<IApoDivisionDomain>()))
+            repository.Setup(x => x.Insert(It.IsAny<IApoDivisionDomain>()))
                 .Returns(new Func<IApoDivisionDomain, IApoDivisionDomain>(apoAddOrEdit =>
                 {
                     dynamic maxId = apoDivision.Last().Id;
@@ -207,8 +207,8 @@ namespace Tops.Test.Helper
                     }
                 }));
 
-            repository.Setup(x => x.GetAll())
-                .Returns(new Func<IEnumerable<IApoDivisionDomain>>(() => apoDivision.ToList()));
+            repository.Setup(x => x.All())
+                .Returns(() => apoDivision.ToList());
             return repository.Object;
         }
 
@@ -233,14 +233,14 @@ namespace Tops.Test.Helper
                         .AsQueryable();
                 }));
 
-            repository.Setup(x => x.GetById(It.IsAny<int>()))
+            repository.Setup(x => x.FindByKey(It.IsAny<int>()))
                 .Returns(new Func<int, IApoGroupDomain>(id =>
                 {
                     return apoGroup.SingleOrDefault(x => x.Id == id);
                 } ));
 
 
-            repository.Setup(x => x.Add(It.IsAny<IApoGroupDomain>()))
+            repository.Setup(x => x.Insert(It.IsAny<IApoGroupDomain>()))
                 .Returns(new Func<IApoGroupDomain, IApoGroupDomain>(apoAddOrEdit =>
                 {
                     dynamic maxId = apoGroup.Last().Id;
@@ -295,7 +295,7 @@ namespace Tops.Test.Helper
                     return apoGroup.Where(x => x.DivisionId == id).AsQueryable();
                 }));
 
-            repository.Setup(x => x.GetAll())
+            repository.Setup(x => x.All())
                 .Returns(() => apoGroup.ToList());
 
             return repository.Object;
@@ -352,10 +352,10 @@ namespace Tops.Test.Helper
                         && x.IsActive == 1).AsQueryable();
                     }));
 
-            repository.Setup(x => x.GetAll())
-                .Returns(new Func<IEnumerable<IApoDepartmentDomain>>(() => apoDept.ToList()));
+            repository.Setup(x => x.All())
+                .Returns(() => apoDept.ToList());
 
-            repository.Setup(x => x.Add(It.IsAny<IApoDepartmentDomain>()))
+            repository.Setup(x => x.Insert(It.IsAny<IApoDepartmentDomain>()))
                 .Returns(new Func<IApoDepartmentDomain, IApoDepartmentDomain>(apoDepartmentDomain =>
                 {
 
@@ -383,7 +383,7 @@ namespace Tops.Test.Helper
                         .Equals(apoDepartmentCreateOrEdit.Name.ToLowerInvariant()));
                 }));
 
-            repository.Setup(x => x.GetById(It.IsAny<int>()))
+            repository.Setup(x => x.FindByKey(It.IsAny<int>()))
                 .Returns(new Func<int, IApoDepartmentDomain>(id => apoDept.SingleOrDefault(x => x.Id == id)));
 
 
@@ -433,7 +433,7 @@ namespace Tops.Test.Helper
 
             var repository = new Mock<IApoClassRepository>();
 
-            repository.Setup(x => x.GetAll(It.IsAny<IApoClassResourceParameter>()))
+            repository.Setup(x => x.All(It.IsAny<IApoClassResourceParameter>()))
                 .Returns(new Func<IApoClassResourceParameter, IQueryable<IApoClassDomain>>(
                     apoClassResourceParameter =>
                     {
@@ -444,10 +444,10 @@ namespace Tops.Test.Helper
                                                   && x.IsActive == 1).AsQueryable();
                     }));
 
-            repository.Setup(x => x.GetAll())
+            repository.Setup(x => x.All())
                 .Returns(() => apoClass.ToList());
 
-            repository.Setup(x => x.Add(It.IsAny<IApoClassDomain>()))
+            repository.Setup(x => x.Insert(It.IsAny<IApoClassDomain>()))
                 .Returns(new Func<IApoClassDomain, IApoClassDomain>(apoClassDomain =>
                 {
 
@@ -475,7 +475,7 @@ namespace Tops.Test.Helper
                         .Equals(apoClassCreateOrEdit.Name.ToLowerInvariant()));
                 }));
 
-            repository.Setup(x => x.GetById(It.IsAny<int>()))
+            repository.Setup(x => x.fin(It.IsAny<int>()))
                 .Returns(new Func<int, IApoClassDomain>(id => apoClass.SingleOrDefault(x => x.Id == id)));
 
 

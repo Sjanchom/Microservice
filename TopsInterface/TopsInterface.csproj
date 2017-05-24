@@ -99,6 +99,7 @@
     <Compile Include="Repositories\IApoGroupRepository.cs" />
     <Compile Include="Repositories\IApoDivisionRepository.cs" />
     <Compile Include="Repositories\IApoBaseRepository.cs" />
+    <Compile Include="Repositories\IGenericRepository.cs" />
     <Compile Include="Repositories\IUnitOfWork.cs" />
     <Compile Include="Repositories\IAttributeValueRepository.cs" />
     <Compile Include="Repositories\IProductRepository.cs" />

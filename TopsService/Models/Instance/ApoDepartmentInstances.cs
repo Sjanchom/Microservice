@@ -14,7 +14,7 @@ namespace TopsService.Models.Instance
 
         private ApoDepartmentInstances(IApoDepartmentRepository db)
         {
-            _apoDepartmentDomains = db.GetAll().ToList();
+            _apoDepartmentDomains = db.All().ToList();
         }
 
         private static readonly object SyncLock = new object();

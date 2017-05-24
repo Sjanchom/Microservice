@@ -30,7 +30,7 @@ namespace TopsService.Services
 
         public IEnumerable<IApoClassDataTranferObject> GetAll()
         {
-            var selectedApoDivision = _apoClassRepository.GetAll();
+            var selectedApoDivision = _apoClassRepository.All();
 
             var mapToDto = Mapper.Map<IEnumerable<ApoClassDto>>(selectedApoDivision).ToList();
 
@@ -41,7 +41,7 @@ namespace TopsService.Services
 
         public IApoClassDataTranferObject GetById(int id)
         {
-            var apoClassFromRepository = _apoClassRepository.GetById(id);
+            var apoClassFromRepository = _apoClassRepository.FindByKey(id);
 
             if (apoClassFromRepository == null)
             {
@@ -65,7 +65,7 @@ namespace TopsService.Services
                 throw new ArgumentException($"Name {item.Name} is Already exist.");
             }
 
-            var apoGroupFromRepository = _apoClassRepository.Add(mapToDomain);
+            var apoGroupFromRepository = _apoClassRepository.Insert(mapToDomain);
 
             var mapToDto = Mapper.Map<ApoClassDto>(apoGroupFromRepository);
 
@@ -98,7 +98,7 @@ namespace TopsService.Services
 
         public bool Delete(int id)
         {
-            if (_apoClassRepository.GetById(id) == null)
+            if (_apoClassRepository.FindByKey(id) == null)
                 return false;
             try
             {
@@ -130,7 +130,7 @@ namespace TopsService.Services
 
         public PagedList<IApoClassDataTranferObject> GetAll(IApoClassResourceParameter apoClassResourceParameter)
         {
-            var apoClassFromRepository = _apoClassRepository.GetAll(apoClassResourceParameter);
+            var apoClassFromRepository = _apoClassRepository.All(apoClassResourceParameter);
 
             var mapDomainToDto = Mapper.Map<List<ApoClassDto>>(apoClassFromRepository);
 

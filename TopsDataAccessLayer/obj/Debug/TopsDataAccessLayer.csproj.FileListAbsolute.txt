@@ -12,3 +12,9 @@
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\obj\Debug\TopsDataAccessLayer.pdb
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\obj\Debug\TopsDataAccessLayer.Migrations.initial.resources
 \\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\obj\Debug\TopsDataAccessLayer.csproj.GenerateResource.Cache
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\bin\Debug\TopsInterface.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\bin\Debug\TopsShareClass.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\bin\Debug\Newtonsoft.Json.dll
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\bin\Debug\TopsInterface.pdb
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\bin\Debug\TopsShareClass.pdb
+\\Mac\Home\Documents\Visual Studio 2015\Projects\Microservice\TopsDataAccessLayer\bin\Debug\Newtonsoft.Json.xml

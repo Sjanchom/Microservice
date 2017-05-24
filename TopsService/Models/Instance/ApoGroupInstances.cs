@@ -17,7 +17,7 @@ namespace TopsService.Models.Instance
 
         private ApoGroupInstances(IApoGroupRepository db)
         {
-            _apoDivisionDomains = db.GetAll().ToList();
+            _apoDivisionDomains = db.All().ToList();
         }
 
         private static readonly object SyncLock = new object();

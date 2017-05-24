@@ -1,6 +1,6 @@
 ﻿namespace TopsInterface.Repositories
 {
-    public interface IApoBaseRepository<T> : IRepository<T> where T : class
+    public interface IApoBaseRepository<T> : IGenericRepository<T> where T : class
     {
 
     }

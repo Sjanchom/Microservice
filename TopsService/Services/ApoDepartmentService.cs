@@ -40,7 +40,7 @@ namespace TopsService.Services
 
         public IEnumerable<IApoDepartmentDataTranferObject> GetAll()
         {
-            var selectedApo = _apoDepartmentRepository.GetAll();
+            var selectedApo = _apoDepartmentRepository.All();
 
             var mapToObj = Mapper.Map<List<ApoDepartmentDto>>(selectedApo);
 
@@ -51,7 +51,7 @@ namespace TopsService.Services
 
         public IApoDepartmentDataTranferObject GetById(int id)
         {
-            var apoDepartmentFromRepository = _apoDepartmentRepository.GetById(id);
+            var apoDepartmentFromRepository = _apoDepartmentRepository.FindByKey(id);
 
             if (apoDepartmentFromRepository == null)
             {
@@ -76,7 +76,7 @@ namespace TopsService.Services
                 throw new ArgumentException($"Name {item.Name} is Already exist.");
             }
 
-            var apoDepathmentFromRepository = _apoDepartmentRepository.Add(mapToDomain);
+            var apoDepathmentFromRepository = _apoDepartmentRepository.Insert(mapToDomain);
 
             var maptoDto = Mapper.Map<ApoDepartmentDto>(apoDepathmentFromRepository);
 
@@ -112,7 +112,7 @@ namespace TopsService.Services
         public bool Delete(int id)
         {
 
-            if (_apoDepartmentRepository.GetById(id) == null)
+            if (_apoDepartmentRepository.FindByKey(id) == null)
                 return false;
             try
             {

@@ -28,14 +28,14 @@ namespace TopsService.Services
         public PagedList<IApoDivisionDataTranferObject> GetAll(int page, int pageSize, string searchText)
         {
             var apoDivisionFromRepository =
-                _apoDivisionRepository.GetAll(new ResourceParamater(page, pageSize, searchText));
+                _apoDivisionRepository.All(new ResourceParamater(page, pageSize, searchText));
 
             return PagedList<IApoDivisionDataTranferObject>.Create(Mapper.Map<List<ApoDivisionDto>>(apoDivisionFromRepository).AsQueryable(), page, pageSize);
         }
 
         public IApoDivisionDataTranferObject GetById(int id)
         {
-            var apoDivisionFromRepository = _apoDivisionRepository.GetById(id);
+            var apoDivisionFromRepository = _apoDivisionRepository.FindByKey(id);
 
             if (apoDivisionFromRepository == null)
             {
@@ -54,7 +54,7 @@ namespace TopsService.Services
                 throw new ArgumentException($"Name {item.Name} is Already exist.");
             }
 
-            var apoDivisionFromRepository = _apoDivisionRepository.Add(mapToDomain);
+            var apoDivisionFromRepository = _apoDivisionRepository.Insert(mapToDomain);
 
             return Mapper.Map<ApoDivisionDto>(apoDivisionFromRepository);
         }
@@ -80,7 +80,7 @@ namespace TopsService.Services
 
         public bool Delete(int id)
         {
-            if (_apoDivisionRepository.GetById(id) == null)
+            if (_apoDivisionRepository.FindByKey(id) == null)
                 return false;
 
             var listOfChildHierachy = _apoGroupService.GetApoGroupByApoDivision(id);
@@ -117,7 +117,7 @@ namespace TopsService.Services
 
         public IEnumerable<IApoDivisionDataTranferObject> GetAll()
         {
-            var selectedApoDivision = _apoDivisionRepository.GetAll();
+            var selectedApoDivision = _apoDivisionRepository.All();
 
             return Mapper.Map<IEnumerable<ApoDivisionDto>>(selectedApoDivision);
         }
