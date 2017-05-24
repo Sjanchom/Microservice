@@ -59,6 +59,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\201705240553512_initial.cs" />
+    <Compile Include="Migrations\201705240553512_initial.Designer.cs">
+      <DependentUpon>201705240553512_initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Persistence\Contexts\TopsContext.cs" />
+    <Compile Include="Persistence\Entities\ApoDivision.cs" />
+    <Compile Include="Persistence\Entities\ApoGroup.cs" />
+    <Compile Include="Persistence\EntityConfigurations\ApoDivisionConfiguration.cs" />
+    <Compile Include="Persistence\EntityConfigurations\ApoGroupConfiguration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -66,8 +76,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Persistence\Contexts\" />
-    <Folder Include="Persistence\Entities\" />
+    <EmbeddedResource Include="Migrations\201705240553512_initial.resx">
+      <DependentUpon>201705240553512_initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

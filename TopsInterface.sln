@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TopsInterface", "TopsInterface\TopsInterface.csproj", "{7631F6DE-6F35-405C-93CA-6E881962C135}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TopsShareClass", "TopsShareClass\TopsShareClass.csproj", "{F61BAFEF-29E8-46E9-8962-962C9B8D71DB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TopsDataAccessLayer", "TopsDataAccessLayer\TopsDataAccessLayer.csproj", "{CAACD0D3-D840-4F20-A5D2-C9520A68E1B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository.Dev", "Repository.Dev\Repository.Dev.csproj", "{A9E19F48-48AF-42A7-A358-41288962A4D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{CAACD0D3-D840-4F20-A5D2-C9520A68E1B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAACD0D3-D840-4F20-A5D2-C9520A68E1B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAACD0D3-D840-4F20-A5D2-C9520A68E1B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9E19F48-48AF-42A7-A358-41288962A4D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9E19F48-48AF-42A7-A358-41288962A4D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9E19F48-48AF-42A7-A358-41288962A4D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9E19F48-48AF-42A7-A358-41288962A4D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
