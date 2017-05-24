@@ -194,8 +194,11 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\ApoClassController.cs" />
+    <Compile Include="Controllers\ApoDepartmentController.cs" />
     <Compile Include="Controllers\ApoDivisonController.cs" />
     <Compile Include="Controllers\ApoGroupController.cs" />
+    <Compile Include="Controllers\ApoSubClassController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">

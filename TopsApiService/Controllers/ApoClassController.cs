@@ -10,35 +10,36 @@ using TopsShareClass.Models.DataTranferObjects;
 
 namespace TopsApiService.Controllers
 {
-    [RoutePrefix("api/beta/apogroup")]
-    public class ApoGroupController : ApiController
+    [RoutePrefix("api/beta/apoclass")]
+    public class ApoClassController : ApiController
     {
-        private IApoGroupService _apoGroupService;
+        private IApoClassService _apoClassService;
 
-        public ApoGroupController()
+        public ApoClassController()
         {
-            _apoGroupService = new ApoGroupService(SetUpMockHelper.GetApoGroupRepository(), SetUpMockHelper.GetApoDivisionRepository());
+            _apoClassService = new ApoClassService(SetUpMockHelper.GetApoClassRepository(),SetUpMockHelper.GetApoDepartmentRepository());
         }
 
         [HttpGet]
         [Route("")]
-        public HttpResponseMessage Get(int page = 1, int pageSize = 15, int? apoDivisionId = null, string searchText = "")
+        public HttpResponseMessage Get(int page = 1, int pageSize = 15, int? apoDepartmentId = null, string searchText = "")
         {
             return Request.CreateResponse(HttpStatusCode.OK,
-                _apoGroupService.GetAll(new ApoGroupResourceParameter(page, pageSize, apoDivisionId, searchText)));
+                _apoClassService.GetAll(new ApoClassResourceParameter(page, 
+                pageSize, apoDepartmentId, searchText)));
         }
 
         [HttpGet]
         [Route("{id}")]
         public HttpResponseMessage Get(int id)
         {
-            var selectedApo = _apoGroupService.GetById(id);
+            var selectedApo = _apoClassService.GetById(id);
 
             if (selectedApo == null)
             {
                 HttpError err = new HttpError($"ID : {id} Not Exist.");
                 return Request.CreateResponse(HttpStatusCode.NotFound, err);
-
+              
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, selectedApo);
@@ -46,11 +47,12 @@ namespace TopsApiService.Controllers
 
         [HttpPost]
         [Route("")]
-        public HttpResponseMessage Post([FromBody]ApoGroupForCreateOrUpdate apoGroupForCreateOrEdit)
+        public HttpResponseMessage Post([FromBody]ApoClassForCreateOrEdit apoClassForCreateOrEdit)
         {
             try
             {
-                var createdApo = _apoGroupService.Create(apoGroupForCreateOrEdit);
+                var createdApo = _apoClassService.Create(apoClassForCreateOrEdit);
+
                 if (createdApo != null)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, createdApo);
@@ -68,12 +70,12 @@ namespace TopsApiService.Controllers
 
         [HttpPost]
         [Route("{id}")]
-        public HttpResponseMessage Update(int id, [FromBody]ApoGroupForCreateOrUpdate apoGroupForCreateOrEdit)
+        public HttpResponseMessage Update(int id, [FromBody]ApoClassForCreateOrEdit apoClassForCreateOrEdit)
         {
 
             try
             {
-                var updateApo = _apoGroupService.Edit(id, apoGroupForCreateOrEdit as IApoGroupForCreateOrEdit);
+                var updateApo = _apoClassService.Edit(id, apoClassForCreateOrEdit);
 
                 if (updateApo != null)
                 {
@@ -97,7 +99,7 @@ namespace TopsApiService.Controllers
         {
             try
             {
-                if (_apoGroupService.Delete(id))
+                if (_apoClassService.Delete(id))
                 {
                     return Request.CreateResponse(HttpStatusCode.OK);
                 }
@@ -117,11 +119,10 @@ namespace TopsApiService.Controllers
         [Route("getbyname/{name}")]
         public HttpResponseMessage GetByName(string name)
         {
-            var selectedApo = _apoGroupService.GetByName(new ApoGroupForCreateOrUpdate()
+            var selectedApo = _apoClassService.GetByName(new ApoClassForCreateOrEdit()
             {
                 Name = name
             });
-
 
             if (selectedApo != null)
             {
@@ -136,7 +137,7 @@ namespace TopsApiService.Controllers
         [Route("getall")]
         public IHttpActionResult GetAllApo()
         {
-            return Ok(_apoGroupService.GetAll());
+            return Ok(_apoClassService.GetAll());
         }
 
     }

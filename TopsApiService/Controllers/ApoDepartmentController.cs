@@ -4,41 +4,39 @@ using System.Net.Http;
 using System.Web.Http;
 using Tops.Test.Helper;
 using TopsInterface.Core;
-using TopsInterface.Entities;
 using TopsService.Services;
 using TopsShareClass.Models.DataTranferObjects;
 
 namespace TopsApiService.Controllers
 {
-    [RoutePrefix("api/beta/apogroup")]
-    public class ApoGroupController : ApiController
+    [RoutePrefix("api/beta/apodepartment")]
+    public class ApoDepartmentController : ApiController
     {
-        private IApoGroupService _apoGroupService;
+        private IApoDepartmentService _apoDepartmentService;
 
-        public ApoGroupController()
+        public ApoDepartmentController()
         {
-            _apoGroupService = new ApoGroupService(SetUpMockHelper.GetApoGroupRepository(), SetUpMockHelper.GetApoDivisionRepository());
+            _apoDepartmentService = new ApoDepartmentService(SetUpMockHelper.GetApoDivisionRepository(),
+                SetUpMockHelper.GetApoGroupRepository(),SetUpMockHelper.GetApoDepartmentRepository());
         }
 
         [HttpGet]
         [Route("")]
-        public HttpResponseMessage Get(int page = 1, int pageSize = 15, int? apoDivisionId = null, string searchText = "")
+        public HttpResponseMessage Get(int page = 1, int pageSize = 15, int? apoDivisionId = null,int? apoGroupId = null, string searchText = "")
         {
-            return Request.CreateResponse(HttpStatusCode.OK,
-                _apoGroupService.GetAll(new ApoGroupResourceParameter(page, pageSize, apoDivisionId, searchText)));
+            return Request.CreateResponse(HttpStatusCode.OK, _apoDepartmentService.GetAll(new ApoDepartmentResourceParameter(page, pageSize, apoDivisionId, apoGroupId, searchText)));
         }
 
         [HttpGet]
         [Route("{id}")]
         public HttpResponseMessage Get(int id)
         {
-            var selectedApo = _apoGroupService.GetById(id);
+            var selectedApo = _apoDepartmentService.GetById(id);
 
             if (selectedApo == null)
             {
                 HttpError err = new HttpError($"ID : {id} Not Exist.");
                 return Request.CreateResponse(HttpStatusCode.NotFound, err);
-
             }
 
             return Request.CreateResponse(HttpStatusCode.OK, selectedApo);
@@ -46,11 +44,12 @@ namespace TopsApiService.Controllers
 
         [HttpPost]
         [Route("")]
-        public HttpResponseMessage Post([FromBody]ApoGroupForCreateOrUpdate apoGroupForCreateOrEdit)
+        public HttpResponseMessage Post([FromBody]ApoDepartmentCreateOrEdit apoDepartmentForCreateOrEdit)
         {
             try
             {
-                var createdApo = _apoGroupService.Create(apoGroupForCreateOrEdit);
+                var createdApo = _apoDepartmentService.Create(apoDepartmentForCreateOrEdit);
+
                 if (createdApo != null)
                 {
                     return Request.CreateResponse(HttpStatusCode.OK, createdApo);
@@ -68,12 +67,12 @@ namespace TopsApiService.Controllers
 
         [HttpPost]
         [Route("{id}")]
-        public HttpResponseMessage Update(int id, [FromBody]ApoGroupForCreateOrUpdate apoGroupForCreateOrEdit)
+        public HttpResponseMessage Update(int id, [FromBody]ApoDepartmentCreateOrEdit apoDepartmentForCreateOrEdit)
         {
 
             try
             {
-                var updateApo = _apoGroupService.Edit(id, apoGroupForCreateOrEdit as IApoGroupForCreateOrEdit);
+                var updateApo = _apoDepartmentService.Edit(id, apoDepartmentForCreateOrEdit);
 
                 if (updateApo != null)
                 {
@@ -91,13 +90,14 @@ namespace TopsApiService.Controllers
 
         }
 
+
         [HttpDelete]
         [Route("{id}")]
         public HttpResponseMessage Delete(int id)
         {
             try
             {
-                if (_apoGroupService.Delete(id))
+                if (_apoDepartmentService.Delete(id))
                 {
                     return Request.CreateResponse(HttpStatusCode.OK);
                 }
@@ -107,7 +107,7 @@ namespace TopsApiService.Controllers
             catch (InvalidOperationException e)
             {
                 HttpError err = new HttpError(e.Message);
-                return Request.CreateResponse(HttpStatusCode.InternalServerError, err);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,err);
             }
 
 
@@ -117,11 +117,10 @@ namespace TopsApiService.Controllers
         [Route("getbyname/{name}")]
         public HttpResponseMessage GetByName(string name)
         {
-            var selectedApo = _apoGroupService.GetByName(new ApoGroupForCreateOrUpdate()
+            var selectedApo = _apoDepartmentService.GetByName(new ApoDepartmentCreateOrEdit()
             {
                 Name = name
             });
-
 
             if (selectedApo != null)
             {
@@ -136,8 +135,7 @@ namespace TopsApiService.Controllers
         [Route("getall")]
         public IHttpActionResult GetAllApo()
         {
-            return Ok(_apoGroupService.GetAll());
+            return Ok(_apoDepartmentService.GetAll());
         }
-
     }
 }

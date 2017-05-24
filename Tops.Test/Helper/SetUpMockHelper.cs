@@ -296,7 +296,7 @@ namespace Tops.Test.Helper
                 }));
 
             repository.Setup(x => x.GetAll())
-                .Returns(new Func<IEnumerable<IApoGroupDomain>>(() => apoGroup.ToList()));
+                .Returns(() => apoGroup.ToList());
 
             return repository.Object;
         }

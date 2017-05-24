@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helper\HttpHelper.cs" />
     <Compile Include="Models\DataTranferObjects\ApoDivisionDto.cs" />
     <Compile Include="Models\DataTranferObjects\ApoDivisionForCreateOrEdit.cs" />
     <Compile Include="Models\DataTranferObjects\ApoGroupForCreateOrUpdate.cs" />

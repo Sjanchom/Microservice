@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using Tops.Test.Helper;
 using TopsInterface.Core;
@@ -22,51 +24,52 @@ namespace TopsApiService.Controllers
 
         [HttpGet]
         [Route("")]
-        public IHttpActionResult Get(int page =1,int pageSize = 15,string searchText = "")
+        public HttpResponseMessage Get(int page =1,int pageSize = 15,string searchText = "")
         {
-            return Ok(_apoDivisionService.GetAll(page, pageSize, searchText));
+            return Request.CreateResponse(HttpStatusCode.OK, _apoDivisionService.GetAll(page, pageSize, searchText));
         }
 
         [HttpGet]
         [Route("{id}")]
-        public IHttpActionResult Get(int id)
+        public HttpResponseMessage Get(int id)
         {
             var selectedApo = _apoDivisionService.GetById(id);
-
             if (selectedApo == null)
             {
-                return NotFound();
+                HttpError err = new HttpError($"ID : {id} Not Exist.");
+                return Request.CreateResponse(HttpStatusCode.NotFound, err);
+
             }
 
-
-            return Ok(selectedApo);
+            return Request.CreateResponse(HttpStatusCode.OK, selectedApo);
         }
 
         [HttpPost]
         [Route("")]
-        public IHttpActionResult Post([FromBody]ApoDivisionForCreateOrEdit apoDivisionForCreateOrEdit)
+        public HttpResponseMessage Post([FromBody]ApoDivisionForCreateOrEdit apoDivisionForCreateOrEdit)
         {
             try
             {
-                var createdApo = _apoDivisionService.Create(apoDivisionForCreateOrEdit as IApoDivisionForCreateOrEdit);
+                var createdApo = _apoDivisionService.Create(apoDivisionForCreateOrEdit);
 
                 if (createdApo != null)
                 {
-                    return Ok(createdApo);
+                    return Request.CreateResponse(HttpStatusCode.OK, createdApo);
                 }
 
-                return InternalServerError();
+                return Request.CreateResponse(HttpStatusCode.InternalServerError);
             }
             catch (ArgumentException e)
             {
-                return InternalServerError(e);
+                HttpError err = new HttpError(e.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, err);
             }
-           
+
         }
 
         [HttpPost]
         [Route("{id}")]
-        public IHttpActionResult Update(int id,[FromBody]ApoDivisionForCreateOrEdit apoDivisionForCreateOrEdit)
+        public HttpResponseMessage Update(int id,[FromBody]ApoDivisionForCreateOrEdit apoDivisionForCreateOrEdit)
         {
 
             try
@@ -75,44 +78,47 @@ namespace TopsApiService.Controllers
 
                 if (updateApo != null)
                 {
-                    return Ok(updateApo);
+                    return Request.CreateResponse(HttpStatusCode.OK, updateApo);
                 }
 
-                return InternalServerError();
+                return Request.CreateResponse(HttpStatusCode.InternalServerError);
             }
             catch (ArgumentException e)
             {
-                return InternalServerError(e);
+                HttpError err = new HttpError(e.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, err);
 
             }
-           
+
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public IHttpActionResult Delete(int id)
+        public HttpResponseMessage Delete(int id)
         {
             try
             {
                 if (_apoDivisionService.Delete(id))
                 {
-                    return Ok();
+                    return Request.CreateResponse(HttpStatusCode.OK);
                 }
-                return InternalServerError();
+                return Request.CreateResponse(HttpStatusCode.InternalServerError);
 
             }
             catch (InvalidOperationException e)
             {
-                return InternalServerError(e);
+                HttpError err = new HttpError(e.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError, err);
             }
-           
+
 
         }
 
         [HttpGet]
         [Route("getbyname/{name}")]
-        public IHttpActionResult GetByName(string name)
+        public HttpResponseMessage GetByName(string name)
         {
+           
             var selectedApo = _apoDivisionService.GetByName(new ApoDivisionForCreateOrEdit()
             {
                 Name = name
@@ -120,11 +126,11 @@ namespace TopsApiService.Controllers
 
             if (selectedApo != null)
             {
-                return Ok(selectedApo);
+                return Request.CreateResponse(HttpStatusCode.OK, selectedApo);
             }
 
-            //return Request.CreateResponse(HttpStatusCode.NotFound, name);
-            return NotFound();
+            HttpError err = new HttpError($"{name} : Not Exists");
+            return Request.CreateResponse(HttpStatusCode.NotFound, err);
         }
 
         [HttpGet]

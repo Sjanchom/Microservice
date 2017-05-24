@@ -16,7 +16,10 @@ namespace TopsShareClass.Models.DataTranferObjects
 
         public ApoSubClassResourceParameter(int page, int pageSize, int? apoClassId, string searchText)
         {
-
+            Page = page;
+            PageSize = pageSize;
+            ApoClassId = apoClassId;
+            SearchText = searchText;
         }
     }
 
